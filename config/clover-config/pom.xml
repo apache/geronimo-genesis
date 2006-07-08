@@ -22,14 +22,14 @@
     <modelVersion>4.0.0</modelVersion>
     
     <parent>
-        <groupId>org.apache.geronimo.plugins</groupId>
-        <artifactId>plugins-parent</artifactId>
-        <version>1.2-SNAPSHOT</version>
+        <groupId>org.apache.geronimo.genesis.config</groupId>
+        <artifactId>config</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     
     <artifactId>clover-config</artifactId>
-    <name>Geronimo Plugins :: Clover Configuration</name>
+    <name>Genesis Configuration :: Clover</name>
     
     <description>
         Provides the common Clover configuration used by all modules.

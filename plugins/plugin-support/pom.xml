@@ -22,14 +22,14 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>org.apache.geronimo.plugins</groupId>
-        <artifactId>plugins-parent</artifactId>
-        <version>1.2-SNAPSHOT</version>
+        <groupId>org.apache.geronimo.genesis.plugins</groupId>
+        <artifactId>plugins</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
     <artifactId>plugin-support</artifactId>
-    <name>Geronimo Plugins :: Plugin Support</name>
+    <name>Genesis Plugins :: Plugin Support</name>
     
     <dependencies>
         
@@ -44,19 +44,6 @@
         </dependency>
         
     </dependencies>
-    
-    <build>
-        <!-- FIXME: Remove when default config conforms the M2 standards -->
-        
-        <sourceDirectory>${pom.basedir}/src/main/java</sourceDirectory>
-        <testSourceDirectory>${pom.basedir}/src/test/java</testSourceDirectory>
-
-        <resources>
-            <resource>
-                <directory>${pom.basedir}/src/main/resources</directory>
-            </resource>
-        </resources>
-    </build>
     
 </project>
 

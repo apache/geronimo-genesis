@@ -22,35 +22,21 @@
     <modelVersion>4.0.0</modelVersion>
     
     <parent>
-        <groupId>org.apache.geronimo.genesis.config</groupId>
-        <artifactId>config</artifactId>
+        <groupId>org.apache.geronimo.genesis</groupId>
+        <artifactId>genesis</artifactId>
         <version>1.0.0-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
+
+    <groupId>org.apache.geronimo.genesis.config</groupId>
+    <artifactId>config</artifactId>
+    <name>Genesis Configuration</name>
+    <packaging>pom</packaging>
     
-    <artifactId>logging-config</artifactId>
-    <name>Genesis Configuration :: Logging</name>
-    
-    <description>
-        Provides the common logging configuration used by the build process,
-        primarily used to collect test output into ${basedir}/target/test.log
-    </description>
-    
-    <dependencies>
-        
-        <dependency>
-            <groupId>commons-logging</groupId>
-            <artifactId>commons-logging</artifactId>
-            <scope>test</scope>
-        </dependency>
-        
-        <dependency>
-            <groupId>log4j</groupId>
-            <artifactId>log4j</artifactId>
-            <scope>test</scope>
-        </dependency>
-        
-    </dependencies>
+    <modules>
+        <module>logging-config</module>
+        <module>clover-config</module>
+        <module>checkstyle-config</module>
+    </modules>
     
 </project>
-
