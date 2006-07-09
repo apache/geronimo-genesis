@@ -37,6 +37,7 @@
         <module>logging-config</module>
         <module>clover-config</module>
         <module>checkstyle-config</module>
+        <module>project-config</module>
     </modules>
     
 </project>

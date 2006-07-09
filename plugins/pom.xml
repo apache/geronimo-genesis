@@ -57,10 +57,6 @@
         </dependency>
     </dependencies>
     
-    <modules>
-        <module>plugin-support</module>
-    </modules>
-    
     <build>
         <pluginManagement>
             <plugins>
@@ -72,5 +68,9 @@
             </plugins>
         </pluginManagement>
     </build>
+    
+    <modules>
+        <module>plugin-support</module>
+    </modules>
     
 </project>
