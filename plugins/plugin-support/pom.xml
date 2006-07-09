@@ -30,6 +30,7 @@
 
     <artifactId>plugin-support</artifactId>
     <name>Genesis Plugins :: Plugin Support</name>
+    <packaging>jar</packaging>
     
     <dependencies>
         

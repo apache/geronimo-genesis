@@ -28,8 +28,9 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
     
-    <artifactId>clover-checkstyle</artifactId>
+    <artifactId>checkstyle-config</artifactId>
     <name>Genesis Configuration :: Checkstyle</name>
+    <packaging>jar</packaging>
     
     <description>
         Provides the common Checkstyle configuration used by all modules.

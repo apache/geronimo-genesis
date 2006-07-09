@@ -30,6 +30,7 @@
     
     <artifactId>logging-config</artifactId>
     <name>Genesis Configuration :: Logging</name>
+    <packaging>jar</packaging>
     
     <description>
         Provides the common logging configuration used by the build process,

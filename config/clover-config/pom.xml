@@ -30,6 +30,7 @@
     
     <artifactId>clover-config</artifactId>
     <name>Genesis Configuration :: Clover</name>
+    <packaging>jar</packaging>
     
     <description>
         Provides the common Clover configuration used by all modules.
