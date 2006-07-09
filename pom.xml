@@ -43,11 +43,17 @@
         </license>
     </licenses>
     
+    <!--
+    
+    FIXME: When Genesis has a real home update this...
+    
     <scm>
         <connection>scm:svn:https://svn.apache.org/repos/asf/geronimo</connection>
         <developerConnection>scm:svn:https://${maven.username}@svn.apache.org/repos/asf/geronimo</developerConnection>
         <url>https://svn.apache.org/repos/asf/geronimo</url>
     </scm>
+    
+    -->
     
     <mailingLists>
         <mailingList>
