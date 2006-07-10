@@ -20,7 +20,9 @@ clean() {
     
     rm -rf ~/.m2/repository/org/apache/geronimo/genesis
     
-    find "$DIRNAME" -name target -type d -exec rm -rf \{\} \;
+    for x in `find "$DIRNAME" -name target -type d`; do
+        rm -rf "$x"
+    done
 }
 
 clean
