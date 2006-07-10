@@ -335,23 +335,6 @@
     </build>
     
     <repositories>
-        
-        <!-- TODO: Remove; setup mirror configuration for central instead. -->
-        <repository>
-            <id>mergere</id>
-            <name>Mergere Repository</name>
-            <url>http://repo.mergere.com/maven2</url>
-            <layout>default</layout>
-            <snapshots>
-                <enabled>true</enabled>
-                <updatePolicy>daily</updatePolicy>
-                <checksumPolicy>ignore</checksumPolicy>
-            </snapshots>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-        </repository>
-        
         <!--
         
         FIXME: Do we need to enable this?
@@ -446,22 +429,7 @@
     </repositories>
     
     <pluginRepositories>
-        
-        <!-- TODO: Remove; setup mirror configuration for central instead. -->
-        <pluginRepository>
-            <id>mergere</id>
-            <name>Mergere Repository</name>
-            <url>http://repo.mergere.com/maven2</url>
-            <layout>default</layout>
-            <snapshots>
-                <enabled>true</enabled>
-                <updatePolicy>daily</updatePolicy>
-                <checksumPolicy>ignore</checksumPolicy>
-            </snapshots>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-        </pluginRepository>
+        <!-- TODO: Add Apache repos -->
         
         <pluginRepository>
             <id>codehaus</id>
@@ -490,7 +458,6 @@
                 <enabled>false</enabled>
             </releases>
         </pluginRepository>
-        
     </pluginRepositories>
     
     <profiles>

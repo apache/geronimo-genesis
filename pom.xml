@@ -165,6 +165,8 @@
     </repositories>
     
     <pluginRepositories>
+        <!-- TODO: Add Apache repos -->
+        
         <pluginRepository>
             <id>codehaus</id>
             <name>Codehaus Repository</name>
