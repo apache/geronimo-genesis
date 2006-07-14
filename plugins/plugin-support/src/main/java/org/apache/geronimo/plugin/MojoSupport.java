@@ -35,9 +35,6 @@ public abstract class MojoSupport
         log = getLog();
     }
 
-    /**
-     * @throws MojoExecutionException
-     */
     public void execute() throws MojoExecutionException, MojoFailureException {
         init();
 
