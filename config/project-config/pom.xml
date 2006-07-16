@@ -52,8 +52,8 @@
     </licenses>
     
     <!--
-        
-        NOTE: Project pom should define something like:
+    
+    NOTE: Project pom should define something like:
     
     <scm>
         <connection>scm:svn:https://svn.apache.org/repos/asf/geronimo</connection>
@@ -285,21 +285,6 @@
         </pluginManagement>
         
         <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-clean-plugin</artifactId>
-                <configuration>
-                    <filesets>
-                        <fileset>
-                            <directory>${pom.basedir}</directory>
-                            <includes>
-                                <include>*.log</include>
-                            </includes>
-                        </fileset>
-                    </filesets>
-                </configuration>
-            </plugin>
-            
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-clover-plugin</artifactId>
