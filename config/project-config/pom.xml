@@ -90,7 +90,18 @@
             <name>Source Control List</name>
             <subscribe>scm-subscribe@geronimo.apache.org</subscribe>
             <unsubscribe>scm-unsubscribe@geronimo.apache.org</unsubscribe>
+            <post>scm@geronimo.apache.org</post>
             <archive>http://mail-archives.apache.org/mod_mbox/geronimo-scm</archive>
+        </mailingList>
+        
+        <!-- ASF-wide lists -->
+        
+        <mailingList>
+            <name>Apache Announce List</name>
+            <subscribe>announce-subscribe@apache.org</subscribe>
+            <unsubscribe>announce-unsubscribe@apache.org</unsubscribe>
+            <post>announce@apache.org</post>
+            <archive>http://mail-archives.apache.org/mod_mbox/www-announce/</archive>
         </mailingList>
     </mailingLists>
     
@@ -335,10 +346,6 @@
     </build>
     
     <repositories>
-        <!--
-        
-        FIXME: Do we need to enable this?
-        
         <repository>
             <id>apache</id>
             <name>Apache Repository</name>
@@ -346,22 +353,6 @@
             <layout>default</layout>
             <snapshots>
                 <enabled>false</enabled>
-            </snapshots>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-        </repository>
-        -->
-        
-        <repository>
-            <id>apache-m1</id>
-            <name>Apache Maven 1 Repository</name>
-            <url>http://people.apache.org/repository</url>
-            <layout>legacy</layout>
-            <snapshots>
-                <enabled>true</enabled>
-                <updatePolicy>daily</updatePolicy>
-                <checksumPolicy>ignore</checksumPolicy>
             </snapshots>
             <releases>
                 <enabled>true</enabled>
@@ -380,6 +371,26 @@
             </snapshots>
             <releases>
                 <enabled>false</enabled>
+            </releases>
+        </repository>
+        
+        <!--
+        
+        FIXME: Should remove this guy...
+        
+        -->
+        <repository>
+            <id>apache-m1</id>
+            <name>Apache Maven 1 Repository</name>
+            <url>http://people.apache.org/repository</url>
+            <layout>legacy</layout>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>daily</updatePolicy>
+                <checksumPolicy>ignore</checksumPolicy>
+            </snapshots>
+            <releases>
+                <enabled>true</enabled>
             </releases>
         </repository>
         
@@ -411,6 +422,11 @@
             </releases>
         </repository>
         
+        <!--
+        
+        FIXME: Should remove this guy...
+        
+        -->
         <repository>
             <id>codehaus-m1</id>
             <name>Codehaus Maven 1 Repository</name>
@@ -429,7 +445,33 @@
     </repositories>
     
     <pluginRepositories>
-        <!-- TODO: Add Apache repos -->
+        <pluginRepository>
+            <id>apache</id>
+            <name>Apache Repository</name>
+            <url>http://www.apache.org/dist/maven-repository</url>
+            <layout>default</layout>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+        </pluginRepository>
+        
+        <pluginRepository>
+            <id>apache-snapshots</id>
+            <name>Apache Snapshots Repository</name>
+            <url>http://people.apache.org/maven-snapshot-repository</url>
+            <layout>default</layout>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>daily</updatePolicy>
+                <checksumPolicy>ignore</checksumPolicy>
+            </snapshots>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+        </pluginRepository>
         
         <pluginRepository>
             <id>codehaus</id>
@@ -479,20 +521,17 @@
                 </property>
             </activation>
             
-            <!--
-               | TODO: Verfiy that these are the correct URL's
-             -->
             <distributionManagement>
                 <repository>
-                    <id>apache-repo</id>
-                    <name>Apache CVS Repository</name>
-                    <url>scp://cvs.apache.org/www/cvs.apache.org/maven-snapshot-repository</url>
+                    <id>apache-releases</id>
+                    <name>Apache Release Distribution Repository</name>
+                    <url>scp://people.apache.org/www/www.apache.org/dist/maven-repository</url>
                 </repository>
                 
                 <snapshotRepository>
                     <id>apache-snapshots</id>
-                    <name>Apache CVS Development Repository</name>
-                    <url>scp://cvs.apache.org/www/cvs.apache.org/maven-snapshot-repository</url>
+                    <name>Apache Development Snapshot Repository</name>
+                    <url>scp://people.apache.org/www/people.apache.org/maven-snapshot-repository</url>
                 </snapshotRepository>
                 
                 <!--
