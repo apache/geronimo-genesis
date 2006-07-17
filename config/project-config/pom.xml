@@ -232,6 +232,9 @@
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-assembly-plugin</artifactId>
                     <version>2.1</version>
+                    <configuration>
+                        <tarLongFileMode>gnu</tarLongFileMode>
+                    </configuration>
                 </plugin>
                 
                 <plugin>
@@ -585,6 +588,12 @@
                         <link>http://java.sun.com/j2se/1.3/docs/api/</link>
                         <link>http://java.sun.com/j2ee/1.4/docs/api/</link>
                         <link>http://java.sun.com/j2ee/sdk_1.3/techdocs/api/</link>
+                        <link>http://jakarta.apache.org/commons/collections/apidocs</link>
+                        <link>http://jakarta.apache.org/commons/logging/api/</link>
+                        <link>http://www.junit.org/junit/javadoc/</link>
+                        <link>http://logging.apache.org/log4j/docs/api/</link>
+                        <link>http://jakarta.apache.org/regexp/apidocs/</link>
+                        <link>http://jakarta.apache.org/velocity/api/</link>
                     </links>
                 </configuration>
             </plugin>
