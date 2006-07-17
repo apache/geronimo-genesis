@@ -25,9 +25,12 @@ clean() {
     done
 }
 
-clean
+main() {
+    clean
+    
+    "$DIRNAME/build"
+    
+    echo "Done"
+}
 
-"$DIRNAME/build"
-
-echo "Done"
-
+main | 2>&1 tee bootstrap.log
