@@ -36,13 +36,10 @@
     
     <url>http://geronimo.apache.org</url>
     
-    <!--
-    FIXME: When Genesis has a real home update this...
-    -->
     <scm>
-        <connection>scm:svn:https://svn.apache.org/repos/asf/geronimo/sandbox/svkmerge/genesis</connection>
-        <developerConnection>scm:svn:https://${maven.username}@svn.apache.org/repos/asf/geronimo/sandbox/svkmerge/genesis</developerConnection>
-        <url>https://svn.apache.org/repos/asf/geronimo/sandbox/svkmerge/genesis</url>
+        <connection>scm:svn:https://svn.apache.org/repos/asf/geronimo/genesis/trunk</connection>
+        <developerConnection>scm:svn:https://${maven.username}@svn.apache.org/repos/asf/geronimo/genesis/trunk</developerConnection>
+        <url>http://svn.apache.org/repos/asf/geronimo/genesis/trunk</url>
     </scm>
     
     <properties>
@@ -60,19 +57,15 @@
             </extension>
         </extensions>
         
-        <!--
-        TODO: Use a real value here when moved out of the sandbox...
-        
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-release-plugin</artifactId>
                 <configuration>
-                    <tagBase>https://svn.apache.org/repos/asf/geronimo/tags</tagBase>
+                    <tagBase>https://svn.apache.org/repos/asf/geronimo/genesis/tags</tagBase>
                 </configuration>
             </plugin>
         </plugins>
-        -->
     </build>
     
     <repositories>
