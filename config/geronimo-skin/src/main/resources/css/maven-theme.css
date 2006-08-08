@@ -16,6 +16,7 @@
 
 body {
   padding: 0px 0px 10px 0px;
+  background-color: #EEEEEE;
 }
 
 body, td, select, input, li {
@@ -176,3 +177,14 @@ dt {
   background-image: url(../images/icon_info_sml.gif);
 }
 
+#footer {
+    /*
+    padding: 3px 10px 3px 10px;
+    font-size: x-small;
+    */
+    background-image:      url('../images/border_bottom.gif');
+    background-repeat:     repeat-x;
+    background-position:   left top;
+    padding-top:           4px;
+    color:                 #666;
+}
