@@ -68,21 +68,6 @@
         </plugins>
     </build>
     
-    <repositories>
-        <repository>
-            <id>apache</id>
-            <name>Apache Repository</name>
-            <url>http://people.apache.org/repo/m2-ibiblio-rsync-repository</url>
-            <layout>default</layout>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-        </repository>
-    </repositories>
-    
     <distributionManagement>
         <repository>
             <id>apache-releases</id>
