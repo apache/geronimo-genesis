@@ -72,6 +72,20 @@
     </dependencies>
     
     <build>
+        <extensions>
+            <extension>
+                <groupId>org.apache.geronimo.genesis.config</groupId>
+                <artifactId>clover-config</artifactId>
+                <version>${pom.version}</version>
+            </extension>
+            
+            <extension>
+                <groupId>org.apache.geronimo.genesis.config</groupId>
+                <artifactId>checkstyle-config</artifactId>
+                <version>${pom.version}</version>
+            </extension>
+        </extensions>
+        
         <pluginManagement>
             <plugins>
                 <plugin>
@@ -85,6 +99,7 @@
     
     <modules>
         <module>plugin-support</module>
+        <module>tools-maven-plugin</module>
     </modules>
     
     <reporting>
@@ -165,6 +180,12 @@
                     <!-- Pulled as resource from checkstyle-config plugin -->
                     <configLocation>org/apache/geronimo/checkstyle.xml</configLocation>
                 </configuration>
+            </plugin>
+            
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-plugin-plugin</artifactId>
+                <version>2.1</version>
             </plugin>
         </plugins>
     </reporting>

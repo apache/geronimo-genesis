@@ -42,11 +42,16 @@ public abstract class MojoSupport
             doExecute();
         }
         catch (Exception e) {
+            //
+            // NOTE: Wrap to avoid truncating the stacktrace
+            //
             if (e instanceof MojoExecutionException) {
-                throw (MojoExecutionException)e;
+                throw new MojoExecutionException(e.getMessage(), e);
             }
             else if (e instanceof MojoFailureException) {
-                throw (MojoFailureException)e;
+                MojoFailureException x = new MojoFailureException(e.getMessage());
+                x.initCause(e);
+                throw x;
             }
             else {
                 throw new MojoExecutionException(e.getMessage(), e);
