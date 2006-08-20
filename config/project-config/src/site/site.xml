@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
     Copyright 2006 The Apache Software Foundation
 
@@ -28,13 +28,8 @@
     
     <bannerLeft>
         <src>images/topleft_logo_437x64.gif</src>
+        <href>http://geronimo.apache.org</href>
     </bannerLeft>
-    
-    <!--
-    <bannerRight>
-        <name>${project.name}</name>
-    </bannerRight>
-    -->
     
     <body>
         
