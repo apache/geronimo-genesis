@@ -67,6 +67,10 @@ public class RequireJavaVersionMojo
             log.debug("Checking Java version is in the same group as: " + version);
             
             String tmp = SystemUtils.JAVA_VERSION_TRIMMED;
+            
+            log.debug("Requested version: " + tmp);
+            log.debug("JVM version: " + SystemUtils.JAVA_VERSION_FLOAT);
+            
             if (!tmp.startsWith(version)) {
                 throw new MojoFailureException("This build requires Java version " + version + 
                     " or a greater version in the same group, found version: " + 
@@ -79,7 +83,11 @@ public class RequireJavaVersionMojo
             log.debug("Checking Java version is greater than: " + version);
             
             float tmp = Float.parseFloat(version);
-            if (tmp >= SystemUtils.JAVA_VERSION_FLOAT) {
+            
+            log.debug("Requested version: " + tmp);
+            log.debug("JVM version: " + SystemUtils.JAVA_VERSION_FLOAT);
+            
+            if (tmp > SystemUtils.JAVA_VERSION_FLOAT) {
                 throw new MojoFailureException("This build requires Java version " + version + 
                     " or greater, found version: " + SystemUtils.JAVA_VERSION_FLOAT);
             }
@@ -88,6 +96,9 @@ public class RequireJavaVersionMojo
             log.debug("Checking Java version is equal to: " + version);
             
             float tmp = Float.parseFloat(version);
+            
+            log.debug("Requested version: " + tmp);
+            log.debug("JVM version: " + SystemUtils.JAVA_VERSION_FLOAT);
             
             if (tmp != SystemUtils.JAVA_VERSION_FLOAT) {
                 throw new MojoFailureException("This build requires Java version " + version + 
