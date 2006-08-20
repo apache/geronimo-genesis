@@ -34,12 +34,17 @@
     
     <version>1.0.0-SNAPSHOT</version>
     
+    <description>
+        Genesis provides support for Maven2 builds; adding shared configurations
+        and common plugins.
+    </description>
+    
     <url>http://geronimo.apache.org</url>
     
     <scm>
-        <connection>scm:svn:https://svn.apache.org/repos/asf/geronimo/genesis/trunk</connection>
+        <connection>scm:svn:http://svn.apache.org/repos/asf/geronimo/genesis/trunk</connection>
         <developerConnection>scm:svn:https://${maven.username}@svn.apache.org/repos/asf/geronimo/genesis/trunk</developerConnection>
-        <url>http://svn.apache.org/repos/asf/geronimo/genesis/trunk</url>
+        <url>http://svn.apache.org/viewvc/geronimo/genesis/trunk</url>
     </scm>
     
     <properties>
@@ -83,7 +88,7 @@
         
         <site>
             <id>geronimo-website</id>
-            <url>scp://people.apache.org/www/geronimo.apache.org/maven/${pom.groupId}</url>
+            <url>scp://people.apache.org/www/geronimo.apache.org/maven/genesis</url>
         </site>
     </distributionManagement>
     

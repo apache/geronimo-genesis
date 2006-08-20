@@ -33,7 +33,8 @@
     <packaging>pom</packaging>
     
     <description>
-        Provides the common project configuration shared by all Apache Geronimo projects.
+        Genesis project-config provides the common project configuration shared
+        by all Apache Geronimo projects.
     </description>
     
     <url>http://geronimo.apache.org</url>
@@ -55,9 +56,9 @@
     NOTE: Project pom should define something like:
     
     <scm>
-        <connection>scm:svn:https://svn.apache.org/repos/asf/geronimo</connection>
+        <connection>scm:svn:http://svn.apache.org/repos/asf/geronimo</connection>
         <developerConnection>scm:svn:https://${maven.username}@svn.apache.org/repos/asf/geronimo</developerConnection>
-        <url>https://svn.apache.org/repos/asf/geronimo</url>
+        <url>https://svn.apache.org/viewvc/geronimo</url>
     </scm>
     -->
     
