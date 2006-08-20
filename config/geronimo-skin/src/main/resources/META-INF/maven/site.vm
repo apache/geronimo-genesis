@@ -260,12 +260,12 @@
         #end
         #if($poweredBy.isEmpty())
           <a href="http://maven.apache.org/" title="$i18n.getString("site-renderer", $locale, "template.builtby") Maven" id="poweredBy">
-            <img alt="$i18n.getString("site-renderer", $locale, "template.builtby") Maven" src="$relativePath/images/logos/maven-feather.png"></img>
+            <img alt="$i18n.getString("site-renderer", $locale, "template.builtby") Maven" src="$relativePath/images/maven-feather.png"></img>
           </a>
         #end
     #else
         <a href="http://maven.apache.org/" title="$i18n.getString("site-renderer", $locale, "template.builtby") Maven" id="poweredBy">
-          <img alt="$i18n.getString("site-renderer", $locale, "template.builtby") Maven" src="$relativePath/images/logos/maven-feather.png"></img>
+          <img alt="$i18n.getString("site-renderer", $locale, "template.builtby") Maven" src="$relativePath/images/maven-feather.png"></img>
         </a>
     #end
 #end
