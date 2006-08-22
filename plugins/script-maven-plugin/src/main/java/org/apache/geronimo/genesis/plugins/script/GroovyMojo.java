@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-package org.apache.geronimo.genesis.plugins.tools;
+package org.apache.geronimo.genesis.plugins.script;
 
 import org.apache.geronimo.plugin.MojoSupport;
 import org.apache.geronimo.plugin.ArtifactItem;
