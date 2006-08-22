@@ -339,6 +339,7 @@
                 <version>1.0.0-SNAPSHOT</version>
                 <executions>
                     <execution>
+                        <id>install-licenses-and-notice</id>
                         <phase>generate-resources</phase>
                         <goals>
                             <goal>groovy</goal>
