@@ -333,6 +333,7 @@
                   Not using antrun, as when we use it here it causes failures down the line
                   because Maven will not honor the local dependencies.
             -->
+            <!--
             <plugin>
                 <groupId>org.apache.geronimo.genesis.plugins</groupId>
                 <artifactId>script-maven-plugin</artifactId>
@@ -363,6 +364,7 @@
                     </execution>
                 </executions>
             </plugin>
+            -->
             
             <!--
             NOTE: Project pom should define:
