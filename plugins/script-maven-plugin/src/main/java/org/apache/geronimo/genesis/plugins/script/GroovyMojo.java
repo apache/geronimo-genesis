@@ -75,7 +75,7 @@ public class GroovyMojo
      *
      * @parameter
      */
-    private ArtifactItem[] classpath;
+    private ArtifactItem[] classpath = null;
 
     //
     // MojoSupport Hooks
