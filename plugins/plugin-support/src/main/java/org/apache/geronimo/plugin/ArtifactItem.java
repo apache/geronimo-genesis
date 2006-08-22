@@ -16,8 +16,6 @@
 
 package org.apache.geronimo.plugin;
 
-import org.apache.maven.artifact.Artifact;
-
 /**
  * Represents a Maven-artifact.
  *
@@ -62,11 +60,6 @@ public class ArtifactItem
      * @parameter
      */
     private String classifier;
-
-    /**
-     * Artifact Item
-     */
-    private Artifact artifact;
 
     public String toString() {
         return groupId + ":" + artifactId + ":" + classifier + ":" + version + ":" + type;
