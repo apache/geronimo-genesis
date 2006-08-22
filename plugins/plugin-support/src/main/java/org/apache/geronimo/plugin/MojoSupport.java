@@ -16,10 +16,20 @@
 
 package org.apache.geronimo.plugin;
 
+import java.util.List;
+
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugin.logging.Log;
+import org.apache.maven.project.MavenProject;
+import org.apache.maven.artifact.Artifact;
+import org.apache.maven.artifact.repository.ArtifactRepository;
+import org.apache.maven.artifact.factory.ArtifactFactory;
+import org.apache.maven.artifact.resolver.ArtifactNotFoundException;
+import org.apache.maven.artifact.resolver.ArtifactResolutionException;
+import org.apache.maven.artifact.resolver.ArtifactResolver;
+import org.apache.maven.model.Dependency;
 
 /**
  * Support for Mojo implementations.
@@ -61,5 +71,119 @@ public abstract class MojoSupport
 
     protected void doExecute() throws Exception {
         // Sub-class should override
+    }
+
+    protected MavenProject getProject() {
+        throw new Error("Sub-class must override to provide access");
+    }
+
+    protected ArtifactFactory getArtifactFactory() {
+        throw new Error("Sub-class must override to provide access");
+    }
+
+    protected ArtifactResolver getArtifactResolver() {
+        throw new Error("Sub-class must override to provide access");
+    }
+
+    protected ArtifactRepository getArtifactRepository() {
+        throw new Error("Sub-class must override to provide access");
+    }
+
+    /**
+     * Create a new artifact. If no version is specified, it will be retrieved from the dependency
+     * list or from the DependencyManagement section of the pom.
+     */
+    protected Artifact createArtifact(final ArtifactItem item) throws MojoExecutionException {
+        Artifact artifact;
+
+        if (item.getVersion() == null) {
+            fillMissingArtifactVersion(item);
+
+            if (item.getVersion() == null) {
+                throw new MojoExecutionException("Unable to find artifact version of " + item.getGroupId()
+                    + ":" + item.getArtifactId() + " in either dependency list or in project's dependency management.");
+            }
+
+        }
+
+        String classifier = item.getClassifier();
+        if (classifier == null || classifier.equals("")) {
+            artifact = getArtifactFactory().createArtifact(
+                    item.getGroupId(),
+                    item.getArtifactId(),
+                    item.getVersion(),
+                    Artifact.SCOPE_PROVIDED,
+                    item.getType());
+        }
+        else {
+            artifact = getArtifactFactory().createArtifactWithClassifier(
+                    item.getGroupId(),
+                    item.getArtifactId(),
+                    item.getVersion(),
+                    item.getType(),
+                    item.getClassifier());
+        }
+
+        return artifact;
+    }
+
+    /**
+     * Resolves the Artifact from the remote repository if nessessary. If no version is specified, it will
+     * be retrieved from the dependency list or from the DependencyManagement section of the pom.
+     */
+    protected Artifact getArtifact(final ArtifactItem item) throws MojoExecutionException {
+        Artifact artifact = createArtifact(item);
+
+        try {
+            getArtifactResolver().resolve(artifact, getProject().getRemoteArtifactRepositories(), getArtifactRepository());
+        }
+        catch (ArtifactResolutionException e) {
+            throw new MojoExecutionException("Unable to resolve artifact.", e);
+        }
+        catch (ArtifactNotFoundException e) {
+            throw new MojoExecutionException("Unable to find artifact.", e);
+        }
+
+        return artifact;
+    }
+
+    /**
+     * Tries to find missing version from dependancy list and dependency management.
+     * If found, the artifact is updated with the correct version.
+     */
+    private void fillMissingArtifactVersion(final ArtifactItem item) {
+        log.debug("Attempting to find missing version in " + item.getGroupId() + ":" + item.getArtifactId());
+
+        List list = getProject().getDependencies();
+
+        for (int i = 0; i < list.size(); ++i) {
+            Dependency dependency = (Dependency) list.get(i);
+
+            if (dependency.getGroupId().equals(item.getGroupId())
+                && dependency.getArtifactId().equals(item.getArtifactId())
+                && dependency.getType().equals(item.getType()))
+            {
+                log.debug("Found missing version: " + dependency.getVersion() + " in dependency list.");
+
+                item.setVersion(dependency.getVersion());
+
+                return;
+            }
+        }
+
+        list = getProject().getDependencyManagement().getDependencies();
+
+        for (int i = 0; i < list.size(); i++) {
+            Dependency dependency = (Dependency) list.get(i);
+
+            if (dependency.getGroupId().equals(item.getGroupId())
+                && dependency.getArtifactId().equals(item.getArtifactId())
+                && dependency.getType().equals(item.getType()))
+            {
+                log.debug("Found missing version: " + dependency.getVersion() + " in dependency management list");
+
+                item.setVersion(dependency.getVersion());
+            }
+        }
     }
 }

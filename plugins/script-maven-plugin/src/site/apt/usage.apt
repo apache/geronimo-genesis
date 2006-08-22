@@ -1,0 +1,47 @@
+ ------
+ Genesis Script Plugin for Maven 2
+ ------
+ ???
+ ------
+ ???
+
+Basic Usage
+
+* Execute a Groovy Script
+
+ It is easy to execute a Groocy script inline
+ 
+ NOTE: This plugin includes the Ant runtime, so you can use the AntBuilder.
+
++----------+
+<plugin>
+    <groupId>org.apache.geronimo.genesis.plugins</groupId>
+    <artifactId>script-maven-plugin</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <executions>
+        <execution>
+            <phase>generate-resources</phase>
+            <goals>
+                <goal>groovy</goal>
+            </goals>
+            <configuration>
+                <code>
+                    if (project.packaging != "pom") {
+                        def ant = new AntBuilder()
+                        
+                        def dir = "${project.basedir}/target/classes/META-INF"
+                        ant.mkdir(dir: dir)
+                        ant.copy(todir: dir) {
+                            fileset(dir: "${project.basedir}") {
+                                include(name: "LICENSE.txt")
+                                include(name: "NOTICE.txt")
+                            }
+                        }
+                    }
+                </code>
+            </configuration>
+        </execution>
+    </executions>
+</plugin>
++----------+
+
