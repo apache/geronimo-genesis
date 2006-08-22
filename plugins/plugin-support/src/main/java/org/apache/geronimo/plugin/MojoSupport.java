@@ -39,12 +39,25 @@ import org.apache.maven.model.Dependency;
 public abstract class MojoSupport
     extends AbstractMojo
 {
+    /**
+     * Instance logger.  This is initialized to the value of {@link #getLog}
+     * on execution.
+     */
     protected Log log;
 
+    /**
+     * Initializes logging.  Called by {@link #execute}.
+     */
     protected void init() {
         log = getLog();
     }
 
+    /**
+     * Main Mojo execution hook.  Sub-class should use {@link #doExecute} instead.
+     *
+     * @throws MojoExecutionException
+     * @throws MojoFailureException
+     */
     public void execute() throws MojoExecutionException, MojoFailureException {
         init();
 
@@ -69,22 +82,51 @@ public abstract class MojoSupport
         }
     }
 
+    /**
+     * Sub-class should override to provide custom execution logic.
+     *
+     * @throws Exception
+     */
     protected void doExecute() throws Exception {
-        // Sub-class should override
+        // Empty
     }
 
+    /**
+     * Get the Maven project.
+     *
+     * <p>
+     * Sub-class must overridde to provide access.
+     */
     protected MavenProject getProject() {
         throw new Error("Sub-class must override to provide access");
     }
 
+    /**
+     * Get the artifact factory..
+     *
+     * <p>
+     * Sub-class must overridde to provide access.
+     */
     protected ArtifactFactory getArtifactFactory() {
         throw new Error("Sub-class must override to provide access");
     }
 
+    /**
+     * Get the artifact resolver.
+     *
+     * <p>
+     * Sub-class must overridde to provide access.
+     */
     protected ArtifactResolver getArtifactResolver() {
         throw new Error("Sub-class must override to provide access");
     }
 
+    /**
+     * Get the artifact repository.
+     *
+     * <p>
+     * Sub-class must overridde to provide access.
+     */
     protected ArtifactRepository getArtifactRepository() {
         throw new Error("Sub-class must override to provide access");
     }
