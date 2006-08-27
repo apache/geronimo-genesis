@@ -5,7 +5,9 @@
  ------
  ???
 
-Basic Usage
+Java Version Control
+
+ Allow builds to fail quickly if the Java version is not correct.
 
 * Require a specific Java version
 
@@ -82,6 +84,8 @@ Basic Usage
     </executions>
 </plugin>
 +----------+
+
+Other Tools
 
 * Copy legal files
 
