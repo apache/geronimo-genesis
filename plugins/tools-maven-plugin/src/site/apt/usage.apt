@@ -91,7 +91,6 @@ Basic Usage
 <plugin>
     <groupId>org.apache.geronimo.genesis.plugins</groupId>
     <artifactId>tools-maven-plugin</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
     <executions>
         <execution>
             <id>install-legal-files</id>
