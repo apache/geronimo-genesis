@@ -50,10 +50,6 @@
         <url>http://svn.apache.org/viewvc/geronimo/genesis/trunk</url>
     </scm>
     
-    <properties>
-        <maven.version>2.0.4</maven.version>
-    </properties>
-    
     <build>
         <defaultGoal>install</defaultGoal>
         
