@@ -1,36 +1,23 @@
 #!/bin/sh
 ##
-## $Id$
+## $Rev$ $Date$
 ##
 
 PROGNAME=`basename "$0"`
 DIRNAME=`dirname "$0"`
 
-warn() {
-    echo "${PROGNAME}: $*"
-}
+# OS specific support (must be 'true' or 'false').
+cygwin=false;
+case "`uname`" in
+    CYGWIN*)
+        cygwin=true
+        ;;
+esac
 
-die() {
-    warn "$*"
-    exit 1
-}
+# Translate PWD into a Windows path for better compatibility
+if $cygwin ; then
+    PWD=`cygpath --windows $PWD`
+fi
 
-clean() {
-    echo "Cleaning..."
-    
-    rm -rf ~/.m2/repository/org/apache/geronimo/genesis
-    
-    for x in `find "$DIRNAME" -name target -type d`; do
-        rm -rf "$x"
-    done
-}
+ant $BUILD_OPTIONS -f bootstrap.xml "$@"
 
-main() {
-    clean
-    
-    "$DIRNAME/build"
-    
-    echo "Done"
-}
-
-main | 2>&1 tee bootstrap.log

@@ -6,6 +6,8 @@
 Genesis currently must be bootstrapped, which will build all modules that are
 used as extentions by config/project-config.
 
+You will need Ant installed and available in the search path of your shell.
+
 To perform a clean bootstrap simply run:
 
     ./bootstrap
