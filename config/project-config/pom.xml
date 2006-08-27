@@ -368,6 +368,25 @@
     </build>
     
     <repositories>
+        <!--
+        NOTE: This repository should not normally be used, but is needed to perform
+              releases after a dependent project was just released, but not yet
+              synchronized to the central repository mirrors.
+        
+        <repository>
+            <id>apache</id>
+            <name>Apache Repository</name>
+            <url>http://people.apache.org/repo/m2-ibiblio-rsync-repository</url>
+            <layout>default</layout>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+        </repository>
+        -->
+        
         <repository>
             <id>apache-snapshots</id>
             <name>Apache Snapshots Repository</name>
