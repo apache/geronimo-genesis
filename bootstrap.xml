@@ -63,26 +63,18 @@
     <!-- Cleaning -->
     <!-- ======== -->
     
-    <target name="clean" depends="clean:init, clean:minimal">
-        <delete dir="${basedir}/thirdparty"/>
-        
-        <mvn goal="clean"/>
-    </target>
-    
-    <target name="clean:init" depends="init">
+    <target name="clean" depends="init">
         <echo>Cleaning...</echo>
         
         <mkdir dir="${user.home}/.m2/repository"/>
-    </target>
-    
-    <target name="clean:minimal" depends="clean:init" if="clean-minimal">
-        <echo>Cleaning (minimal)...</echo>
         
         <delete>
             <fileset dir="${user.home}/.m2/repository">
                 <include name="org/apache/geronimo/genesis/**"/>
             </fileset>
         </delete>
+        
+        <mvn goal="clean"/>
     </target>
 
 </project>
