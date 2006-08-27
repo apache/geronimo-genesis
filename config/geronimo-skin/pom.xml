@@ -39,8 +39,16 @@
     </description>
     
     <build>
-        <!-- FIXME: Remove when the default is to use the m2 standard layout -->
         <resources>
+            <resource>
+                <directory>${pom.basedir}</directory>
+                <targetPath>META-INF</targetPath>
+                <includes>
+                    <include>LICENSE.txt</include>
+                    <include>NOTICE.txt</include>
+                </includes>
+            </resource>
+            
             <resource>
                 <directory>${pom.basedir}/src/main/resources</directory>
             </resource>
