@@ -83,8 +83,8 @@ Basic Usage
 </plugin>
 +----------+
 
- * Copy legal files
- 
+* Copy legal files
+
  Copy LICENSE.txt and NOTICE.txt to target/classes/META-INF for inclusion into archives.
 
 +----------+
