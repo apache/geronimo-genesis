@@ -121,10 +121,6 @@
         </notifiers>
     </ciManagement>
     
-    <properties>
-        <genesis.version>1.0.0-SNAPSHOT</genesis.version>
-    </properties>
-    
     <dependencyManagement>
         <dependencies>
             
@@ -145,7 +141,7 @@
         <dependency>
             <groupId>org.apache.geronimo.genesis.config</groupId>
             <artifactId>logging-config</artifactId>
-            <version>${genesis.version}</version>
+            <version>1.0.0-SNAPSHOT</version>
             <type>jar</type>
             <scope>test</scope>
         </dependency>
@@ -183,13 +179,13 @@
             <extension>
                 <groupId>org.apache.geronimo.genesis.config</groupId>
                 <artifactId>clover-config</artifactId>
-                <version>${genesis.version}</version>
+                <version>1.0.0-SNAPSHOT</version>
             </extension>
             
             <extension>
                 <groupId>org.apache.geronimo.genesis.config</groupId>
                 <artifactId>checkstyle-config</artifactId>
-                <version>${genesis.version}</version>
+                <version>1.0.0-SNAPSHOT</version>
             </extension>
             
             <extension>
