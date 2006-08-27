@@ -83,3 +83,23 @@ Basic Usage
 </plugin>
 +----------+
 
+ * Copy legal files
+ 
+ Copy LICENSE.txt and NOTICE.txt to target/classes/META-INF for inclusion into archives.
+
++----------+
+<plugin>
+    <groupId>org.apache.geronimo.genesis.plugins</groupId>
+    <artifactId>tools-maven-plugin</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <executions>
+        <execution>
+            <id>install-legal-files</id>
+            <phase>generate-resources</phase>
+            <goals>
+                <goal>copy-legal-files</goal>
+            </goals>
+        </execution>
+    </executions>
+</plugin>
++----------+
