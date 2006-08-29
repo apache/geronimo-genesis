@@ -11,7 +11,7 @@ Basic Usage
 
  It is easy to execute a Groocy script inline
  
- NOTE: This plugin includes the Ant runtime, so you can use the AntBuilder.
+ <<NOTE:>> This plugin includes the Ant runtime, so you can use the AntBuilder.
 
 +----------+
 <plugin>

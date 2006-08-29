@@ -27,7 +27,7 @@ Usage
  Configure the <<<maven-clover-plugin>>> to know about the <<<clover.license>>>
  resource which is contained in the <<<clover-config>>> module.
  
- NOTE: This is only to be used by Apache Geronimo projects.
+ <<NOTE:>> This is only to be used by Apache Geronimo projects.
 
 +----------+
 <pluginManagement>
