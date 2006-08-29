@@ -1,10 +1,13 @@
 
- +----------------------------+
- | Bootstrapping and Building |
- +----------------------------+
++----------------------------+
+| Bootstrapping and Building |
++----------------------------+
+
+Building for the first time
+===========================
 
 Genesis currently must be bootstrapped, which will build all modules that are
-used as extentions by config/project-config.
+used as extensions by config/project-config.
 
 You will need Ant installed and available in the search path of your shell.
 
@@ -12,11 +15,22 @@ To perform a clean bootstrap simply run:
 
     ./bootstrap
 
-To leave the local repository repository untouched then run:
-
-    ./build
-
 Both will run a multi-stage build.  When making changes it is recommended to
-run `bootstrap` to ensure that no locally installed artifacts are interfearing
+run `bootstrap` to ensure that no locally installed artifacts are interfering
 with a clean build.
+
+
+Subsequent builds
+=================
+
+After the initial bootstrap build, the `mvn` command can be used.
+
+To build all changes incrementally:
+
+    mvn install
+
+To perform clean builds, which are sometimes needed after some changes to the 
+source tree:
+
+    mvn clean install
 
