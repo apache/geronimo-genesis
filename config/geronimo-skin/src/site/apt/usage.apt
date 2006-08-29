@@ -1,0 +1,90 @@
+ ------
+ Genesis Geronimo Skin
+ ------
+ ???
+ ------
+ ???
+
+Usage
+
+ To use this skin for a module, the skin needs to be specified in the modules
+ <<<site.xml>>>, or the module need to inherit from a module which has that
+ configuration it it's <<<site.xml>>>.
+ 
+ Normally this is done automatically for projects that use <<<project-config>>>
+ as the parent of the projects top-level pom.
+ 
+* Standalone Example
+
++----------+
+<project name="${project.name}">
+    <skin>
+        <groupId>org.apache.geronimo.genesis.config</groupId>
+        <artifactId>geronimo-skin</artifactId>
+        <version>1.1-SNAPSHOT</version>
+    </skin>
+    
+    <publishDate format="dd MMM yyyy"/>
+    
+    <bannerLeft>
+        <src>images/topleft_logo_437x64.gif</src>
+        <href>http://geronimo.apache.org</href>
+    </bannerLeft>
+    
+    <body>
+        
+        ${parentProject}
+        
+        ${modules}
+        
+        ${reports}
+        
+    </body>
+</project>
++----------+
+
+* Top-level Example
+
+ For projects which inherit from <<<project-config>>> the skin is picked up
+ automatically.
+ 
+ <<NOTE:>> That the top-level omits <<<$\{parentProject\}>>> to avoid listing any
+ genesis bits in the generated site navigation.
+
++----------+
+<project name="${project.name}">
+    
+    <body>
+        
+        ${modules}
+        
+        ${reports}
+        
+    </body>
+
+</project>
++----------+
+
+* Module Example
+
+ For projects which inherit from <<<project-config>>> the skin is picked up
+ automatically.
+ 
+ Children modules however should display links to their parent, so they need
+ to include <<<$\{parentProject\}>>>.
+
++----------+
+<project name="${project.name}">
+    
+    <body>
+        
+        ${parentProject}
+        
+        ${modules}
+        
+        ${reports}
+        
+    </body>
+
+</project>
++----------+
