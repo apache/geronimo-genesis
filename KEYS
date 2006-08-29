@@ -1,19 +1,19 @@
 This file contains the PGP keys of various Geronimo developers.
 
-Users: pgp < KEYS
-       gpg --import KEYS
+Users:
+    pgp < KEYS
+    gpg --import KEYS
+  
 Developers: 
-        pgp -kxa <your name> and append it to this file.
-        (pgpk -ll <your name> && pgpk -xa <your name>) >> this file.
-        (gpg --list-sigs <your name>
-             && gpg --armor --export <your name>) >> this file.
+    (gpg --list-sigs <your name> && gpg --armor --export <your name>) >> KEYS.
 
 -------------------------------------------------------------------------------
 
 pub   1024D/894390F6 2006-08-28
-      Key fingerprint = 54C8 22CC 6836 8533 8F29  1E6B 8F7C 4B17 8943 90F6
 uid                  Jason Dillon <jdillon@apache.org>
+sig 3        894390F6 2006-08-28  Jason Dillon <jdillon@apache.org>
 sub   2048g/B2DD3FAB 2006-08-28
+sig          894390F6 2006-08-28  Jason Dillon <jdillon@apache.org>
 
 -----BEGIN PGP PUBLIC KEY BLOCK-----
 Version: GnuPG v1.4.2.2 (Darwin)
@@ -45,4 +45,3 @@ fEsXiUOQ9mntAJ9YaNiFvXCeTx3r/IMTx2CmoGKnowCbBQApslNdu6btGZmVho4p
 paj4grw=
 =LkAK
 -----END PGP PUBLIC KEY BLOCK-----
-
