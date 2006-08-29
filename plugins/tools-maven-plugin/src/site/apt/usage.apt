@@ -113,6 +113,8 @@ Other Tools
 
  You need to specify the passphrase with a <<<-Dpassphrase=thephrase>>> on the command line.
  <<<gpg>>> also needs to be on the search path.
+ 
+ You need to have previously configured the default key.
 
 +----------+
 <plugin>
