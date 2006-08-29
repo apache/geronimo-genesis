@@ -37,7 +37,7 @@
     
     <description>
         Provides the common logging configuration used by the build process,
-        primarily used to collect test output into ${basedir}/target/test.log
+        primarily used to collect test output into 'target/test.log'.
     </description>
     
     <build>

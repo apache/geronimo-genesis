@@ -1,0 +1,28 @@
+ ------
+ Genesis Logging Configuration
+ ------
+ ???
+ ------
+ ???
+
+Usage
+
+* Setup
+
+ To use, the module must first be installed a test dependency.  This will setup
+ the build to include the default <<<log4j.properties>>>.
+ 
+ Minimal output will be displayed on the console, and full detail will be captured
+ for each module in <<<$\{basedir\}/target/test.log>>>
+
++----------+
+<dependencies>
+    <dependency>
+        <groupId>org.apache.geronimo.genesis.config</groupId>
+        <artifactId>logging-config</artifactId>
+        <type>jar</type>
+        <scope>test</scope>
+    </dependency>
+</dependencies>
++----------+
+
