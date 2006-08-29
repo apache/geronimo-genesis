@@ -75,6 +75,7 @@ public class GpgSignAttachedMojo
      * Maven ProjectHelper
      *
      * @component
+     * @required
      * @readonly
      */
     private MavenProjectHelper projectHelper = null;
