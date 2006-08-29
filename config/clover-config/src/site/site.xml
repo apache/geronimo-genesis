@@ -28,6 +28,11 @@
         
         ${modules}
         
+        <menu name="${project.name}">
+            <item name="Overview" href="index.html"/>
+            <item name="Usage" href="usage.html"/>
+        </menu>
+        
         ${reports}
         
     </body>
