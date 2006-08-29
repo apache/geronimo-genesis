@@ -101,7 +101,10 @@ public class GpgSignAttachedMojo
         while (iter.hasNext()) {
             Artifact artifact = (Artifact)iter.next();
             File signature = sign(artifact);
-            projectHelper.attachArtifact(project, artifact.getType() + ".asc", null, signature);
+
+            if (signature != null) {
+                projectHelper.attachArtifact(project, artifact.getType() + ".asc", null, signature);
+            }
         }
     }
 
@@ -109,7 +112,13 @@ public class GpgSignAttachedMojo
         assert artifact != null;
 
         File file = artifact.getFile();
-        log.info("Signing artifact file: " + file);
+        if (file == null) {
+            log.info("No file to sign for artifact: " + artifact);
+            return null;
+        }
+        else {
+            log.info("Signing artifact file: " + file);
+        }
 
         File signature = new File(file.getCanonicalPath() + ".asc");
         log.debug("Signature file: " + signature);
