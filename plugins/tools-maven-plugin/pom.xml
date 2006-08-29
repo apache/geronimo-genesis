@@ -35,6 +35,10 @@
     <name>Genesis Plugins :: Tools</name>
     <packaging>maven-plugin</packaging>
     
+    <description>
+        Provides custom tools to augment the Maven build.
+    </description>
+    
     <dependencies>
         
         <dependency>

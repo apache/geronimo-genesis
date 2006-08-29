@@ -35,6 +35,10 @@
     <name>Genesis Plugins :: Script</name>
     <packaging>maven-plugin</packaging>
     
+    <description>
+        Provides scripting support for the Maven build.
+    </description>
+    
     <dependencies>
         
         <dependency>
