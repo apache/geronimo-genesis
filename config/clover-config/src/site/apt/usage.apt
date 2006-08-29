@@ -1,0 +1,46 @@
+ ------
+ Genesis Clover Configuration
+ ------
+ ???
+ ------
+ ???
+
+Usage
+
+* Setup
+
+ To use, the module must first be installed as an extention.
+
++----------+
+<build>
+    <extensions>
+        <extension>
+            <groupId>org.apache.geronimo.genesis.config</groupId>
+            <artifactId>clover-config</artifactId>
+        </extension>
+    </extensions>
+</build>
++----------+
+
+* Configure Checkstyle
+
+ Configure the <<<maven-clover-plugin>>> to know about the <<<clover.license>>>
+ resource which is contained in the <<<clover-config>>> module.
+ 
+ NOTE: This is only to be used by Apache Geronimo projects.
+
++----------+
+<pluginManagement>
+    <plugins>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-clover-plugin</artifactId>
+            <configuration>
+                <generateHtml>true</generateHtml>
+                <jdk>1.4</jdk>
+                <licenseLocation>org/apache/geronimo/clover.license</licenseLocation>
+            </configuration>
+        </plugin>
+    </plugins>
+</pluginManagement>
++----------+
