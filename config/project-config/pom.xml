@@ -135,6 +135,12 @@
                 <scope>test</scope>
             </dependency>
             
+            <dependency>
+                <groupId>org.apache.geronimo.genesis.plugins</groupId>
+                <artifactId>plugin-support</artifactId>
+                <version>1.1-SNAPSHOT</version>
+            </dependency>
+            
         </dependencies>
     </dependencyManagement>
     
