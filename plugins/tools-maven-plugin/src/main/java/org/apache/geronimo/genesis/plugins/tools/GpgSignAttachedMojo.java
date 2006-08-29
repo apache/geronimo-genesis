@@ -27,13 +27,12 @@ import java.io.File;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 
-import org.apache.geronimo.genesis.AntMojoSupport;
-
 import org.apache.maven.project.MavenProject;
 import org.apache.maven.project.MavenProjectHelper;
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.commons.lang.SystemUtils;
+import org.apache.geronimo.plugin.MojoSupport;
 
 import org.codehaus.plexus.util.cli.Commandline;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
@@ -44,13 +43,17 @@ import org.codehaus.plexus.util.cli.CommandLineException;
  * Sign project attached artifacts with GnuPG.
  *
  * @goal gpg-sign-attached
- * @phase package
+ * @phase verify
  *
  * @version $Rev$ $Date$
  */
 public class GpgSignAttachedMojo
-    extends AntMojoSupport
+    extends MojoSupport
 {
+    //
+    // TODO: Pull the passphrase from settings
+    //
+    
     /**
      * The passphrase to use when signing.
      *
@@ -58,18 +61,6 @@ public class GpgSignAttachedMojo
      * @required
      */
     private String passphrase = null;
-
-    /**
-     * Maven ProjectHelper
-     *
-     * @component
-     * @readonly
-     */
-    private MavenProjectHelper projectHelper = null;
-
-    //
-    // MojoSupport Hooks
-    //
 
     /**
      * The maven project.
@@ -80,9 +71,13 @@ public class GpgSignAttachedMojo
      */
     protected MavenProject project = null;
 
-    protected MavenProject getProject() {
-        return project;
-    }
+    /**
+     * Maven ProjectHelper
+     *
+     * @component
+     * @readonly
+     */
+    private MavenProjectHelper projectHelper = null;
 
     //
     // Mojo
@@ -97,28 +92,26 @@ public class GpgSignAttachedMojo
             log.info("Artifacts to be signed: " + artifacts);
         }
 
+        // Sign attached artifacts
         Iterator iter = artifacts.iterator();
         while (iter.hasNext()) {
             Artifact artifact = (Artifact)iter.next();
-            File signature = sign(artifact);
+            File file = artifact.getFile();
 
-            if (signature != null) {
-                projectHelper.attachArtifact(project, artifact.getType() + ".asc", null, signature);
+            if (file == null) {
+                log.info("No file to sign for artifact: " + artifact);
+                continue;
             }
+
+            File signature = sign(file);
+            projectHelper.attachArtifact(project, artifact.getType() + ".asc", signature);
         }
     }
 
-    private File sign(final Artifact artifact) throws Exception {
-        assert artifact != null;
+    private File sign(final File file) throws Exception {
+        assert file != null;
 
-        File file = artifact.getFile();
-        if (file == null) {
-            log.info("No file to sign for artifact: " + artifact);
-            return null;
-        }
-        else {
-            log.info("Signing artifact file: " + file);
-        }
+        log.info("Signing artifact file: " + file);
 
         File signature = new File(file.getCanonicalPath() + ".asc");
         log.debug("Signature file: " + signature);
