@@ -221,7 +221,7 @@
                     <configuration>
                         <forkMode>once</forkMode>
                         <argLine>-enableassertions</argLine>
-                        <workingDirectory>${pom.basedir}/target</workingDirectory>
+                        <workingDirectory>${project.build.directory}</workingDirectory>
                         
                         <!-- Override the default, do not accept Test* as test classes -->
                         <excludes>
