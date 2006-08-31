@@ -131,8 +131,6 @@
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>
                 <version>3.8.1</version>
-                <type>jar</type>
-                <scope>test</scope>
             </dependency>
             
             <dependency>
@@ -150,13 +148,13 @@
             <groupId>org.apache.geronimo.genesis.config</groupId>
             <artifactId>logging-config</artifactId>
             <version>1.1-SNAPSHOT</version>
-            <type>jar</type>
             <scope>test</scope>
         </dependency>
         
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
+            <scope>test</scope>
         </dependency>
         
     </dependencies>
@@ -220,7 +218,7 @@
                     <version>2.2</version>
                     <configuration>
                         <forkMode>once</forkMode>
-                        <argLine>-enableassertions -Dlog4j.configuration=org/apache/geronimo/test-log4j.properties</argLine>
+                        <argLine>-enableassertions -Dgeronimo.bootstrap.logging.enabled=false -Dlog4j.configuration=org/apache/geronimo/test-log4j.properties</argLine>
                         <workingDirectory>${project.build.directory}</workingDirectory>
                         
                         <!-- Override the default, do not accept Test* as test classes -->
@@ -281,6 +279,12 @@
                 
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-jar-plugin</artifactId>
+                    <version>2.1</version>
+                </plugin>
+                
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-rar-plugin</artifactId>
                     <version>2.1</version>
                 </plugin>
@@ -305,7 +309,7 @@
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
                     <artifactId>jspc-maven-plugin</artifactId>
-                    <version>1.4.4</version>
+                    <version>1.4.5</version>
                 </plugin>
                 
                 <plugin>
