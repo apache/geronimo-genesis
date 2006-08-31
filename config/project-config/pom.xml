@@ -220,7 +220,7 @@
                     <version>2.2</version>
                     <configuration>
                         <forkMode>once</forkMode>
-                        <argLine>-enableassertions</argLine>
+                        <argLine>-enableassertions -Dlog4j.configuration=org/apache/geronimo/test-log4j.properties</argLine>
                         <workingDirectory>${project.build.directory}</workingDirectory>
                         
                         <!-- Override the default, do not accept Test* as test classes -->
