@@ -144,9 +144,25 @@
             </activation>
             
             <modules>
-                <module>config/clover-config</module>
                 <module>config/checkstyle-config</module>
             </modules>
+        </profile>
+        
+        <profile>
+            <id>pre-release</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>pre-release</value>
+                </property>
+            </activation>
+            
+            <distributionManagement>
+                <repository>
+                    <id>apache-releases</id>
+                    <url>scp://people.apache.org//home/jdillon/public_html/repository</url>
+                </repository>
+            </distributionManagement>
         </profile>
     </profiles>
     
