@@ -51,45 +51,24 @@ public abstract class AntMojoSupport
 
         ant = new Project();
         ant.setBaseDir(getProject().getBasedir());
-
-        BuildLogger antLogger = new DefaultLogger() {
-            protected void printMessage(final String message, final PrintStream stream, final int priority) {
-                assert message != null;
-                assert stream != null;
-
-                switch (priority) {
-                case Project.MSG_ERR:
-                    log.error(message);
-                    break;
-
-                case Project.MSG_WARN:
-                    log.warn(message);
-                    break;
-
-                case Project.MSG_INFO:
-                    log.info(message);
-                    break;
-
-                case Project.MSG_VERBOSE:
-                case Project.MSG_DEBUG:
-                    log.debug(message);
-                    break;
-                }
-            }
-        };
-
-        antLogger.setOutputPrintStream(System.out);
-        antLogger.setErrorPrintStream(System.err);
-        antLogger.setMessageOutputLevel(Project.MSG_INFO);
-
-        ant.addBuildListener(antLogger);
+        
+        initAntLogger(ant);
 
         ant.init();
 
         // Inherit properties from Maven
         inheritProperties();
     }
-
+    
+    protected void initAntLogger(final Project ant) {
+        AntLoggerAdapter antLogger = new AntLoggerAdapter(log);
+        antLogger.setEmacsMode(true);
+        antLogger.setOutputPrintStream(System.out);
+        antLogger.setErrorPrintStream(System.err);
+        antLogger.setMessageOutputLevel(Project.MSG_INFO);
+        ant.addBuildListener(antLogger);
+    }
+    
     protected void setProperty(final String name, Object value) {
         assert name != null;
         assert value != null;
