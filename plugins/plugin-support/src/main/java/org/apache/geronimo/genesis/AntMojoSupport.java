@@ -65,7 +65,14 @@ public abstract class AntMojoSupport
         antLogger.setEmacsMode(true);
         antLogger.setOutputPrintStream(System.out);
         antLogger.setErrorPrintStream(System.err);
-        antLogger.setMessageOutputLevel(Project.MSG_INFO);
+        
+        if (log.isDebugEnabled()) {
+            antLogger.setMessageOutputLevel(Project.MSG_VERBOSE);
+        }
+        else {
+            antLogger.setMessageOutputLevel(Project.MSG_INFO);
+        }
+        
         ant.addBuildListener(antLogger);
     }
     
