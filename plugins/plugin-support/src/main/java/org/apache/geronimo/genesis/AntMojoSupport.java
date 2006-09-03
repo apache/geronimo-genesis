@@ -25,6 +25,9 @@ import java.io.PrintStream;
 import java.util.Map;
 import java.util.Iterator;
 
+import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.plugin.MojoFailureException;
+
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.Task;
 import org.apache.tools.ant.BuildException;
@@ -46,7 +49,7 @@ public abstract class AntMojoSupport
 {
     protected Project ant;
 
-    protected void init() {
+    protected void init() throws MojoExecutionException, MojoFailureException {
         super.init();
 
         ant = new Project();

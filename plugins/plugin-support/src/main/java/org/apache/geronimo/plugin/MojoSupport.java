@@ -51,7 +51,7 @@ public abstract class MojoSupport
     /**
      * Initializes logging.  Called by {@link #execute}.
      */
-    protected void init() {
+    protected void init() throws MojoExecutionException, MojoFailureException {
         log = getLog();
     }
 
