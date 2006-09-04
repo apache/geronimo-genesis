@@ -34,7 +34,8 @@ import org.apache.maven.plugin.MojoFailureException;
  * @version $Rev$ $Date$
  */
 public class RequireJavaVersionMojo
-    extends MojoSupport {
+    extends MojoSupport
+{
     /**
      * Specify the required version of Java (1.1, 1.2, 1.3, 1.4, 1.5).
      *
