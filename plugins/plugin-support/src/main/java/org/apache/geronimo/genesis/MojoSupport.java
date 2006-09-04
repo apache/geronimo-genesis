@@ -52,7 +52,14 @@ public abstract class MojoSupport
         //
 
         System.setProperty("org.apache.commons.logging.LogFactory", "org.apache.commons.logging.impl.LogFactoryImpl");
-        System.setProperty("org.apache.commons.logging.Log", "org.apache.geronimo.genesis.MavenPluginLog");
+
+        //
+        // NOTE: org.apache.commons.logging.Log is set in commons-logging.properties.  Hard-coding this here
+        //       causes some other Maven plugins to have problems (like the site plugin when it runs checkstyle).
+        //       Not sure that this will always get picked up though... :-(
+        //
+        // System.setProperty("org.apache.commons.logging.Log", "org.apache.geronimo.genesis.MavenPluginLog");
+
         System.setProperty("geronimo.bootstrap.logging.enabled", "false");
     }
 
