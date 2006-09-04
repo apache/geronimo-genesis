@@ -1,0 +1,24 @@
+ ------
+ Genesis Maven Plugin for Maven 2
+ ------
+ ???
+ ------
+ ???
+
+TODO
+
+ TODO
+
+* TODO
+
++----------+
+<plugin>
+    <groupId>org.apache.geronimo.genesis.plugins</groupId>
+    <artifactId>maven-maven-plugin</artifactId>
+    <executions>
+        <execution>
+            TODO
+        </execution>
+    </executions>
+</plugin>
++----------+

@@ -111,6 +111,7 @@
         <module>plugin-support</module>
         <module>tools-maven-plugin</module>
         <module>script-maven-plugin</module>
+        <module>maven-maven-plugin</module>
     </modules>
     
     <reporting>

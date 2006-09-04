@@ -37,11 +37,11 @@ import org.apache.tools.ant.taskdefs.ExecTask;
 /**
  * Invoke Maven in a sub-process.
  *
- * @goal maven
+ * @goal invoke
  *
  * @version $Rev$ $Date$
  */
-public class MavenMojo
+public class InvokeMavenMojo
     extends AntMojoSupport
 {
     /**
