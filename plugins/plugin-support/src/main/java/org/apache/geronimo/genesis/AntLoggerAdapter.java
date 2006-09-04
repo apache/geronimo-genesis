@@ -22,7 +22,6 @@ package org.apache.geronimo.genesis;
 import java.io.PrintStream;
 
 import org.apache.tools.ant.Project;
-import org.apache.tools.ant.BuildLogger;
 import org.apache.tools.ant.DefaultLogger;
 
 import org.apache.maven.plugin.logging.Log;

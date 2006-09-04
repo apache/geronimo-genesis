@@ -32,7 +32,7 @@ import org.apache.maven.project.MavenProjectHelper;
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.commons.lang.SystemUtils;
-import org.apache.geronimo.plugin.MojoSupport;
+import org.apache.geronimo.genesis.MojoSupport;
 
 import org.codehaus.plexus.util.cli.Commandline;
 import org.codehaus.plexus.util.cli.CommandLineUtils;

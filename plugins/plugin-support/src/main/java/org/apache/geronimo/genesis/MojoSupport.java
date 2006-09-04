@@ -17,7 +17,7 @@
  * under the License.
  */
 
-package org.apache.geronimo.plugin;
+package org.apache.geronimo.genesis;
 
 import java.util.List;
 
@@ -26,12 +26,14 @@ import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugin.logging.Log;
 import org.apache.maven.project.MavenProject;
+
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.artifact.repository.ArtifactRepository;
 import org.apache.maven.artifact.factory.ArtifactFactory;
 import org.apache.maven.artifact.resolver.ArtifactNotFoundException;
 import org.apache.maven.artifact.resolver.ArtifactResolutionException;
 import org.apache.maven.artifact.resolver.ArtifactResolver;
+
 import org.apache.maven.model.Dependency;
 
 /**
@@ -42,6 +44,18 @@ import org.apache.maven.model.Dependency;
 public abstract class MojoSupport
     extends AbstractMojo
 {
+    static {
+        //
+        // NOTE: Force install our custom JCL Log bridge, and disable Geronimo's bootstrap logging
+        //       in case any sub-clas ends up dependening on geronimo-kernel which will muck
+        //       with logging in unexpected ways.
+        //
+
+        System.setProperty("org.apache.commons.logging.LogFactory", "org.apache.commons.logging.impl.LogFactoryImpl");
+        System.setProperty("org.apache.commons.logging.Log", "org.apache.geronimo.genesis.MavenPluginLog");
+        System.setProperty("geronimo.bootstrap.logging.enabled", "false");
+    }
+
     /**
      * Instance logger.  This is initialized to the value of {@link #getLog}
      * on execution.
@@ -52,7 +66,10 @@ public abstract class MojoSupport
      * Initializes logging.  Called by {@link #execute}.
      */
     protected void init() throws MojoExecutionException, MojoFailureException {
-        log = getLog();
+        this.log = getLog();
+
+        // Install the bridge from JCL to this plugins Log
+        MavenPluginLog.setLog(log);
     }
 
     /**

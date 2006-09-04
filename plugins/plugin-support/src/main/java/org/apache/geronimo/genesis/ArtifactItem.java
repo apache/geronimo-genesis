@@ -17,7 +17,7 @@
  * under the License.
  */
 
-package org.apache.geronimo.plugin;
+package org.apache.geronimo.genesis;
 
 /**
  * Represents a Maven-artifact.
