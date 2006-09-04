@@ -68,6 +68,13 @@ public class InvokeMavenMojo
     private Map parameters = null;
 
     /**
+     * A set of profiles to activate via -P
+     *
+     * @parameter
+     */
+    private String[] profiles = null;
+
+    /**
      * A set of goals (or phases) to be invoked.
      *
      * @parameter
@@ -115,7 +122,7 @@ public class InvokeMavenMojo
         exec.setFailonerror(true);
 
         if (flags != null) {
-            for (int i=0; i< flags.length; i++) {
+            for (int i=0; i < flags.length; i++) {
                 exec.createArg().setValue(flags[i]);
             }
         }
@@ -129,8 +136,21 @@ public class InvokeMavenMojo
             }
         }
 
+        if (profiles != null && profiles.length != 0) {
+            StringBuffer buff = new StringBuffer("-P");
+            
+            for (int i=0; i < profiles.length; i++) {
+                buff.append(profiles[i]);
+                if (i + 1 < profiles.length) {
+                    buff.append(",");
+                }
+            }
+
+            exec.createArg().setValue(buff.toString());
+        }
+
         if (goals != null) {
-            for (int i=0; i< goals.length; i++) {
+            for (int i=0; i < goals.length; i++) {
                 exec.createArg().setValue(goals[i]);
             }
         }
