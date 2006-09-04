@@ -17,7 +17,7 @@
  * under the License.
  */
 
-package org.apache.geronimo.genesis.plugins.tools;
+package org.apache.geronimo.genesis.plugins.maven;
 
 import java.io.File;
 import java.io.IOException;
@@ -31,6 +31,7 @@ import org.apache.maven.project.MavenProject;
 import org.apache.maven.plugin.MojoExecutionException;
 
 import org.codehaus.plexus.util.Os;
+import org.codehaus.plexus.util.DirectoryScanner;
 
 import org.apache.tools.ant.taskdefs.ExecTask;
 
@@ -45,29 +46,29 @@ public class InvokeMavenMojo
     extends AntMojoSupport
 {
     /**
-     * ???
+     * Defines the set of pom.xml files to invoke.
      *
-     * @parameter expression="${pomFile}"
+     * @parameter
      * @required
      */
-    private File pomFile = null;
+    private DirectoryScanner fileset = null;
 
     /**
-     * ???
+     * A set of command-line flags to pass to Maven.
      *
      * @parameter
      */
     private String[] flags = null;
 
     /**
-     * ???
+     * A map of parameters to define via -D
      *
      * @parameter
      */
     private Map parameters = null;
 
     /**
-     * ???
+     * A set of goals (or phases) to be invoked.
      *
      * @parameter
      */
@@ -91,6 +92,22 @@ public class InvokeMavenMojo
     }
 
     protected void doExecute() throws Exception {
+        fileset.addDefaultExcludes();
+        fileset.scan();
+
+        String[] filenames = fileset.getIncludedFiles();
+        for (int i=0; i<filenames.length; i++) {
+            invoke(new File(filenames[i]));
+        }
+    }
+
+    private void invoke(final File pom) throws Exception {
+        if (!pom.exists()) {
+            throw new MojoExecutionException("Missing pom file as: " + pom);
+        }
+
+        log.info("Invoking: " + pom);
+        
         ExecTask exec = (ExecTask)createTask("exec");
 
         exec.setExecutable(getMavenExecutable().getAbsolutePath());
@@ -118,15 +135,8 @@ public class InvokeMavenMojo
             }
         }
 
-        if (!pomFile.exists()) {
-            throw new MojoExecutionException("Missing pom file as: " + pomFile);
-        }
-        else {
-            exec.createArg().setValue("-f");
-            exec.createArg().setFile(pomFile);
-        }
-
-        log.info("Starting Maven...");
+        exec.createArg().setValue("-f");
+        exec.createArg().setFile(pom);
         
         exec.execute();
     }
