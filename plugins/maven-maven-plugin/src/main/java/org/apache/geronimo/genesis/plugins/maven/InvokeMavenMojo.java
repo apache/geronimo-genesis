@@ -104,13 +104,13 @@ public class InvokeMavenMojo
 
         String[] filenames = fileset.getIncludedFiles();
         for (int i=0; i<filenames.length; i++) {
-            invoke(new File(filenames[i]));
+            invoke(new File(fileset.getBasedir(), filenames[i]));
         }
     }
 
     private void invoke(final File pom) throws Exception {
         if (!pom.exists()) {
-            throw new MojoExecutionException("Missing pom file as: " + pom);
+            throw new MojoExecutionException("Missing pom file: " + pom);
         }
 
         log.info("Invoking: " + pom);
