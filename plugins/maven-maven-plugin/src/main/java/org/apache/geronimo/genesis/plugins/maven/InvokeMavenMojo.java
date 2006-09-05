@@ -103,6 +103,11 @@ public class InvokeMavenMojo
         fileset.scan();
 
         String[] filenames = fileset.getIncludedFiles();
+
+        if (filenames.length == 0) {
+            throw new MojoExecutionException("At least one pom file must be included");
+        }
+        
         for (int i=0; i<filenames.length; i++) {
             invoke(new File(fileset.getBasedir(), filenames[i]));
         }
