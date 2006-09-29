@@ -28,6 +28,8 @@ import org.apache.maven.plugin.logging.Log;
 import org.apache.maven.project.MavenProject;
 
 import org.apache.maven.artifact.Artifact;
+import org.apache.maven.artifact.versioning.VersionRange;
+import org.apache.maven.artifact.versioning.InvalidVersionSpecificationException;
 import org.apache.maven.artifact.repository.ArtifactRepository;
 import org.apache.maven.artifact.factory.ArtifactFactory;
 import org.apache.maven.artifact.resolver.ArtifactNotFoundException;
@@ -118,6 +120,10 @@ public abstract class MojoSupport
         // Empty
     }
 
+    //
+    // NOTE: These are not abstract because not all sub-classes will need this functionality
+    //
+    
     /**
      * Get the Maven project.
      *
@@ -163,8 +169,6 @@ public abstract class MojoSupport
      * list or from the DependencyManagement section of the pom.
      */
     protected Artifact createArtifact(final ArtifactItem item) throws MojoExecutionException {
-        Artifact artifact;
-
         if (item.getVersion() == null) {
             fillMissingArtifactVersion(item);
 
@@ -175,23 +179,22 @@ public abstract class MojoSupport
 
         }
 
-        String classifier = item.getClassifier();
-        if (classifier == null || classifier.equals("")) {
-            artifact = getArtifactFactory().createArtifact(
-                    item.getGroupId(),
-                    item.getArtifactId(),
-                    item.getVersion(),
-                    Artifact.SCOPE_PROVIDED,
-                    item.getType());
+        // Convert the string version to a range
+        VersionRange range;
+        try {
+            range = VersionRange.createFromVersionSpec(item.getVersion());
         }
-        else {
-            artifact = getArtifactFactory().createArtifactWithClassifier(
-                    item.getGroupId(),
-                    item.getArtifactId(),
-                    item.getVersion(),
-                    item.getType(),
-                    item.getClassifier());
+        catch (InvalidVersionSpecificationException e) {
+            throw new MojoExecutionException("Could not create range for version: " + item.getVersion(), e);
         }
+        
+        Artifact artifact = getArtifactFactory().createDependencyArtifact(
+            item.getGroupId(),
+            item.getArtifactId(),
+            range,
+            item.getType(),
+            item.getClassifier(),
+            Artifact.SCOPE_PROVIDED);
 
         return artifact;
     }
