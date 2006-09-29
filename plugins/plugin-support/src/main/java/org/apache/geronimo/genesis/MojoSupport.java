@@ -183,6 +183,9 @@ public abstract class MojoSupport
         VersionRange range;
         try {
             range = VersionRange.createFromVersionSpec(item.getVersion());
+            if (log.isDebugEnabled()) {
+                log.debug("Using version range: " + range);
+            }
         }
         catch (InvalidVersionSpecificationException e) {
             throw new MojoExecutionException("Could not create range for version: " + item.getVersion(), e);
