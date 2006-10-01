@@ -479,27 +479,6 @@
         </pluginRepository>
     </pluginRepositories>
     
-    <distributionManagement>
-        <repository>
-            <id>apache-releases</id>
-            <name>Apache Release Distribution Repository</name>
-            <url>scp://people.apache.org/www/people.apache.org/repo/m2-ibiblio-rsync-repository</url>
-        </repository>
-        
-        <snapshotRepository>
-            <id>apache-snapshots</id>
-            <name>Apache Snapshot Repository</name>
-            <url>scp://people.apache.org/www/people.apache.org/repo/m2-snapshot-repository</url>
-        </snapshotRepository>
-        
-        <!--
-        <site>
-            <id>geronimo-website</id>
-            <url>scp://people.apache.org/www/geronimo.apache.org/maven/${pom.groupId}</url>
-        </site>
-        -->
-    </distributionManagement>
-    
     <profiles>
         <profile>
             <id>default</id>
