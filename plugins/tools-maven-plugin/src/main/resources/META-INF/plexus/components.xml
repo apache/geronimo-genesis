@@ -4,7 +4,7 @@
 
 <component-set>
     <components>
-        
+
         <!--
         Custom packaging for application assembly modules.
         -->
@@ -19,13 +19,30 @@
                         <phases>
                             <process-resources>org.apache.maven.plugins:maven-resources-plugin:resources</process-resources>
                             <install>org.apache.maven.plugins:maven-install-plugin:install</install>
+                            <package>org.apache.geronimo.genesis.plugins:tools-maven-plugin:set-artifact-file</package>
                             <deploy>org.apache.maven.plugins:maven-deploy-plugin:deploy</deploy>
                         </phases>
                     </lifecycle>
                 </lifecycles>
             </configuration>
         </component>
-        
+
+        <!--
+        Install application-assembly artifact files as .pom xml files
+        -->
+        <component>
+            <role>org.apache.maven.artifact.handler.ArtifactHandler</role>
+            <role-hint>application-assembly</role-hint>
+            <implementation>org.apache.maven.artifact.handler.DefaultArtifactHandler</implementation>
+            <configuration>
+                <type>application-assembly</type>
+                <extension>pom</extension>
+                <packaging>application-assembly</packaging>
+                <addedToClasspath>false</addedToClasspath>
+                <language>xml</language>
+            </configuration>
+        </component>
+
         <!--
         Custom packaging for testsuite child modules.
         -->
