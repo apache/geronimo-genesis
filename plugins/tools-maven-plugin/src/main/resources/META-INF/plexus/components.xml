@@ -18,8 +18,8 @@
                         <id>default</id>
                         <phases>
                             <process-resources>org.apache.maven.plugins:maven-resources-plugin:resources</process-resources>
-                            <install>org.apache.maven.plugins:maven-install-plugin:install</install>
                             <package>org.apache.geronimo.genesis.plugins:tools-maven-plugin:set-artifact-file</package>
+                            <install>org.apache.maven.plugins:maven-install-plugin:install</install>
                             <deploy>org.apache.maven.plugins:maven-deploy-plugin:deploy</deploy>
                         </phases>
                     </lifecycle>
@@ -43,6 +43,44 @@
             </configuration>
         </component>
 
+        <!--
+        Custom packaging for resource-bundle modules.
+        -->
+        <component>
+            <role>org.apache.maven.lifecycle.mapping.LifecycleMapping</role>
+            <role-hint>resource-bundle</role-hint>
+            <implementation>org.apache.maven.lifecycle.mapping.DefaultLifecycleMapping</implementation>
+            <configuration>
+                <lifecycles>
+                    <lifecycle>
+                        <id>default</id>
+                        <phases>
+                            <process-resources>org.apache.maven.plugins:maven-resources-plugin:resources</process-resources>
+                            <package>org.apache.maven.plugins:maven-jar-plugin:jar</package>
+                            <install>org.apache.maven.plugins:maven-install-plugin:install</install>
+                            <deploy>org.apache.maven.plugins:maven-deploy-plugin:deploy</deploy>
+                        </phases>
+                    </lifecycle>
+                </lifecycles>
+            </configuration>
+        </component>
+
+        <!--
+        Install resource-bundle artifact files as .jar files
+        -->
+        <component>
+            <role>org.apache.maven.artifact.handler.ArtifactHandler</role>
+            <role-hint>resource-bundle</role-hint>
+            <implementation>org.apache.maven.artifact.handler.DefaultArtifactHandler</implementation>
+            <configuration>
+                <type>resource-bundle</type>
+                <extension>jar</extension>
+                <packaging>resource-bundle</packaging>
+                <addedToClasspath>false</addedToClasspath>
+                <language>java</language>
+            </configuration>
+        </component>
+        
         <!--
         Custom packaging for testsuite child modules.
         -->
