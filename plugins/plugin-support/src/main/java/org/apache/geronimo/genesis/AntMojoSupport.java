@@ -31,6 +31,8 @@ import org.apache.tools.ant.Project;
 import org.apache.tools.ant.Task;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.types.FileSet;
+import org.apache.tools.ant.types.Environment;
+import org.apache.tools.ant.taskdefs.Java;
 import org.apache.tools.ant.taskdefs.Mkdir;
 import org.apache.tools.ant.taskdefs.Property;
 
@@ -90,6 +92,28 @@ public abstract class AntMojoSupport
         prop.execute();
     }
 
+    protected void setSystemProperty(final Java java, final String name, final String value) {
+        assert java != null;
+        assert name != null;
+        assert value != null;
+
+        Environment.Variable var = new Environment.Variable();
+        var.setKey(name);
+        var.setValue(value);
+        java.addSysproperty(var);
+    }
+
+    protected void setSystemProperty(final Java java, final String name, final File value) {
+        assert java != null;
+        assert name != null;
+        assert value != null;
+
+        Environment.Variable var = new Environment.Variable();
+        var.setKey(name);
+        var.setFile(value);
+        java.addSysproperty(var);
+    }
+    
     protected void inheritProperties() {
         // Propagate properties
         Map props = getProject().getProperties();
