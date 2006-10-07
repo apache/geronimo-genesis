@@ -19,7 +19,13 @@
 
 package org.apache.geronimo.genesis;
 
+import java.io.File;
+
+import java.util.Iterator;
 import java.util.List;
+import java.util.ArrayList;
+import java.util.Set;
+import java.util.HashSet;
 
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
@@ -35,7 +41,10 @@ import org.apache.maven.artifact.factory.ArtifactFactory;
 import org.apache.maven.artifact.resolver.ArtifactNotFoundException;
 import org.apache.maven.artifact.resolver.ArtifactResolutionException;
 import org.apache.maven.artifact.resolver.ArtifactResolver;
+import org.apache.maven.artifact.resolver.filter.ArtifactFilter;
+import org.apache.maven.artifact.resolver.filter.ExcludesArtifactFilter;
 
+import org.apache.maven.model.Exclusion;
 import org.apache.maven.model.Dependency;
 
 /**
@@ -208,7 +217,15 @@ public abstract class MojoSupport
      */
     protected Artifact getArtifact(final ArtifactItem item) throws MojoExecutionException {
         Artifact artifact = createArtifact(item);
+        
+        return resolveArtifact(artifact);
+    }
 
+    /**
+     * Resolves the Artifact from the remote repository if nessessary. If no version is specified, it will
+     * be retrieved from the dependency list or from the DependencyManagement section of the pom.
+     */
+    protected Artifact resolveArtifact(final Artifact artifact) throws MojoExecutionException {
         try {
             getArtifactResolver().resolve(artifact, getProject().getRemoteArtifactRepositories(), getArtifactRepository());
         }
@@ -221,7 +238,7 @@ public abstract class MojoSupport
 
         return artifact;
     }
-
+    
     /**
      * Tries to find missing version from dependancy list and dependency management.
      * If found, the artifact is updated with the correct version.
@@ -260,5 +277,71 @@ public abstract class MojoSupport
                 item.setVersion(dependency.getVersion());
             }
         }
+    }
+    
+    //
+    // Access to Project artifacts
+    //
+
+    protected Set getProjectArtifacts(final MavenProject project, final boolean resolve) throws MojoExecutionException {
+        Set artifacts = new HashSet();
+
+        Iterator dependencies = project.getDependencies().iterator();
+        while (dependencies.hasNext()) {
+            Dependency dep = (Dependency) dependencies.next();
+
+            String groupId = dep.getGroupId();
+            String artifactId = dep.getArtifactId();
+            VersionRange versionRange = VersionRange.createFromVersion(dep.getVersion());
+            String type = dep.getType();
+            if (type == null) {
+                type = "jar";
+            }
+
+            String classifier = dep.getClassifier();
+            boolean optional = dep.isOptional();
+            String scope = dep.getScope();
+            if (scope == null) {
+                scope = Artifact.SCOPE_COMPILE;
+            }
+
+            Artifact artifact = getArtifactFactory().createDependencyArtifact(
+                groupId,
+                artifactId,
+                versionRange,
+                type,
+                classifier,
+                scope,
+                optional);
+
+            if (scope.equalsIgnoreCase(Artifact.SCOPE_SYSTEM)) {
+                artifact.setFile(new File(dep.getSystemPath()));
+            }
+
+            List exclusions = new ArrayList();
+            for (Iterator j = dep.getExclusions().iterator(); j.hasNext();) {
+                Exclusion e = (Exclusion) j.next();
+                exclusions.add(e.getGroupId() + ":" + e.getArtifactId());
+            }
+
+            ArtifactFilter newFilter = new ExcludesArtifactFilter(exclusions);
+            artifact.setDependencyFilter(newFilter);
+            
+            if (resolve) {
+                artifact = resolveArtifact(artifact);
+            }
+
+            artifacts.add(artifact);
+        }
+
+        return artifacts;
+    }
+
+    protected Set getProjectArtifacts(final boolean resolve) throws MojoExecutionException {
+        return getProjectArtifacts(getProject(), resolve);
+    }
+
+    protected Set getProjectArtifacts() throws MojoExecutionException {
+        return getProjectArtifacts(false);
     }
 }
