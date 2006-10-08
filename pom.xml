@@ -86,6 +86,7 @@
                 <artifactId>maven-idea-plugin</artifactId>
                 <configuration>
                     <jdkName>1.4</jdkName>
+                    <jdkLevel>1.4</jdkLevel>
                     <linkModules>true</linkModules>
                 </configuration>
             </plugin>
