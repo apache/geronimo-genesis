@@ -20,32 +20,39 @@
 package org.apache.geronimo.genesis;
 
 import java.io.File;
-
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.ArrayList;
 import java.util.Set;
-import java.util.HashSet;
-
-import org.apache.maven.plugin.AbstractMojo;
-import org.apache.maven.plugin.MojoExecutionException;
-import org.apache.maven.plugin.MojoFailureException;
-import org.apache.maven.plugin.logging.Log;
-import org.apache.maven.project.MavenProject;
 
 import org.apache.maven.artifact.Artifact;
-import org.apache.maven.artifact.versioning.VersionRange;
-import org.apache.maven.artifact.versioning.InvalidVersionSpecificationException;
-import org.apache.maven.artifact.repository.ArtifactRepository;
 import org.apache.maven.artifact.factory.ArtifactFactory;
+import org.apache.maven.artifact.repository.ArtifactRepository;
 import org.apache.maven.artifact.resolver.ArtifactNotFoundException;
 import org.apache.maven.artifact.resolver.ArtifactResolutionException;
 import org.apache.maven.artifact.resolver.ArtifactResolver;
 import org.apache.maven.artifact.resolver.filter.ArtifactFilter;
 import org.apache.maven.artifact.resolver.filter.ExcludesArtifactFilter;
-
-import org.apache.maven.model.Exclusion;
+import org.apache.maven.artifact.versioning.InvalidVersionSpecificationException;
+import org.apache.maven.artifact.versioning.VersionRange;
 import org.apache.maven.model.Dependency;
+import org.apache.maven.model.Exclusion;
+import org.apache.maven.plugin.AbstractMojo;
+import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.plugin.MojoFailureException;
+import org.apache.maven.plugin.logging.Log;
+import org.apache.maven.project.MavenProject;
+import org.codehaus.plexus.PlexusConstants;
+import org.codehaus.plexus.PlexusContainer;
+import org.codehaus.plexus.component.repository.exception.ComponentLookupException;
+import org.codehaus.plexus.context.Context;
+import org.codehaus.plexus.context.ContextException;
+import org.codehaus.plexus.personality.plexus.lifecycle.phase.Contextualizable;
+
+import org.apache.geronimo.genesis.dependency.DependencyHelper;
+import org.apache.geronimo.genesis.util.ArtifactItem;
+import org.apache.geronimo.genesis.util.MavenPluginLog;
 
 /**
  * Support for Mojo implementations.
@@ -54,6 +61,7 @@ import org.apache.maven.model.Dependency;
  */
 public abstract class MojoSupport
     extends AbstractMojo
+    implements Contextualizable
 {
     static {
         //
@@ -69,16 +77,20 @@ public abstract class MojoSupport
         //       causes some other Maven plugins to have problems (like the site plugin when it runs checkstyle).
         //       Not sure that this will always get picked up though... :-(
         //
-        // System.setProperty("org.apache.commons.logging.Log", "org.apache.geronimo.genesis.MavenPluginLog");
+        // System.setProperty("org.apache.commons.logging.Log", "org.apache.geronimo.genesis.util.MavenPluginLog");
 
         System.setProperty("geronimo.bootstrap.logging.enabled", "false");
     }
+
+    private PlexusContainer container;
 
     /**
      * Instance logger.  This is initialized to the value of {@link #getLog}
      * on execution.
      */
     protected Log log;
+    
+    private DependencyHelper dependencyHelper;
 
     /**
      * Initializes logging.  Called by {@link #execute}.
@@ -88,6 +100,20 @@ public abstract class MojoSupport
 
         // Install the bridge from JCL to this plugins Log
         MavenPluginLog.setLog(log);
+
+        //
+        // NOTE: Using direct lookup because this class may not have been directly configured
+        //
+        try {
+            this.dependencyHelper = (DependencyHelper)container.lookup(DependencyHelper.class.getName());
+        }
+        catch (ComponentLookupException e) {
+            throw new MojoExecutionException("Failed to lookup required components", e);
+        }
+    }
+
+    public void contextualize(final Context context) throws ContextException {
+        container = (PlexusContainer) context.get(PlexusConstants.PLEXUS_KEY);
     }
 
     /**
@@ -144,26 +170,6 @@ public abstract class MojoSupport
     }
 
     /**
-     * Get the artifact factory..
-     *
-     * <p>
-     * Sub-class must overridde to provide access.
-     */
-    protected ArtifactFactory getArtifactFactory() {
-        throw new Error("Sub-class must override to provide access to: " + ArtifactFactory.class);
-    }
-
-    /**
-     * Get the artifact resolver.
-     *
-     * <p>
-     * Sub-class must overridde to provide access.
-     */
-    protected ArtifactResolver getArtifactResolver() {
-        throw new Error("Sub-class must override to provide access to: " + ArtifactResolver.class);
-    }
-
-    /**
      * Get the artifact repository.
      *
      * <p>
@@ -171,6 +177,20 @@ public abstract class MojoSupport
      */
     protected ArtifactRepository getArtifactRepository() {
         throw new Error("Sub-class must override to provide access to: " + ArtifactRepository.class);
+    }
+
+    /**
+     * Get the artifact factory.
+     */
+    protected final ArtifactFactory getArtifactFactory() {
+        return dependencyHelper.getArtifactFactory();
+    }
+
+    /**
+     * Get the artifact resolver.
+     */
+    protected final ArtifactResolver getArtifactResolver() {
+        return dependencyHelper.getArtifactResolver();
     }
 
     /**

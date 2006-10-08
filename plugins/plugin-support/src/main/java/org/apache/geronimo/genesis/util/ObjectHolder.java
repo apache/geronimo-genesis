@@ -17,7 +17,7 @@
  * under the License.
  */
 
-package org.apache.geronimo.genesis;
+package org.apache.geronimo.genesis.util;
 
 /**
  * Simple helper that holds an object.

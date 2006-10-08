@@ -17,7 +17,7 @@
  * under the License.
  */
 
-package org.apache.geronimo.genesis;
+package org.apache.geronimo.genesis.dependency;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -35,6 +35,8 @@ import org.apache.maven.model.Dependency;
 import org.apache.maven.model.DependencyManagement;
 import org.apache.maven.project.MavenProject;
 import org.apache.maven.project.ProjectBuildingException;
+
+import org.apache.geronimo.genesis.dependency.DependencyResolutionListener;
 
 //
 // NOTE: Lifetd from the maven-project-info-plugin

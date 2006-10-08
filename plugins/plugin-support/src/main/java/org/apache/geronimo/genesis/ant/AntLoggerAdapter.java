@@ -17,7 +17,7 @@
  * under the License.
  */
 
-package org.apache.geronimo.genesis;
+package org.apache.geronimo.genesis.ant;
 
 import java.io.PrintStream;
 

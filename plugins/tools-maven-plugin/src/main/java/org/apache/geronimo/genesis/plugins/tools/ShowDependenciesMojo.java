@@ -19,24 +19,15 @@
 
 package org.apache.geronimo.genesis.plugins.tools;
 
-import java.util.Collections;
 import java.util.Iterator;
-import java.util.Map;
 
 import org.apache.maven.artifact.Artifact;
-import org.apache.maven.artifact.factory.ArtifactFactory;
-import org.apache.maven.artifact.metadata.ArtifactMetadataSource;
 import org.apache.maven.artifact.repository.ArtifactRepository;
-import org.apache.maven.artifact.resolver.ArtifactCollector;
-import org.apache.maven.artifact.resolver.ArtifactResolutionException;
-import org.apache.maven.artifact.resolver.ArtifactResolver;
 import org.apache.maven.project.MavenProject;
-import org.apache.maven.project.ProjectBuildingException;
-import org.apache.maven.project.artifact.InvalidDependencyVersionException;
 
+import org.apache.geronimo.genesis.dependency.DependencyHelper;
+import org.apache.geronimo.genesis.dependency.DependencyResolutionListener;
 import org.apache.geronimo.genesis.MojoSupport;
-import org.apache.geronimo.genesis.Dependencies;
-import org.apache.geronimo.genesis.DependencyResolutionListener;
 
 /**
  * Helper to show a projects dependencies.
@@ -55,8 +46,27 @@ public class ShowDependenciesMojo
      */
     private boolean verbose = false;
 
+    /**
+     * @component
+     */
+    private DependencyHelper helper = null;
+
+    /**
+     * @parameter expression="${project}"
+     * @required
+     * @readonly
+     */
+    protected MavenProject project;
+
+    /**
+     * @parameter expression="${localRepository}"
+     * @required
+     * @readonly
+     */
+    protected ArtifactRepository localRepository;
+
     protected void doExecute() throws Exception {
-        DependencyResolutionListener listener = resolveProject();
+        DependencyResolutionListener listener = helper.resolveProject(project, localRepository);
         printDependencyListing(listener.getRootNode(), "");
     }
 
@@ -79,101 +89,5 @@ public class ShowDependenciesMojo
                 printDependencyListing(dep, pad + "    ");
             }
         }
-    }
-
-    private DependencyResolutionListener resolveProject()
-        throws ProjectBuildingException, ArtifactResolutionException, InvalidDependencyVersionException
-    {
-        Map managedVersions = Dependencies.getManagedVersionMap(project, artifactFactory);
-        DependencyResolutionListener listener = new DependencyResolutionListener();
-
-        if (project.getDependencyArtifacts() == null) {
-            project.setDependencyArtifacts(project.createArtifacts(artifactFactory, null, null));
-        }
-        
-        artifactCollector.collect(
-                project.getDependencyArtifacts(),
-                project.getArtifact(),
-                managedVersions,
-                localRepository,
-                project.getRemoteArtifactRepositories(),
-                artifactMetadataSource,
-                null,
-                Collections.singletonList(listener));
-
-        return listener;
-    }
-
-    /**
-     * @parameter
-     * @component
-     * @required
-     */
-    private ArtifactMetadataSource artifactMetadataSource = null;
-
-    /**
-     * ???
-     *
-     * @component
-     */
-    private ArtifactCollector artifactCollector = null;
-
-    /**
-     * Local Repository.
-     *
-     * @parameter expression="${localRepository}"
-     * @required
-     * @readonly
-     */
-    protected ArtifactRepository localRepository;
-
-    //
-    // MojoSupport Hooks
-    //
-
-    /**
-     * The maven project.
-     *
-     * @parameter expression="${project}"
-     * @required
-     * @readonly
-     */
-    protected MavenProject project;
-
-    protected MavenProject getProject() {
-        return project;
-    }
-
-    /**
-     * @component
-     * @required
-     * @readonly
-     */
-    private ArtifactFactory artifactFactory = null;
-
-    protected ArtifactFactory getArtifactFactory() {
-        return artifactFactory;
-    }
-
-    /**
-     * @component
-     * @required
-     * @readonly
-     */
-    private ArtifactResolver artifactResolver = null;
-
-    protected ArtifactResolver getArtifactResolver() {
-        return artifactResolver;
-    }
-
-    /**
-     * @parameter expression="${localRepository}"
-     * @readonly
-     * @required
-     */
-    protected ArtifactRepository artifactRepository = null;
-
-    protected ArtifactRepository getArtifactRepository() {
-        return artifactRepository;
     }
 }

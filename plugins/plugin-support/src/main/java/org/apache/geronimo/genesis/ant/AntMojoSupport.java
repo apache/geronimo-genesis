@@ -17,7 +17,7 @@
  * under the License.
  */
 
-package org.apache.geronimo.genesis;
+package org.apache.geronimo.genesis.ant;
 
 import java.io.File;
 
@@ -35,6 +35,9 @@ import org.apache.tools.ant.types.Environment;
 import org.apache.tools.ant.taskdefs.Java;
 import org.apache.tools.ant.taskdefs.Mkdir;
 import org.apache.tools.ant.taskdefs.Property;
+
+import org.apache.geronimo.genesis.ant.AntLoggerAdapter;
+import org.apache.geronimo.genesis.MojoSupport;
 
 /**
  * Support for Ant-based Mojos.

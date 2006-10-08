@@ -17,7 +17,7 @@
  * under the License.
  */
 
-package org.apache.geronimo.genesis;
+package org.apache.geronimo.genesis.dependency;
 
 import java.util.ArrayList;
 import java.util.Collection;

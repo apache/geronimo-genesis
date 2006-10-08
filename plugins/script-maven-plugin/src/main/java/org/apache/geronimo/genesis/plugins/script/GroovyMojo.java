@@ -20,7 +20,7 @@
 package org.apache.geronimo.genesis.plugins.script;
 
 import org.apache.geronimo.genesis.MojoSupport;
-import org.apache.geronimo.genesis.ArtifactItem;
+import org.apache.geronimo.genesis.util.ArtifactItem;
 
 import java.io.File;
 import java.io.InputStream;

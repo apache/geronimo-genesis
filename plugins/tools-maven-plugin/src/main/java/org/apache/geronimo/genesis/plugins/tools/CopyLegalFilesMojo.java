@@ -19,7 +19,7 @@
 
 package org.apache.geronimo.genesis.plugins.tools;
 
-import org.apache.geronimo.genesis.AntMojoSupport;
+import org.apache.geronimo.genesis.ant.AntMojoSupport;
 import org.apache.tools.ant.taskdefs.Copy;
 import org.apache.tools.ant.types.FileSet;
 import org.apache.maven.project.MavenProject;

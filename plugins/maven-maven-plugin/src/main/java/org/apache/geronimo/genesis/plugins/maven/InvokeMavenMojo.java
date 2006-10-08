@@ -25,7 +25,7 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.Iterator;
 
-import org.apache.geronimo.genesis.AntMojoSupport;
+import org.apache.geronimo.genesis.ant.AntMojoSupport;
 
 import org.apache.maven.project.MavenProject;
 import org.apache.maven.plugin.MojoExecutionException;
