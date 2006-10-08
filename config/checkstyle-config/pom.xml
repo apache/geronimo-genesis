@@ -39,6 +39,10 @@
         Provides the common Checkstyle configuration used by all modules.
     </description>
     
+    <properties>
+        <maven.test.skip>true</maven.test.skip>
+    </properties>
+    
     <build>
         <resources>
             <resource>

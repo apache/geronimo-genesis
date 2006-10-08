@@ -40,6 +40,10 @@
         primarily used to collect test output into 'target/test.log'.
     </description>
     
+    <properties>
+        <maven.test.skip>true</maven.test.skip>
+    </properties>
+    
     <build>
         <resources>
             <resource>

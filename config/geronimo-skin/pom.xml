@@ -33,10 +33,15 @@
     
     <artifactId>geronimo-skin</artifactId>
     <name>Genesis Configuration :: Geronimo Skin</name>
+    <packaging>jar</packaging>
     
     <description>
     	Provides the resources for the Geronimo Maven2 skin.
     </description>
+    
+    <properties>
+        <maven.test.skip>true</maven.test.skip>
+    </properties>
     
     <build>
         <resources>
