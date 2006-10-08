@@ -140,7 +140,7 @@ public abstract class MojoSupport
      * Sub-class must overridde to provide access.
      */
     protected MavenProject getProject() {
-        throw new Error("Sub-class must override to provide access");
+        throw new Error("Sub-class must override to provide access to : " + MavenProject.class);
     }
 
     /**
@@ -150,7 +150,7 @@ public abstract class MojoSupport
      * Sub-class must overridde to provide access.
      */
     protected ArtifactFactory getArtifactFactory() {
-        throw new Error("Sub-class must override to provide access");
+        throw new Error("Sub-class must override to provide access to: " + ArtifactFactory.class);
     }
 
     /**
@@ -160,7 +160,7 @@ public abstract class MojoSupport
      * Sub-class must overridde to provide access.
      */
     protected ArtifactResolver getArtifactResolver() {
-        throw new Error("Sub-class must override to provide access");
+        throw new Error("Sub-class must override to provide access to: " + ArtifactResolver.class);
     }
 
     /**
@@ -170,7 +170,7 @@ public abstract class MojoSupport
      * Sub-class must overridde to provide access.
      */
     protected ArtifactRepository getArtifactRepository() {
-        throw new Error("Sub-class must override to provide access");
+        throw new Error("Sub-class must override to provide access to: " + ArtifactRepository.class);
     }
 
     /**
@@ -185,7 +185,6 @@ public abstract class MojoSupport
                 throw new MojoExecutionException("Unable to find artifact version of " + item.getGroupId()
                     + ":" + item.getArtifactId() + " in either dependency list or in project's dependency management.");
             }
-
         }
 
         // Convert the string version to a range
@@ -238,7 +237,7 @@ public abstract class MojoSupport
 
         return artifact;
     }
-    
+
     /**
      * Tries to find missing version from dependancy list and dependency management.
      * If found, the artifact is updated with the correct version.
@@ -327,7 +326,8 @@ public abstract class MojoSupport
             ArtifactFilter newFilter = new ExcludesArtifactFilter(exclusions);
             artifact.setDependencyFilter(newFilter);
             
-            if (resolve) {
+            if (resolve && !artifact.isResolved()) {
+                log.debug("Resolving artifact: " + artifact);
                 artifact = resolveArtifact(artifact);
             }
 
