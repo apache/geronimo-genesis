@@ -24,9 +24,12 @@ import java.util.Iterator;
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.artifact.repository.ArtifactRepository;
 import org.apache.maven.project.MavenProject;
+import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.plugin.MojoFailureException;
 
 import org.apache.geronimo.genesis.dependency.DependencyHelper;
-import org.apache.geronimo.genesis.dependency.DependencyResolutionListener;
+import org.apache.geronimo.genesis.dependency.DependencyTree;
+import org.apache.geronimo.genesis.dependency.DependencyTree.Node;
 import org.apache.geronimo.genesis.MojoSupport;
 
 /**
@@ -63,14 +66,20 @@ public class ShowDependenciesMojo
      * @required
      * @readonly
      */
-    protected ArtifactRepository localRepository;
+    protected ArtifactRepository repository;
 
-    protected void doExecute() throws Exception {
-        DependencyResolutionListener listener = helper.resolveProject(project, localRepository);
-        printDependencyListing(listener.getRootNode(), "");
+    protected void init() throws MojoExecutionException, MojoFailureException {
+        super.init();
+        
+        helper.setArtifactRepository(repository);
     }
 
-    private void printDependencyListing(DependencyResolutionListener.Node node, final String pad) {
+    protected void doExecute() throws Exception {
+        DependencyTree dependencies = helper.getDependencies(project);
+        printDependencyListing(dependencies.getRootNode(), "");
+    }
+
+    private void printDependencyListing(final Node node, final String pad) {
         Artifact artifact = node.getArtifact();
         String id = artifact.getDependencyConflictId();
 
@@ -84,9 +93,11 @@ public class ShowDependenciesMojo
         log.info(pad + buff);
 
         if (!node.getChildren().isEmpty()) {
-            for (Iterator deps = node.getChildren().iterator(); deps.hasNext();) {
-                DependencyResolutionListener.Node dep = (DependencyResolutionListener.Node) deps.next();
-                printDependencyListing(dep, pad + "    ");
+            Iterator children = node.getChildren().iterator();
+            
+            while (children.hasNext()) {
+                Node child = (Node) children.next();
+                printDependencyListing(child, pad + "    ");
             }
         }
     }
