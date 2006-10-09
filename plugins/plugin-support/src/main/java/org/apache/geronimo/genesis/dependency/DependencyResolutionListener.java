@@ -19,16 +19,14 @@
 
 package org.apache.geronimo.genesis.dependency;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 
 import org.apache.maven.artifact.Artifact;
-import org.apache.maven.artifact.resolver.ResolutionListener;
-import org.apache.maven.artifact.versioning.VersionRange;
+
+import org.apache.geronimo.genesis.dependency.DependencyTree.Node;
 
 //
 // NOTE: Lifetd from the maven-project-info-plugin
@@ -40,38 +38,46 @@ import org.apache.maven.artifact.versioning.VersionRange;
  * @version $Rev$ $Date$
  */
 public class DependencyResolutionListener
-    implements ResolutionListener
+    extends ResolutionListenerAdapter
 {
+    private DependencyTree tree = new DependencyTree();
+
+    private int currentDepth = 0;
+
     private Stack parents = new Stack();
 
     private Map artifacts = new HashMap();
 
-    private Node rootNode;
-
-    private int currentDepth = 0;
-
-    public void testArtifact(Artifact artifact) {
-        // intentionally blank
+    public DependencyTree getDependencyTree() {
+        return tree;
     }
 
-    public void startProcessChildren(Artifact artifact) {
+    public Collection getArtifacts() {
+        return artifacts.values();
+    }
+    
+    //
+    // ResolutionListener
+    //
+
+    public void startProcessChildren(final Artifact artifact) {
         Node node = (Node) artifacts.get(artifact.getDependencyConflictId());
 
         node.depth = currentDepth++;
         if (parents.isEmpty()) {
-            rootNode = node;
+            tree.rootNode = node;
         }
 
         parents.push(node);
     }
 
-    public void endProcessChildren(Artifact artifact) {
-        Node check = (Node) parents.pop();
-        assert artifact.equals(check.artifact);
+    public void endProcessChildren(final Artifact artifact) {
+        Node node = (Node) parents.pop();
+        assert artifact.equals(node.artifact);
         currentDepth--;
     }
 
-    public void omitForNearer(Artifact omitted, Artifact kept) {
+    public void omitForNearer(final Artifact omitted, final Artifact kept) {
         assert omitted.getDependencyConflictId().equals(kept.getDependencyConflictId());
 
         Node prev = (Node) artifacts.get(omitted.getDependencyConflictId());
@@ -85,11 +91,11 @@ public class DependencyResolutionListener
         includeArtifact(kept);
     }
 
-    public void omitForCycle(Artifact artifact) {
+    public void omitForCycle(final Artifact artifact) {
         // intentionally blank
     }
 
-    public void includeArtifact(Artifact artifact) {
+    public void includeArtifact(final Artifact artifact) {
         if (artifacts.containsKey(artifact.getDependencyConflictId())) {
             Node prev = (Node) artifacts.get(artifact.getDependencyConflictId());
             if (prev.parent != null) {
@@ -108,13 +114,12 @@ public class DependencyResolutionListener
         artifacts.put(artifact.getDependencyConflictId(), node);
     }
 
-    public void updateScope(Artifact artifact, String scope) {
+    public void updateScope(final Artifact artifact, final String scope) {
         Node node = (Node) artifacts.get(artifact.getDependencyConflictId());
-
         node.artifact.setScope(scope);
     }
 
-    public void manageArtifact(Artifact artifact, Artifact replacement) {
+    public void manageArtifact(final Artifact artifact, final Artifact replacement) {
         Node node = (Node) artifacts.get(artifact.getDependencyConflictId());
 
         if (node != null) {
@@ -125,48 +130,5 @@ public class DependencyResolutionListener
                 node.artifact.setScope(replacement.getScope());
             }
         }
-    }
-
-    public void updateScopeCurrentPom(Artifact artifact, String key) {
-        // intentionally blank
-    }
-
-    public void selectVersionFromRange(Artifact artifact) {
-        // intentionally blank
-    }
-
-    public void restrictRange(Artifact artifact, Artifact artifact1, VersionRange versionRange) {
-        // intentionally blank
-    }
-
-    public Collection getArtifacts() {
-        return artifacts.values();
-    }
-
-    public static class Node
-    {
-        private Node parent;
-
-        private List children = new ArrayList();
-
-        private Artifact artifact;
-
-        private int depth;
-
-        public List getChildren() {
-            return children;
-        }
-
-        public Artifact getArtifact() {
-            return artifact;
-        }
-
-        public int getDepth() {
-            return depth;
-        }
-    }
-
-    public Node getRootNode() {
-        return rootNode;
     }
 }

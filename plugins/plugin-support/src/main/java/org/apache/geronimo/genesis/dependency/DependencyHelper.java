@@ -21,6 +21,8 @@ package org.apache.geronimo.genesis.dependency;
 
 import java.util.Map;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
 
 import org.apache.maven.artifact.metadata.ArtifactMetadataSource;
 import org.apache.maven.artifact.resolver.ArtifactCollector;
@@ -29,9 +31,14 @@ import org.apache.maven.artifact.resolver.ArtifactResolutionException;
 import org.apache.maven.artifact.repository.ArtifactRepository;
 import org.apache.maven.artifact.repository.ArtifactRepositoryFactory;
 import org.apache.maven.artifact.factory.ArtifactFactory;
+import org.apache.maven.artifact.versioning.VersionRange;
+import org.apache.maven.artifact.versioning.InvalidVersionSpecificationException;
+import org.apache.maven.artifact.Artifact;
 import org.apache.maven.project.MavenProject;
 import org.apache.maven.project.ProjectBuildingException;
 import org.apache.maven.project.artifact.InvalidDependencyVersionException;
+import org.apache.maven.model.DependencyManagement;
+import org.apache.maven.model.Dependency;
 
 import org.codehaus.plexus.PlexusContainer;
 import org.codehaus.plexus.PlexusConstants;
@@ -59,28 +66,29 @@ public class DependencyHelper
 
     private PlexusContainer container;
 
+    private ArtifactRepository repository;
+
     //
     // TODO: Figure out how to get ${localRepository} injected so we don't need it passed in.
     //
 
-    /**
-     * ???
-     *
-     * @param project       The maven project
-     * @param repository    The local maven repository
-     * @return
-     * 
-     * @throws ProjectBuildingException
-     * @throws ArtifactResolutionException
-     * @throws InvalidDependencyVersionException
-     */
-    public DependencyResolutionListener resolveProject(final MavenProject project, final ArtifactRepository repository)
-        throws ProjectBuildingException, ArtifactResolutionException, InvalidDependencyVersionException
+    public void setArtifactRepository(final ArtifactRepository repository) {
+        this.repository = repository;
+    }
+
+    private ArtifactRepository getArtifactRepository() {
+        if (repository == null) {
+            throw new IllegalStateException("Not initialized; missing ArtifactRepository");
+        }
+        return repository;
+    }
+
+    public DependencyTree getDependencies(final MavenProject project)
+        throws ProjectBuildingException, InvalidDependencyVersionException, ArtifactResolutionException
     {
         assert project != null;
-        assert repository != null;
-        
-        Map managedVersions = Dependencies.getManagedVersionMap(project, artifactFactory);
+
+        Map managedVersions = getManagedVersionMap(project, artifactFactory);
         DependencyResolutionListener listener = new DependencyResolutionListener();
 
         if (project.getDependencyArtifacts() == null) {
@@ -91,13 +99,52 @@ public class DependencyHelper
                 project.getDependencyArtifacts(),
                 project.getArtifact(),
                 managedVersions,
-                repository,
+                getArtifactRepository(),
                 project.getRemoteArtifactRepositories(),
                 artifactMetadataSource,
                 null,
                 Collections.singletonList(listener));
+        
+        return listener.getDependencyTree();
+    }
 
-        return listener;
+    public static Map getManagedVersionMap(final MavenProject project, final ArtifactFactory factory) throws ProjectBuildingException {
+        assert project != null;
+        assert factory != null;
+
+        DependencyManagement dependencyManagement = project.getDependencyManagement();
+        Map managedVersionMap;
+
+        if (dependencyManagement != null && dependencyManagement.getDependencies() != null) {
+            managedVersionMap = new HashMap();
+            Iterator iter = dependencyManagement.getDependencies().iterator();
+
+            while (iter.hasNext()) {
+                Dependency d = (Dependency) iter.next();
+
+                try {
+                    VersionRange versionRange = VersionRange.createFromVersionSpec(d.getVersion());
+                    Artifact artifact = factory.createDependencyArtifact(
+                            d.getGroupId(),
+                            d.getArtifactId(),
+                            versionRange,
+                            d.getType(),
+                            d.getClassifier(),
+                            d.getScope());
+                    managedVersionMap.put(d.getManagementKey(), artifact);
+                }
+                catch (InvalidVersionSpecificationException e) {
+                    throw new ProjectBuildingException(project.getId(),
+                            "Unable to parse version '" + d.getVersion() +
+                            "' for dependency '" + d.getManagementKey() + "': " + e.getMessage(), e);
+                }
+            }
+        }
+        else {
+            managedVersionMap = Collections.EMPTY_MAP;
+        }
+
+        return managedVersionMap;
     }
 
     //

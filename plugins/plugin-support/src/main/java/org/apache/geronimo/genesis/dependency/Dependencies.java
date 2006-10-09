@@ -20,7 +20,6 @@
 package org.apache.geronimo.genesis.dependency;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -28,15 +27,10 @@ import java.util.Map;
 
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.artifact.ArtifactUtils;
-import org.apache.maven.artifact.factory.ArtifactFactory;
-import org.apache.maven.artifact.versioning.InvalidVersionSpecificationException;
-import org.apache.maven.artifact.versioning.VersionRange;
-import org.apache.maven.model.Dependency;
-import org.apache.maven.model.DependencyManagement;
-import org.apache.maven.project.MavenProject;
-import org.apache.maven.project.ProjectBuildingException;
 
-import org.apache.geronimo.genesis.dependency.DependencyResolutionListener;
+import org.apache.maven.project.MavenProject;
+
+import org.apache.geronimo.genesis.dependency.DependencyTree.Node;
 
 //
 // NOTE: Lifetd from the maven-project-info-plugin
@@ -53,66 +47,39 @@ public class Dependencies
 
     private DependencyResolutionListener resolvedDependencies;
 
-    public Dependencies(MavenProject project, DependencyResolutionListener listener) {
-        this.projectDependencies = listener.getRootNode().getChildren();
+    public Dependencies(final MavenProject project, final DependencyResolutionListener listener) {
+        assert project != null;
+        assert listener != null;
+
+        this.projectDependencies = listener.getDependencyTree().getRootNode().getChildren();
         this.resolvedDependencies = listener;
 
         //
         // Workaround to ensure proper File objects in the Artifacts from the DependencyResolutionListener
         //
         Map projectMap = new HashMap();
-        Iterator it = project.getArtifacts().iterator();
-        while (it.hasNext()) {
-            Artifact artifact = (Artifact) it.next();
+        Iterator iter = project.getArtifacts().iterator();
+
+        while (iter.hasNext()) {
+            Artifact artifact = (Artifact) iter.next();
             projectMap.put(ArtifactUtils.versionlessKey(artifact), artifact);
         }
 
-        mapArtifactFiles(listener.getRootNode(), projectMap);
+        mapArtifactFiles(listener.getDependencyTree().getRootNode(), projectMap);
     }
 
-    public static Map getManagedVersionMap(MavenProject project, ArtifactFactory factory) throws ProjectBuildingException {
-        DependencyManagement dependencyManagement = project.getDependencyManagement();
-        Map managedVersionMap;
+    private void mapArtifactFiles(final Node node, final Map projectMap) {
+        assert node != null;
+        assert projectMap != null;
 
-        if (dependencyManagement != null && dependencyManagement.getDependencies() != null) {
-            managedVersionMap = new HashMap();
-            for (Iterator i = dependencyManagement.getDependencies().iterator(); i.hasNext();) {
-                Dependency d = (Dependency) i.next();
-
-                try {
-                    VersionRange versionRange = VersionRange.createFromVersionSpec(d.getVersion());
-                    Artifact artifact = factory.createDependencyArtifact(
-                            d.getGroupId(),
-                            d.getArtifactId(),
-                            versionRange,
-                            d.getType(),
-                            d.getClassifier(),
-                            d.getScope());
-                    managedVersionMap.put(d.getManagementKey(), artifact);
-                }
-                catch (InvalidVersionSpecificationException e) {
-                    throw new ProjectBuildingException(project.getId(),
-                            "Unable to parse version '" + d.getVersion() +
-                            "' for dependency '" + d.getManagementKey() + "': " + e.getMessage(), e);
-                }
-            }
-        }
-        else {
-            managedVersionMap = Collections.EMPTY_MAP;
-        }
-
-        return managedVersionMap;
-    }
-
-    private void mapArtifactFiles(DependencyResolutionListener.Node node, Map projectMap) {
         List childs = node.getChildren();
         if ((childs == null) || childs.isEmpty()) {
             return;
         }
 
-        Iterator it = childs.iterator();
-        while (it.hasNext()) {
-            DependencyResolutionListener.Node anode = (DependencyResolutionListener.Node) it.next();
+        Iterator iter = childs.iterator();
+        while (iter.hasNext()) {
+            Node anode = (Node) iter.next();
             String key = ArtifactUtils.versionlessKey(anode.getArtifact());
             Artifact projartifact = (Artifact) projectMap.get(key);
             if (projartifact != null) {
@@ -140,8 +107,8 @@ public class Dependencies
     public List getAllDependencies() {
         List deps = new ArrayList();
 
-        for (Iterator it = resolvedDependencies.getArtifacts().iterator(); it.hasNext();) {
-            DependencyResolutionListener.Node node = (DependencyResolutionListener.Node) it.next();
+        for (Iterator iter = resolvedDependencies.getArtifacts().iterator(); iter.hasNext();) {
+            Node node = (Node) iter.next();
             Artifact artifact = node.getArtifact();
             deps.add(artifact);
         }
@@ -163,7 +130,7 @@ public class Dependencies
         return dependenciesByScope;
     }
 
-    public DependencyResolutionListener.Node getResolvedRoot() {
-        return resolvedDependencies.getRootNode();
+    public Node getResolvedRoot() {
+        return resolvedDependencies.getDependencyTree().getRootNode();
     }
 }
