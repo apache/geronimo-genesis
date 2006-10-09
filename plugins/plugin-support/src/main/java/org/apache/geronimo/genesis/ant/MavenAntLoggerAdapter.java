@@ -27,16 +27,16 @@ import org.apache.tools.ant.DefaultLogger;
 import org.apache.maven.plugin.logging.Log;
 
 /**
- * Support for Ant-based Mojos.
+ * Adapts Ant logging to Maven Logging.
  *
  * @version $Rev$ $Date$
  */
-public class AntLoggerAdapter
-    extends DefaultLogger
+public class MavenAntLoggerAdapter
+        extends DefaultLogger
 {
     protected Log log;
     
-    public AntLoggerAdapter(final Log log) {
+    public MavenAntLoggerAdapter(final Log log) {
         super();
         
         assert log != null;

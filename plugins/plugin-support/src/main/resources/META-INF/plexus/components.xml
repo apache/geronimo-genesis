@@ -45,6 +45,11 @@
             </requirements>
         </component>
 
+        <component>
+            <role>org.apache.geronimo.genesis.ant.AntHelper</role>
+            <implementation>org.apache.geronimo.genesis.ant.AntHelper</implementation>
+        </component>
+
     </components>
 </component-set>
 

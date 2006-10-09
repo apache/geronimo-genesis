@@ -20,65 +20,89 @@
 package org.apache.geronimo.genesis.ant;
 
 import java.io.File;
-
 import java.util.Map;
 import java.util.Iterator;
-
-import org.apache.maven.plugin.MojoExecutionException;
-import org.apache.maven.plugin.MojoFailureException;
 
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.Task;
 import org.apache.tools.ant.BuildException;
-import org.apache.tools.ant.types.FileSet;
 import org.apache.tools.ant.types.Environment;
+import org.apache.tools.ant.types.FileSet;
+import org.apache.tools.ant.taskdefs.Property;
 import org.apache.tools.ant.taskdefs.Java;
 import org.apache.tools.ant.taskdefs.Mkdir;
-import org.apache.tools.ant.taskdefs.Property;
-
-import org.apache.geronimo.genesis.ant.MavenAntLoggerAdapter;
-import org.apache.geronimo.genesis.MojoSupport;
+import org.apache.tools.ant.taskdefs.Echo;
+import org.apache.maven.project.MavenProject;
+import org.apache.commons.logging.LogFactory;
+import org.apache.commons.logging.Log;
 
 /**
  * Support for Ant-based Mojos.
  *
  * @version $Rev$ $Date$
  */
-public abstract class AntMojoSupport
-    extends MojoSupport
+public class AntHelper
 {
-    protected Project ant;
+    private static final Log log = LogFactory.getLog(AntHelper.class);
 
-    protected void init() throws MojoExecutionException, MojoFailureException {
-        super.init();
+    private MavenProject project;
 
-        ant = new Project();
-        ant.setBaseDir(getProject().getBasedir());
-        
-        initAntLogger(ant);
+    private Project ant;
 
-        ant.init();
+    public Project getAnt() {
+        if (ant == null) {
+            ant = new Project();
+            ant.setBaseDir(getProject().getBasedir());
 
-        // Inherit properties from Maven
-        inheritProperties();
+            initAntLogger(ant);
+
+            ant.init();
+        }
+
+        return ant;
     }
-    
+
+    public void setProject(final MavenProject project) {
+        assert project != null;
+
+        this.project = project;
+    }
+
+    private MavenProject getProject() {
+        if (project == null) {
+            throw new IllegalStateException("Not initialized; missing MavenProject");
+        }
+        return project;
+    }
+
+    public FileSet createFileSet() {
+        FileSet set = new FileSet();
+        set.setProject(getAnt());
+        return set;
+    }
+
+    public Task createTask(final String name) throws BuildException {
+        assert name != null;
+
+        return getAnt().createTask(name);
+    }
+
     protected void initAntLogger(final Project ant) {
-        MavenAntLoggerAdapter antLogger = new MavenAntLoggerAdapter(log);
+        CommonsLoggingAntLoggerAdapter antLogger = new CommonsLoggingAntLoggerAdapter(log);
         antLogger.setEmacsMode(true);
         antLogger.setOutputPrintStream(System.out);
         antLogger.setErrorPrintStream(System.err);
-        
+
         if (log.isDebugEnabled()) {
             antLogger.setMessageOutputLevel(Project.MSG_VERBOSE);
         }
         else {
             antLogger.setMessageOutputLevel(Project.MSG_INFO);
         }
-        
+
         ant.addBuildListener(antLogger);
     }
-    
+
     protected void setProperty(final String name, Object value) {
         assert name != null;
         assert value != null;
@@ -95,29 +119,7 @@ public abstract class AntMojoSupport
         prop.execute();
     }
 
-    protected void setSystemProperty(final Java java, final String name, final String value) {
-        assert java != null;
-        assert name != null;
-        assert value != null;
-
-        Environment.Variable var = new Environment.Variable();
-        var.setKey(name);
-        var.setValue(value);
-        java.addSysproperty(var);
-    }
-
-    protected void setSystemProperty(final Java java, final String name, final File value) {
-        assert java != null;
-        assert name != null;
-        assert value != null;
-
-        Environment.Variable var = new Environment.Variable();
-        var.setKey(name);
-        var.setFile(value);
-        java.addSysproperty(var);
-    }
-    
-    protected void inheritProperties() {
+    public void inheritProperties() {
         // Propagate properties
         Map props = getProject().getProperties();
         Iterator iter = props.keySet().iterator();
@@ -130,24 +132,42 @@ public abstract class AntMojoSupport
         // Hardcode a few
         setProperty("pom.basedir", getProject().getBasedir());
     }
-
-    protected FileSet createFileSet() {
-        FileSet set = new FileSet();
-        set.setProject(ant);
-        return set;
-    }
-
-    protected Task createTask(final String name) throws BuildException {
+    
+    public void setSystemProperty(final Java java, final String name, final String value) {
+        assert java != null;
         assert name != null;
+        assert value != null;
 
-        return ant.createTask(name);
+        Environment.Variable var = new Environment.Variable();
+        var.setKey(name);
+        var.setValue(value);
+        java.addSysproperty(var);
     }
 
-    protected void mkdir(final File dir) {
+    public void setSystemProperty(final Java java, final String name, final File value) {
+        assert java != null;
+        assert name != null;
+        assert value != null;
+
+        Environment.Variable var = new Environment.Variable();
+        var.setKey(name);
+        var.setFile(value);
+        java.addSysproperty(var);
+    }
+
+    public void mkdir(final File dir) {
         assert dir != null;
 
         Mkdir mkdir = (Mkdir)createTask("mkdir");
         mkdir.setDir(dir);
         mkdir.execute();
+    }
+
+    public void echo(final String msg) {
+        assert msg != null;
+        
+        Echo echo = (Echo)createTask("echo");
+        echo.setMessage(msg);
+        echo.execute();
     }
 }
