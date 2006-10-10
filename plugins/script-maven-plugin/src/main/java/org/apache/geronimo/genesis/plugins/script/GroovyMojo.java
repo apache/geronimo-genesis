@@ -155,7 +155,7 @@ public class GroovyMojo
         
         GroovyObject groovyObject = (GroovyObject)groovyClass.newInstance();
         
-        // Set some properties
+        groovyObject.setProperty("log", log);
         groovyObject.setProperty("project", project);
         groovyObject.setProperty("properties", resolveProperties(project.getProperties())); // Force all properties to resolve
 
