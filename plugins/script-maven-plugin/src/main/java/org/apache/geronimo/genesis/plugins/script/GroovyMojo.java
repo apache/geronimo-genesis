@@ -29,6 +29,10 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Properties;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.Iterator;
 
 import org.apache.maven.artifact.repository.ArtifactRepository;
 import org.apache.maven.artifact.Artifact;
@@ -153,7 +157,25 @@ public class GroovyMojo
         
         // Set some properties
         groovyObject.setProperty("project", project);
-        
+        groovyObject.setProperty("properties", resolveProperties(project.getProperties())); // Force all properties to resolve
+
         groovyObject.invokeMethod("run", new Object[0]);
+    }
+
+    private Properties resolveProperties(final Properties source) {
+        Properties props = new Properties();
+
+        Map vars = new HashMap();
+        vars.put("project", project);
+
+        StringValueParser parser = new StringValueParser(vars);
+
+        Iterator iter = source.keySet().iterator();
+        while (iter.hasNext()) {
+            String name = (String)iter.next();
+            props.put(name, parser.parse(source.getProperty(name)));
+        }
+
+        return props;
     }
 }
