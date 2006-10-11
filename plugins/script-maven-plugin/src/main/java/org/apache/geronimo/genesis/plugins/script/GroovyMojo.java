@@ -190,9 +190,10 @@ public class GroovyMojo
             if (debug) {
                 log.debug("Loading source from: " + url);
             }
-            
+
+            String fileName = new File(url.getFile()).getName();
             InputStream input = url.openConnection().getInputStream();
-            groovyClass = loader.parseClass(input);
+            groovyClass = loader.parseClass(input, fileName);
             input.close();
         }
         
@@ -228,7 +229,7 @@ public class GroovyMojo
 
         // Execute the script
         if (debug) {
-            log.debug("Invoking object.run() on: " + groovyObject);
+            log.debug("Invoking run() on: " + groovyObject);
         }
         groovyObject.invokeMethod("run", new Object[0]);
     }
