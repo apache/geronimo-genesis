@@ -41,6 +41,8 @@ import org.apache.maven.project.MavenProject;
 
 import groovy.lang.GroovyClassLoader;
 import groovy.lang.GroovyObject;
+import groovy.lang.GroovyRuntimeException;
+import groovy.lang.MissingPropertyException;
 
 /**
  * Executes a <a href="http://groovy.codehaus.org">Groovy</a> script.
@@ -137,6 +139,10 @@ public class GroovyMojo
             }
         }
 
+        //
+        // TODO: Investigate using GroovyScript instead of this...
+        //
+        
         URLClassLoader cl = new URLClassLoader(_urls, parent);
         GroovyClassLoader loader = new GroovyClassLoader(cl);
         
@@ -154,17 +160,52 @@ public class GroovyMojo
         }
         
         GroovyObject groovyObject = (GroovyObject)groovyClass.newInstance();
-        
-        groovyObject.setProperty("log", log);
-        groovyObject.setProperty("project", project);
-        groovyObject.setProperty("properties", resolveProperties(project.getProperties())); // Force all properties to resolve
 
-        groovyObject.invokeMethod("run", new Object[0]);
+        // Put int a helper to the script object
+        groovyObject.setProperty("script", groovyObject);
+
+        // Expose logging
+        groovyObject.setProperty("log", log);
+
+        // Create a delegate to allow getProperites() to be fully resolved
+        MavenProject delegate = new MavenProject(project) {
+            public Properties resolvedProperties;
+
+            public Properties getProperties() {
+                if (resolvedProperties == null) {
+                    resolvedProperties = resolveProperties(project.getProperties());
+                }
+                return resolvedProperties;
+            }
+        };
+        groovyObject.setProperty("project", delegate);
+        groovyObject.setProperty("pom", delegate);
+
+        try {
+            groovyObject.invokeMethod("run", new Object[0]);
+        }
+        catch (MissingPropertyException e) {
+            throw e;
+        }
+        catch (GroovyRuntimeException e) {
+            //
+            // TODO: Log the context of the script (line num, etc) from the ASTNode
+            //
+            
+            // Unroll groovy runtime exceptions, but log the real details too
+            if (log.isDebugEnabled()) {
+                log.debug(e.getMessage(), e);
+            }
+
+            Throwable cause = e.getCause();
+            throw new MojoExecutionException(cause.getMessage(), cause);
+        }
     }
 
     private Properties resolveProperties(final Properties source) {
         Properties props = new Properties();
 
+        // Setup the variables which should be used for resolution
         Map vars = new HashMap();
         vars.put("project", project);
 
