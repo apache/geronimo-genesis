@@ -37,8 +37,8 @@ import groovy.lang.GroovyResourceLoader;
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.artifact.DependencyResolutionRequiredException;
 import org.apache.maven.artifact.repository.ArtifactRepository;
-import org.apache.maven.project.MavenProject;
 import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.project.MavenProject;
 
 import org.apache.geronimo.genesis.MojoSupport;
 import org.apache.geronimo.genesis.util.ArtifactItem;
@@ -265,6 +265,8 @@ public class GroovyMojo
     }
     
     private Properties resolveProperties(final Properties source) {
+        assert source != null;
+
         Properties props = new Properties(System.getProperties());
         
         // Setup the variables which should be used for resolution

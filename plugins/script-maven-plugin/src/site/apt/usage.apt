@@ -120,3 +120,80 @@ Basic Usage
     </executions>
 </plugin>
 +----------+
+
+* Using Java Classes
+
+ Scripts can use Java classes.  To include custom classes to be available to the script define
+ a <<<classpath>>> which contains additional artifacts to included in the scripts classloader.
+
+ This is the prefered mechanism to extend a scripts classpath instead of adding dependencies to
+ the plugin, which may cause problems if the classpath needs to be different on more than
+ one plugin execution or when it differs between usage in more than one module in a multi-module
+ build.
+
+ Artifact definitions will pick up missing details from the pom's <<<dependencyManagement>>> section.
+
++----------+
+<plugin>
+    <groupId>org.apache.geronimo.genesis.plugins</groupId>
+    <artifactId>script-maven-plugin</artifactId>
+    <executions>
+        <execution>
+            <phase>generate-resources</phase>
+            <goals>
+                <goal>groovy</goal>
+            </goals>
+            <configuration>
+                <classpath>
+                    <element>
+                        <groupId>commons-lang</groupId>
+                        <artifactId>commons-lang</groupId>
+                    </element>
+                </classpath>
+                <source>
+                    <body>
+                        import org.apache.commons.lang.SystemUtils
+                        def crappyOS = SystemUtils.IS_OS_WINDOWS
+                        if (crappyOS) {
+                            println("Go buy a Mac!")
+                        }
+                    </body>
+                </source>
+            </configuration>
+        </execution>
+    </executions>
+</plugin>
++----------+
+
+* Using Groovy Classes
+
+ By setting the <<<scriptpath>>> you can load additional Groovy classes.
+
+ For example if you have a class named <<<Helper>>> defined in a file named
+ <<<${pom.basedir}/src/main/script/Helper.groovy>>> your scripts can use that class:
+
++----------+
+<plugin>
+    <groupId>org.apache.geronimo.genesis.plugins</groupId>
+    <artifactId>script-maven-plugin</artifactId>
+    <executions>
+        <execution>
+            <phase>generate-resources</phase>
+            <goals>
+                <goal>groovy</goal>
+            </goals>
+            <configuration>
+                <scriptpath>
+                    <element>${pom.basedir}/src/main/script</element>
+                </scriptpath>
+                <source>
+                    <body>
+                        import Helper
+                        Helper.callSomeStatic()
+                    </body>
+                </source>
+            </configuration>
+        </execution>
+    </executions>
+</plugin>
++----------+
