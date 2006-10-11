@@ -48,6 +48,7 @@ import org.apache.geronimo.genesis.util.ExpressionParser;
  * Executes a <a href="http://groovy.codehaus.org">Groovy</a> script.
  *
  * @goal groovy
+ * @configurator override
  * @requiresDependencyResolution
  *
  * @version $Rev$ $Date$
@@ -76,6 +77,15 @@ public class GroovyMojo
      * @parameter expression
      */
     private File[] scriptpath = null;
+
+    //
+    // TODO: Find a better name for this...
+    //
+    
+    /**
+     * @parameter
+     */
+    private DelayedConfiguration custom = null;
 
     //
     // Maven components
@@ -116,12 +126,12 @@ public class GroovyMojo
 
         ClassLoader parent = getClass().getClassLoader();
         URL[] urls = getClasspath();
+        URLClassLoader cl = new URLClassLoader(urls, parent);
 
         //
         // TODO: Investigate using GroovyScript instead of this...
         //
 
-        URLClassLoader cl = new URLClassLoader(urls, parent);
         GroovyClassLoader loader = new GroovyClassLoader(cl);
         loader.setResourceLoader(new GroovyResourceLoader()
         {
@@ -173,6 +183,13 @@ public class GroovyMojo
         }
         
         GroovyObject groovyObject = (GroovyObject)groovyClass.newInstance();
+
+        if (custom != null) {
+            //
+            // TODO: Perform custom configuration processing
+            //
+            log.info("Applying delayed configuration: " + custom);
+        }
 
         // Put int a helper to the script object
         groovyObject.setProperty("script", groovyObject);
