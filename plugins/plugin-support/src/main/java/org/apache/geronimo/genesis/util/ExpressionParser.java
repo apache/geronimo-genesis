@@ -17,7 +17,7 @@
  * under the License.
  */
 
-package org.apache.geronimo.genesis.plugins.script;
+package org.apache.geronimo.genesis.util;
 
 import java.util.Map;
 
@@ -30,17 +30,17 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * Handles pasring expressions from a string.
+ * Parses expressions using <a href="http://jakarta.apache.org/commons/jexl/">Commons Jexl</a>.
  *
  * @version $Rev$ $Date$
  */
-public class StringValueParser
+public class ExpressionParser
 {
-    private static final Log log = LogFactory.getLog(StringValueParser.class);
+    private static final Log log = LogFactory.getLog(ExpressionParser.class);
 
     protected JexlContext context;
 
-    public StringValueParser(final Map vars) {
+    public ExpressionParser(final Map vars) {
         if (vars == null) {
             throw new IllegalArgumentException("vars");
         }
@@ -53,7 +53,7 @@ public class StringValueParser
         }
     }
 
-    public StringValueParser() {
+    public ExpressionParser() {
         this(System.getProperties());
     }
 

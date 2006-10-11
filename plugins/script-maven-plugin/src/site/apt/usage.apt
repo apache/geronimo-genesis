@@ -25,11 +25,21 @@
 
 Basic Usage
 
-* Execute a Groovy Script
+ <<NOTE:>> This plugin includes the Ant runtime, so you can use the <<<AntBuilder>>>.
 
- It is easy to execute a Groocy script inline
+* Default Variables
+
+ By default a few variables are bound into the scripts environment:
  
- <<NOTE:>> This plugin includes the Ant runtime, so you can use the AntBuilder.
+  * <<<project>>> - The maven project, with properties pre-resolved
+
+  * <<<pom>>> - Alias for <<<project>>>
+
+  * <<<script>>> - The compiled script object
+
+  * <<<log>>> - The maven plugin logger
+
+* Execute an Inline Groovy Script
 
 +----------+
 <plugin>
@@ -42,23 +52,71 @@ Basic Usage
                 <goal>groovy</goal>
             </goals>
             <configuration>
-                <code>
-                    if (project.packaging != "pom") {
-                        def ant = new AntBuilder()
-                        
-                        def dir = "${project.basedir}/target/classes/META-INF"
-                        ant.mkdir(dir: dir)
-                        ant.copy(todir: dir) {
-                            fileset(dir: "${project.basedir}") {
-                                include(name: "LICENSE.txt")
-                                include(name: "NOTICE.txt")
+                <source>
+                    <body>
+                        if (project.packaging != "pom") {
+                            log.info("Copying some stuff...")
+
+                            def ant = new AntBuilder()
+                            
+                            def dir = "${project.basedir}/target/classes/META-INF"
+
+                            ant.mkdir(dir: dir)
+                            ant.copy(todir: dir) {
+                                fileset(dir: "${project.basedir}") {
+                                    include(name: "LICENSE.txt")
+                                    include(name: "NOTICE.txt")
+                                }
                             }
                         }
-                    }
-                </code>
+                    </body>
+                </source>
             </configuration>
         </execution>
     </executions>
 </plugin>
 +----------+
 
+* Execute a Local Groovy Script
+
++----------+
+<plugin>
+    <groupId>org.apache.geronimo.genesis.plugins</groupId>
+    <artifactId>script-maven-plugin</artifactId>
+    <executions>
+        <execution>
+            <phase>generate-resources</phase>
+            <goals>
+                <goal>groovy</goal>
+            </goals>
+            <configuration>
+                <source>
+                    <file>${pom.basedir}/src/main/script/myscript.groovy</file>
+                </source>
+            </configuration>
+        </execution>
+    </executions>
+</plugin>
++----------+
+
+* Execute a Remote Groovy Script
+
++----------+
+<plugin>
+    <groupId>org.apache.geronimo.genesis.plugins</groupId>
+    <artifactId>script-maven-plugin</artifactId>
+    <executions>
+        <execution>
+            <phase>generate-resources</phase>
+            <goals>
+                <goal>groovy</goal>
+            </goals>
+            <configuration>
+                <source>
+                    <url>http://mydomain.com/myscript.groovy</url>
+                </source>
+            </configuration>
+        </execution>
+    </executions>
+</plugin>
++----------+

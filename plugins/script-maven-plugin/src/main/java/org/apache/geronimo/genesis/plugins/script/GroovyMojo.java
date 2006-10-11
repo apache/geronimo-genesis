@@ -21,6 +21,7 @@ package org.apache.geronimo.genesis.plugins.script;
 
 import org.apache.geronimo.genesis.MojoSupport;
 import org.apache.geronimo.genesis.util.ArtifactItem;
+import org.apache.geronimo.genesis.util.ExpressionParser;
 
 import java.io.File;
 import java.io.InputStream;
@@ -56,26 +57,12 @@ public class GroovyMojo
     extends MojoSupport
 {
     /**
-     * The project to create a build for.
+     * The source of the script to execute.
      *
-     * @parameter expression="${project}"
+     * @parameter
      * @required
      */
-    private MavenProject project = null;
-    
-    /**
-     * The code code of the script to execute.
-     *
-     * @parameter
-     */
-    private String code = null;
-    
-    /**
-     * The URL to use as the code of the script to execute.
-     *
-     * @parameter
-     */
-    private URL codeUrl = null;
+    private CodeSource source = null;
 
     /**
      * Additional artifacts to add to the scripts classpath.
@@ -85,12 +72,14 @@ public class GroovyMojo
     private ArtifactItem[] classpath = null;
 
     //
-    // MojoSupport Hooks
+    // Maven components
     //
-
-    protected MavenProject getProject() {
-        return project;
-    }
+    
+    /**
+     * @parameter expression="${project}"
+     * @required
+     */
+    private MavenProject project = null;
 
     /**
      * @parameter expression="${localRepository}"
@@ -99,6 +88,14 @@ public class GroovyMojo
      */
     protected ArtifactRepository artifactRepository = null;
 
+    //
+    // MojoSupport Hooks
+    //
+
+    protected MavenProject getProject() {
+        return project;
+    }
+    
     protected ArtifactRepository getArtifactRepository() {
         return artifactRepository;
     }
@@ -108,13 +105,8 @@ public class GroovyMojo
     //
     
     protected void doExecute() throws Exception {
-        if (code == null && codeUrl == null) {
-            throw new MojoExecutionException("Need to specify code or codeUrl");
-        }
-        else if (code != null && codeUrl != null) {
-            throw new MojoExecutionException("Can only specify code or codeUrl, not both");
-        }
-        
+        source.validate();
+
         ClassLoader parent = getClass().getClassLoader();
         List urls = new ArrayList();
 
@@ -148,13 +140,20 @@ public class GroovyMojo
         
         Class groovyClass;
         
-        if (code != null) {
-            groovyClass = loader.parseClass(code);
+        if (source.getBody() != null) {
+            groovyClass = loader.parseClass(source.getBody());
         }
         else {
-            log.debug("Loading source from: " + codeUrl);
+            URL url;
+            if (source.getFile() != null) {
+                url = source.getFile().toURL();
+            }
+            else {
+                url = source.getUrl();
+            }
+            log.debug("Loading source from: " + url);
             
-            InputStream input = codeUrl.openConnection().getInputStream();
+            InputStream input = url.openConnection().getInputStream();
             groovyClass = loader.parseClass(input);
             input.close();
         }
@@ -209,7 +208,7 @@ public class GroovyMojo
         Map vars = new HashMap();
         vars.put("project", project);
 
-        StringValueParser parser = new StringValueParser(vars);
+        ExpressionParser parser = new ExpressionParser(vars);
 
         Iterator iter = source.keySet().iterator();
         while (iter.hasNext()) {
