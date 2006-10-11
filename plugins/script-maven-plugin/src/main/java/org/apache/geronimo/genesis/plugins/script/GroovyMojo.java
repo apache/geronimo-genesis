@@ -35,8 +35,10 @@ import groovy.lang.GroovyClassLoader;
 import groovy.lang.GroovyObject;
 import groovy.lang.GroovyResourceLoader;
 import org.apache.maven.artifact.Artifact;
+import org.apache.maven.artifact.DependencyResolutionRequiredException;
 import org.apache.maven.artifact.repository.ArtifactRepository;
 import org.apache.maven.project.MavenProject;
+import org.apache.maven.plugin.MojoExecutionException;
 
 import org.apache.geronimo.genesis.MojoSupport;
 import org.apache.geronimo.genesis.util.ArtifactItem;
@@ -68,14 +70,12 @@ public class GroovyMojo
      */
     private ArtifactItem[] classpath = null;
 
-    //
-    // TODO: Make this a scriptpath
-    //
-    
     /**
-     * @parameter expression="${basedir}/src/main/script"
+     * Path to search for imported scripts.
+     *
+     * @parameter expression
      */
-    private File scriptDirectory = null;
+    private File[] scriptpath = null;
 
     //
     // Maven components
@@ -109,39 +109,18 @@ public class GroovyMojo
     //
     // Mojo
     //
-    
+
     protected void doExecute() throws Exception {
         source.validate();
 
         ClassLoader parent = getClass().getClassLoader();
-        List urls = new ArrayList();
-
-        // Add the plugins dependencies
-        List classpathFiles = project.getCompileClasspathElements();
-        for (int i = 0; i < classpathFiles.size(); ++i) {
-            urls.add(new File((String)classpathFiles.get(i)).toURL());
-        }
-
-        // Add custom dependencies
-        if (classpath != null) {
-            for (int i=0; i < classpath.length; i++) {
-                Artifact artifact = getArtifact(classpath[i]);
-                urls.add(artifact.getFile().toURL());
-            }
-        }
-
-        URL[] _urls = (URL[])urls.toArray(new URL[urls.size()]);
-        if (log.isDebugEnabled()) {
-            for (int i=0; i < _urls.length; i++) {
-                log.debug("URL[" + i + "]: " + _urls[i]);
-            }
-        }
+        URL[] urls = getClasspath();
 
         //
         // TODO: Investigate using GroovyScript instead of this...
         //
 
-        URLClassLoader cl = new URLClassLoader(_urls, parent);
+        URLClassLoader cl = new URLClassLoader(urls, parent);
         GroovyClassLoader loader = new GroovyClassLoader(cl);
         loader.setResourceLoader(new GroovyResourceLoader()
         {
@@ -153,13 +132,22 @@ public class GroovyMojo
                 }
                 resource = resource + ".groovy";
 
-                File file = new File(scriptDirectory, resource);
-                if (file.exists()) {
-                    return file.toURL();
+                if (scriptpath != null) {
+                    for (int i=0; i<scriptpath.length; i++) {
+                        if (scriptpath[i] == null) {
+                            // Can not throw MojoExecutionException, so just spit out a warning
+                            log.warn("Ignoring null element in scriptpath");
+                        }
+                        else {
+                            File file = new File(scriptpath[i], resource);
+                            if (file.exists()) {
+                                return file.toURL();
+                            }
+                        }
+                    }
                 }
-                else {
-                    return null;
-                }
+
+                return null;
             }
         });
         
@@ -206,9 +194,37 @@ public class GroovyMojo
         groovyObject.setProperty("project", delegate);
         groovyObject.setProperty("pom", delegate);
 
+        // Execute the script
         groovyObject.invokeMethod("run", new Object[0]);
     }
 
+    private URL[] getClasspath() throws DependencyResolutionRequiredException, MalformedURLException, MojoExecutionException {
+        List list = new ArrayList();
+
+        // Add the plugins dependencies
+        List classpathFiles = project.getCompileClasspathElements();
+        for (int i = 0; i < classpathFiles.size(); ++i) {
+            list.add(new File((String)classpathFiles.get(i)).toURL());
+        }
+
+        // Add custom dependencies
+        if (classpath != null) {
+            for (int i=0; i < classpath.length; i++) {
+                Artifact artifact = getArtifact(classpath[i]);
+                list.add(artifact.getFile().toURL());
+            }
+        }
+
+        URL[] urls = (URL[])list.toArray(new URL[list.size()]);
+        if (log.isDebugEnabled()) {
+            for (int i=0; i < urls.length; i++) {
+                log.debug("URL[" + i + "]: " + urls[i]);
+            }
+        }
+
+        return urls;
+    }
+    
     private Properties resolveProperties(final Properties source) {
         Properties props = new Properties(System.getProperties());
         
