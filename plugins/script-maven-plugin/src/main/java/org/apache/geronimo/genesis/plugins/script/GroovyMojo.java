@@ -19,31 +19,28 @@
 
 package org.apache.geronimo.genesis.plugins.script;
 
-import org.apache.geronimo.genesis.MojoSupport;
-import org.apache.geronimo.genesis.util.ArtifactItem;
-import org.apache.geronimo.genesis.util.ExpressionParser;
-
 import java.io.File;
 import java.io.InputStream;
-
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.util.List;
 import java.util.ArrayList;
-import java.util.Properties;
-import java.util.Map;
 import java.util.HashMap;
 import java.util.Iterator;
-
-import org.apache.maven.artifact.repository.ArtifactRepository;
-import org.apache.maven.artifact.Artifact;
-import org.apache.maven.plugin.MojoExecutionException;
-import org.apache.maven.project.MavenProject;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
 
 import groovy.lang.GroovyClassLoader;
 import groovy.lang.GroovyObject;
-import groovy.lang.GroovyRuntimeException;
-import groovy.lang.MissingPropertyException;
+import groovy.lang.GroovyResourceLoader;
+import org.apache.maven.artifact.Artifact;
+import org.apache.maven.artifact.repository.ArtifactRepository;
+import org.apache.maven.project.MavenProject;
+
+import org.apache.geronimo.genesis.MojoSupport;
+import org.apache.geronimo.genesis.util.ArtifactItem;
+import org.apache.geronimo.genesis.util.ExpressionParser;
 
 /**
  * Executes a <a href="http://groovy.codehaus.org">Groovy</a> script.
@@ -72,6 +69,15 @@ public class GroovyMojo
     private ArtifactItem[] classpath = null;
 
     //
+    // TODO: Make this a scriptpath
+    //
+    
+    /**
+     * @parameter expression="${basedir}/src/main/script"
+     */
+    private File scriptDirectory = null;
+
+    //
     // Maven components
     //
     
@@ -86,7 +92,7 @@ public class GroovyMojo
      * @readonly
      * @required
      */
-    protected ArtifactRepository artifactRepository = null;
+    private ArtifactRepository artifactRepository = null;
 
     //
     // MojoSupport Hooks
@@ -134,9 +140,28 @@ public class GroovyMojo
         //
         // TODO: Investigate using GroovyScript instead of this...
         //
-        
+
         URLClassLoader cl = new URLClassLoader(_urls, parent);
         GroovyClassLoader loader = new GroovyClassLoader(cl);
+        loader.setResourceLoader(new GroovyResourceLoader()
+        {
+            // Allow peer scripts to be loaded
+            public URL loadGroovySource(final String classname) throws MalformedURLException {
+                String resource = classname.replace('.', '/');
+                if (!resource.startsWith("/")) {
+                    resource = "/" + resource;
+                }
+                resource = resource + ".groovy";
+
+                File file = new File(scriptDirectory, resource);
+                if (file.exists()) {
+                    return file.toURL();
+                }
+                else {
+                    return null;
+                }
+            }
+        });
         
         Class groovyClass;
         
