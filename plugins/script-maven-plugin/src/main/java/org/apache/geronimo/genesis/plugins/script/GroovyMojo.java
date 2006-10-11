@@ -83,6 +83,7 @@ public class GroovyMojo
     
     /**
      * @parameter expression="${project}"
+     * @readonly
      * @required
      */
     private MavenProject project = null;
