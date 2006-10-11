@@ -177,33 +177,16 @@ public class GroovyMojo
                 return resolvedProperties;
             }
         };
+
         groovyObject.setProperty("project", delegate);
         groovyObject.setProperty("pom", delegate);
 
-        try {
-            groovyObject.invokeMethod("run", new Object[0]);
-        }
-        catch (MissingPropertyException e) {
-            throw e;
-        }
-        catch (GroovyRuntimeException e) {
-            //
-            // TODO: Log the context of the script (line num, etc) from the ASTNode
-            //
-            
-            // Unroll groovy runtime exceptions, but log the real details too
-            if (log.isDebugEnabled()) {
-                log.debug(e.getMessage(), e);
-            }
-
-            Throwable cause = e.getCause();
-            throw new MojoExecutionException(cause.getMessage(), cause);
-        }
+        groovyObject.invokeMethod("run", new Object[0]);
     }
 
     private Properties resolveProperties(final Properties source) {
         Properties props = new Properties(System.getProperties());
-
+        
         // Setup the variables which should be used for resolution
         Map vars = new HashMap();
         vars.put("project", project);
