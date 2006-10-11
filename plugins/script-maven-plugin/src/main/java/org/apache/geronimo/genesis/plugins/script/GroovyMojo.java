@@ -202,7 +202,7 @@ public class GroovyMojo
     }
 
     private Properties resolveProperties(final Properties source) {
-        Properties props = new Properties();
+        Properties props = new Properties(System.getProperties());
 
         // Setup the variables which should be used for resolution
         Map vars = new HashMap();
