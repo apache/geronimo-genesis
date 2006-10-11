@@ -122,11 +122,27 @@ public class GroovyMojo
     //
 
     protected void doExecute() throws Exception {
+        boolean debug = log.isDebugEnabled();
+
         source.validate();
 
         ClassLoader parent = getClass().getClassLoader();
         URL[] urls = getClasspath();
         URLClassLoader cl = new URLClassLoader(urls, parent);
+
+        // Validate and dump the scriptpath
+        if (scriptpath != null) {
+            log.debug("Scriptpath:");
+            for (int i=0; i < scriptpath.length; i++) {
+                if (scriptpath[i] == null) {
+                    throw new MojoExecutionException("Null element found in scriptpath at index: " + i);
+                }
+
+                if (debug) {
+                    log.debug("    " + scriptpath[i]);
+                }
+            }
+        }
 
         //
         // TODO: Investigate using GroovyScript instead of this...
@@ -145,15 +161,11 @@ public class GroovyMojo
 
                 if (scriptpath != null) {
                     for (int i=0; i<scriptpath.length; i++) {
-                        if (scriptpath[i] == null) {
-                            // Can not throw MojoExecutionException, so just spit out a warning
-                            log.warn("Ignoring null element in scriptpath");
-                        }
-                        else {
-                            File file = new File(scriptpath[i], resource);
-                            if (file.exists()) {
-                                return file.toURL();
-                            }
+                        assert scriptpath[i] != null;
+
+                        File file = new File(scriptpath[i], resource);
+                        if (file.exists()) {
+                            return file.toURL();
                         }
                     }
                 }
@@ -175,7 +187,9 @@ public class GroovyMojo
             else {
                 url = source.getUrl();
             }
-            log.debug("Loading source from: " + url);
+            if (debug) {
+                log.debug("Loading source from: " + url);
+            }
             
             InputStream input = url.openConnection().getInputStream();
             groovyClass = loader.parseClass(input);
@@ -213,6 +227,9 @@ public class GroovyMojo
         groovyObject.setProperty("pom", delegate);
 
         // Execute the script
+        if (debug) {
+            log.debug("Invoking object.run() on: " + groovyObject);
+        }
         groovyObject.invokeMethod("run", new Object[0]);
     }
 
@@ -234,9 +251,12 @@ public class GroovyMojo
         }
 
         URL[] urls = (URL[])list.toArray(new URL[list.size()]);
+
+        // Dump the classpath
         if (log.isDebugEnabled()) {
+            log.debug("Classpath:");
             for (int i=0; i < urls.length; i++) {
-                log.debug("URL[" + i + "]: " + urls[i]);
+                log.debug("    " + urls[i]);
             }
         }
 
