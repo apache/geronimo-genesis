@@ -35,8 +35,6 @@ Basic Usage
 
   * <<<pom>>> - Alias for <<<project>>>
 
-  * <<<script>>> - The compiled script object
-
   * <<<log>>> - The maven plugin logger
 
 * Execute an Inline Groovy Script

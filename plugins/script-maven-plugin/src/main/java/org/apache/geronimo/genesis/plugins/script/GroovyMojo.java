@@ -34,6 +34,9 @@ import java.util.Properties;
 import groovy.lang.GroovyClassLoader;
 import groovy.lang.GroovyObject;
 import groovy.lang.GroovyResourceLoader;
+import groovy.lang.MetaClass;
+import groovy.lang.MetaMethod;
+
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.artifact.DependencyResolutionRequiredException;
 import org.apache.maven.artifact.repository.ArtifactRepository;
@@ -85,7 +88,7 @@ public class GroovyMojo
     /**
      * @parameter
      */
-    private DelayedConfiguration custom = null;
+    private DelayedConfiguration custom;
 
     //
     // Maven components
@@ -124,7 +127,85 @@ public class GroovyMojo
     protected void doExecute() throws Exception {
         boolean debug = log.isDebugEnabled();
 
+        Class type = loadGroovyClass(source);
+        GroovyObject obj = (GroovyObject)type.newInstance();
+
+        if (custom != null) {
+            log.info("Applying delayed configuration: " + custom);
+
+            MetaClass meta = obj.getMetaClass();
+            MetaMethod method = meta.pickMethod(obj, "configure", new Object[] { custom });
+            log.info("Using configure method: " + method);
+
+            method.invoke(obj, new Object[] { custom });
+        }
+
+        // Expose logging
+        obj.setProperty("log", log);
+
+        // Create a delegate to allow getProperites() to be fully resolved
+        MavenProject delegate = new MavenProject(project) {
+            private Properties resolvedProperties;
+
+            public Properties getProperties() {
+                if (resolvedProperties == null) {
+                    resolvedProperties = resolveProperties(project.getProperties());
+                }
+                return resolvedProperties;
+            }
+        };
+
+        obj.setProperty("project", delegate);
+        obj.setProperty("pom", delegate);
+
+        // Execute the script
+        if (debug) {
+            log.debug("Invoking run() on: " + obj);
+        }
+        obj.invokeMethod("run", new Object[0]);
+    }
+
+    private Class loadGroovyClass(final CodeSource source) throws Exception {
+        assert source != null;
+
+        boolean debug = log.isDebugEnabled();
+
+        // Make sure the codesource us valid first
         source.validate();
+
+        Class type;
+        GroovyClassLoader loader = createGroovyClassLoader();
+
+        if (source.getBody() != null) {
+            type = loader.parseClass(source.getBody());
+        }
+        else {
+            URL url;
+            if (source.getFile() != null) {
+                url = source.getFile().toURL();
+            }
+            else {
+                url = source.getUrl();
+            }
+            if (debug) {
+                log.debug("Loading source from: " + url);
+            }
+
+            String fileName = new File(url.getFile()).getName();
+            InputStream input = url.openConnection().getInputStream();
+            try {
+                type = loader.parseClass(input, fileName);
+            }
+            finally {
+                input.close();
+            }
+        }
+
+        return type;
+    }
+
+    private GroovyClassLoader createGroovyClassLoader() throws Exception {
+        boolean debug = log.isDebugEnabled();
 
         ClassLoader parent = getClass().getClassLoader();
         URL[] urls = getClasspath();
@@ -149,89 +230,49 @@ public class GroovyMojo
         //
 
         GroovyClassLoader loader = new GroovyClassLoader(cl);
-        loader.setResourceLoader(new GroovyResourceLoader()
-        {
-            // Allow peer scripts to be loaded
+
+        // Allow peer scripts to be loaded
+        loader.setResourceLoader(new GroovyResourceLoader() {
             public URL loadGroovySource(final String classname) throws MalformedURLException {
-                String resource = classname.replace('.', '/');
-                if (!resource.startsWith("/")) {
-                    resource = "/" + resource;
-                }
-                resource = resource + ".groovy";
-
-                if (scriptpath != null) {
-                    for (int i=0; i<scriptpath.length; i++) {
-                        assert scriptpath[i] != null;
-
-                        File file = new File(scriptpath[i], resource);
-                        if (file.exists()) {
-                            return file.toURL();
-                        }
-                    }
-                }
-
-                return null;
+                return resolveGroovyScript(classname);
             }
         });
-        
-        Class groovyClass;
-        
-        if (source.getBody() != null) {
-            groovyClass = loader.parseClass(source.getBody());
+
+        return loader;
+    }
+
+    private URL resolveGroovyScript(final String classname) throws MalformedURLException {
+        assert classname != null;
+
+        String resource = classname.replace('.', '/');
+        if (!resource.startsWith("/")) {
+            resource = "/" + resource;
         }
-        else {
-            URL url;
-            if (source.getFile() != null) {
-                url = source.getFile().toURL();
-            }
-            else {
-                url = source.getUrl();
-            }
-            if (debug) {
-                log.debug("Loading source from: " + url);
-            }
+        resource = resource + ".groovy";
 
-            String fileName = new File(url.getFile()).getName();
-            InputStream input = url.openConnection().getInputStream();
-            groovyClass = loader.parseClass(input, fileName);
-            input.close();
-        }
-        
-        GroovyObject groovyObject = (GroovyObject)groovyClass.newInstance();
+        // First check the scriptpath
+        if (scriptpath != null) {
+            for (int i=0; i<scriptpath.length; i++) {
+                assert scriptpath[i] != null;
 
-        if (custom != null) {
-            //
-            // TODO: Perform custom configuration processing
-            //
-            log.info("Applying delayed configuration: " + custom);
-        }
-
-        // Put int a helper to the script object
-        groovyObject.setProperty("script", groovyObject);
-
-        // Expose logging
-        groovyObject.setProperty("log", log);
-
-        // Create a delegate to allow getProperites() to be fully resolved
-        MavenProject delegate = new MavenProject(project) {
-            public Properties resolvedProperties;
-
-            public Properties getProperties() {
-                if (resolvedProperties == null) {
-                    resolvedProperties = resolveProperties(project.getProperties());
+                File file = new File(scriptpath[i], resource);
+                if (file.exists()) {
+                    return file.toURL();
                 }
-                return resolvedProperties;
             }
-        };
-
-        groovyObject.setProperty("project", delegate);
-        groovyObject.setProperty("pom", delegate);
-
-        // Execute the script
-        if (debug) {
-            log.debug("Invoking run() on: " + groovyObject);
         }
-        groovyObject.invokeMethod("run", new Object[0]);
+
+        // Then check for a class defined in a file next to the main script file
+        File script = source.getFile();
+        if (script != null) {
+            File file = new File(script.getParentFile(), resource);
+            if (file.exists()) {
+                return file.toURL();
+            }
+        }
+
+        // Class was not found
+        return null;
     }
 
     private URL[] getClasspath() throws DependencyResolutionRequiredException, MalformedURLException, MojoExecutionException {

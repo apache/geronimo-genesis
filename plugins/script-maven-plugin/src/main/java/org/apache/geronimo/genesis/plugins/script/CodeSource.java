@@ -25,7 +25,7 @@ import java.io.File;
 import org.apache.maven.plugin.MojoExecutionException;
 
 /**
- * COnfiguration for a scripts code source.
+ * Configuration for a scripts code source.
  *
  * @version $Rev$ $Date$
  */
