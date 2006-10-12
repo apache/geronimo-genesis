@@ -42,6 +42,8 @@ import org.apache.geronimo.genesis.MojoSupport;
 /**
  * Support for Ant-based Mojos.
  *
+ * @deprecated Use the {@link AntHelper} component.
+ *
  * @version $Rev$ $Date$
  */
 public abstract class AntMojoSupport
