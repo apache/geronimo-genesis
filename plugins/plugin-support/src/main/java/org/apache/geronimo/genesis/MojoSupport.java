@@ -82,7 +82,7 @@ public abstract class MojoSupport
         System.setProperty("geronimo.bootstrap.logging.enabled", "false");
     }
 
-    private PlexusContainer container;
+    protected PlexusContainer container;
 
     /**
      * Instance logger.  This is initialized to the value of {@link #getLog}
