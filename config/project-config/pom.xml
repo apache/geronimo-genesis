@@ -149,7 +149,6 @@
     </dependencyManagement>
     
     <dependencies>
-        
         <dependency>
             <groupId>org.apache.geronimo.genesis.config</groupId>
             <artifactId>logging-config</artifactId>
@@ -161,7 +160,6 @@
             <artifactId>junit</artifactId>
             <scope>test</scope>
         </dependency>
-        
     </dependencies>
     
     <build>
@@ -205,24 +203,6 @@
             
         <pluginManagement>
             <plugins>
-                <plugin>
-                    <groupId>org.apache.geronimo.genesis.plugins</groupId>
-                    <artifactId>tools-maven-plugin</artifactId>
-                    <version>1.1-SNAPSHOT</version>
-                </plugin>
-                
-                <plugin>
-                    <groupId>org.apache.geronimo.genesis.plugins</groupId>
-                    <artifactId>script-maven-plugin</artifactId>
-                    <version>1.1-SNAPSHOT</version>
-                </plugin>
-
-                <plugin>
-                    <groupId>org.apache.geronimo.genesis.plugins</groupId>
-                    <artifactId>maven-maven-plugin</artifactId>
-                    <version>1.1-SNAPSHOT</version>
-                </plugin>
-
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-surefire-plugin</artifactId>
@@ -351,6 +331,29 @@
                     <groupId>org.codehaus.mojo</groupId>
                     <artifactId>dependency-maven-plugin</artifactId>
                     <version>1.0</version>
+                </plugin>
+                
+                <!--
+                NOTE: Using constant versions here instead of ${pom.version}
+                      so that the release plugin can update the version for us.
+                -->
+                
+                <plugin>
+                    <groupId>org.apache.geronimo.genesis.plugins</groupId>
+                    <artifactId>tools-maven-plugin</artifactId>
+                    <version>1.1-SNAPSHOT</version>
+                </plugin>
+                
+                <plugin>
+                    <groupId>org.apache.geronimo.genesis.plugins</groupId>
+                    <artifactId>script-maven-plugin</artifactId>
+                    <version>1.1-SNAPSHOT</version>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.geronimo.genesis.plugins</groupId>
+                    <artifactId>maven-maven-plugin</artifactId>
+                    <version>1.1-SNAPSHOT</version>
                 </plugin>
             </plugins>
         </pluginManagement>
