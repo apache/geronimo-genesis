@@ -40,13 +40,10 @@
     </description>
     
     <dependencies>
-        
         <dependency>
             <groupId>org.apache.geronimo.genesis.plugins</groupId>
             <artifactId>plugin-support</artifactId>
-            <version>${pom.version}</version>
         </dependency>
-        
     </dependencies>
 
     <build>
