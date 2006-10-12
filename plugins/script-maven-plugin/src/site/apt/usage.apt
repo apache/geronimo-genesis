@@ -131,6 +131,10 @@ Basic Usage
 
  Artifact definitions will pick up missing details from the pom's <<<dependencyManagement>>> section.
 
+~~
+~~ NOTE: This is a bad example, since commons-lang is already on the plugins classpath
+~~
+
 +----------+
 <plugin>
     <groupId>org.apache.geronimo.genesis.plugins</groupId>
@@ -151,8 +155,7 @@ Basic Usage
                 <source>
                     <body>
                         import org.apache.commons.lang.SystemUtils
-                        def crappyOS = SystemUtils.IS_OS_WINDOWS
-                        if (crappyOS) {
+                        if (SystemUtils.IS_OS_WINDOWS) {
                             println("Go buy a Mac!")
                         }
                     </body>
