@@ -40,6 +40,10 @@ import org.codehaus.plexus.util.FileUtils;
 
 import org.apache.geronimo.genesis.util.ObjectHolder;
 
+//
+// FIXME: Need to find a better way to allow plugins to re-use the parameter configuration!
+//
+
 /**
  * Support for mojos that launch Java processes.
  *
