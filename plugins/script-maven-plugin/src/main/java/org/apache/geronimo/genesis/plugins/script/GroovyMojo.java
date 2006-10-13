@@ -34,8 +34,6 @@ import java.util.Properties;
 import groovy.lang.GroovyClassLoader;
 import groovy.lang.GroovyObject;
 import groovy.lang.GroovyResourceLoader;
-import groovy.lang.MetaClass;
-import groovy.lang.MetaMethod;
 
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.artifact.DependencyResolutionRequiredException;
@@ -81,14 +79,25 @@ public class GroovyMojo
      */
     private File[] scriptpath = null;
 
-    //
-    // TODO: Find a better name for this...
-    //
-    
     /**
+     * A set of default project properties, which the values will be used only if
+     * the project or system does not override.
+     *
      * @parameter
      */
-    private DelayedConfiguration custom;
+    private Map defaults;
+
+    /**
+     * A set of additional project properties.
+     * 
+     * @parameter
+     */
+    private Map properties;
+
+    //
+    // TODO: Find a better name for this... and figure out how to best use it to configure a custom groovy object
+    //
+    // private DelayedConfiguration custom;
 
     //
     // Maven components
@@ -130,6 +139,7 @@ public class GroovyMojo
         Class type = loadGroovyClass(source);
         GroovyObject obj = (GroovyObject)type.newInstance();
 
+        /*
         if (custom != null) {
             log.info("Applying delayed configuration: " + custom);
 
@@ -139,7 +149,8 @@ public class GroovyMojo
 
             method.invoke(obj, new Object[] { custom });
         }
-
+        */
+        
         // Expose logging
         obj.setProperty("log", log);
 
@@ -308,14 +319,31 @@ public class GroovyMojo
     private Properties resolveProperties(final Properties source) {
         assert source != null;
 
-        Properties props = new Properties(System.getProperties());
-        
+        //
+        // NOTE: Create a chain of defaults
+        //
+
+        Properties dprops = new Properties();
+        if (defaults != null) {
+            dprops.putAll(defaults);
+        }
+
+        Properties sprops = new Properties(dprops);
+        sprops.putAll(System.getProperties());
+
+        Properties props = new Properties(sprops);
+
+        // Put all of the additional project props, which should already be resolved by mvn
+        if (properties != null) {
+            props.putAll(props);
+        }
+
         // Setup the variables which should be used for resolution
         Map vars = new HashMap();
         vars.put("project", project);
 
+        // Resolve all source properties
         ExpressionParser parser = new ExpressionParser(vars);
-
         Iterator iter = source.keySet().iterator();
         while (iter.hasNext()) {
             String name = (String)iter.next();

@@ -171,7 +171,7 @@ Basic Usage
  By setting the <<<scriptpath>>> you can load additional Groovy classes.
 
  For example if you have a class named <<<Helper>>> defined in a file named
- <<<${pom.basedir}/src/main/script/Helper.groovy>>> your scripts can use that class:
+ <<<$\{pom.basedir}/src/main/script/Helper.groovy>>> your scripts can use that class:
 
 +----------+
 <plugin>
@@ -197,4 +197,67 @@ Basic Usage
         </execution>
     </executions>
 </plugin>
++----------+
+
+* Custom Properties
+
+ By setting <<<properties>>> additional project properties can be added for an execution.
+
++----------+
+<plugin>
+    <groupId>org.apache.geronimo.genesis.plugins</groupId>
+    <artifactId>script-maven-plugin</artifactId>
+    <executions>
+        <execution>
+            <phase>generate-resources</phase>
+            <goals>
+                <goal>groovy</goal>
+            </goals>
+            <configuration>
+                <properties>
+                    <hello>world</hello>
+                </properties>
+                <source>
+                    <body>
+                        println(project.properties['hello'])
+                    </body>
+                </source>
+            </configuration>
+        </execution>
+    </executions>
+</plugin>
++----------+
+
+ By setting <<<defaults>>> additional project properties can be added for an execution
+ which will be used only if the project or system does not override.
+
++----------+
+<plugin>
+    <groupId>org.apache.geronimo.genesis.plugins</groupId>
+    <artifactId>script-maven-plugin</artifactId>
+    <executions>
+        <execution>
+            <phase>generate-resources</phase>
+            <goals>
+                <goal>groovy</goal>
+            </goals>
+            <configuration>
+                <defaults>
+                    <hello>world</hello>
+                </defaults>
+                <source>
+                    <body>
+                        println project.properties['hello']
+                    </body>
+                </source>
+            </configuration>
+        </execution>
+    </executions>
+</plugin>
++----------+
+
+ To provide a system override:
+
++----------+
+mvn -Dhello=jason
 +----------+
