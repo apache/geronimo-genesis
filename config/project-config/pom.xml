@@ -508,6 +508,24 @@
                 <activeByDefault>true</activeByDefault>
             </activation>
         </profile>
+        
+        <profile>
+            <id>tools</id>
+
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.geronimo.genesis.plugins</groupId>
+                        <artifactId>tools-maven-plugin</artifactId>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>org.apache.geronimo.genesis.plugins</groupId>
+                        <artifactId>maven-maven-plugin</artifactId>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
     </profiles>
     
     <reporting>
