@@ -72,7 +72,12 @@ public class MavenPluginLog
     }
 
     public boolean isTraceEnabled() {
-        return getLog().isDebugEnabled();
+        //
+        // FIXME: Trace is way to verbose to allow it to be turned on with debug
+        //        Maybe add a custom system prop to enable this
+        //
+        // return getLog().isDebugEnabled();
+        return false;
     }
 
     public boolean isWarnEnabled() {
@@ -89,11 +94,15 @@ public class MavenPluginLog
     }
     
     public void trace(Object object) {
-        debug(object);
+        if (isTraceEnabled()) {
+            debug(object);
+        }
     }
 
     public void trace(Object object, Throwable throwable) {
-        debug(object, throwable);
+        if (isTraceEnabled()) {
+            debug(object, throwable);
+        }
     }
 
     public void debug(Object object) {
