@@ -509,10 +509,6 @@
             </activation>
         </profile>
         
-        <!--
-        NOTE: There were some reports of this profile causing strange snapshot problems,
-              disabling for now to try and debug.
-        
         <profile>
             <id>tools</id>
 
@@ -530,7 +526,6 @@
                 </plugins>
             </build>
         </profile>
-        -->
     </profiles>
     
     <reporting>
