@@ -27,7 +27,7 @@ import org.apache.maven.project.MavenProject;
 import java.io.File;
 
 /**
- * Copy legal files (like LICENSE.txt and NOTICE.txt) for inclusion into generated jars.
+ * Copy legal files (LICENSE[.txt], NOTICE[.txt] and DISCLAIMER[.txt]) for inclusion into generated jars.
  *
  * @goal copy-legal-files
  * @phase validate
@@ -92,6 +92,10 @@ public class CopyLegalFilesMojo
 
             files.createInclude().setName("LICENSE.txt");
             files.createInclude().setName("NOTICE.txt");
+            files.createInclude().setName("DISCLAIMER.txt");
+            files.createInclude().setName("LICENSE");
+            files.createInclude().setName("NOTICE");
+            files.createInclude().setName("DISCLAIMER");
             copy.addFileset(files);
 
             copy.execute();
