@@ -273,16 +273,24 @@ public class GroovyMojo
             }
         }
 
-        // Then check for a class defined in a file next to the main script file
-        File script = source.getFile();
-        if (script != null) {
-            File file = new File(script.getParentFile(), resource);
-            if (file.exists()) {
-                return file.toURL();
+        // Then look for a resource in the classpath
+        ClassLoader cl = Thread.currentThread().getContextClassLoader();
+        URL url = cl.getResource(resource);
+        if (url == null) {
+            // And finally check for a class defined in a file next to the main script file
+            File script = source.getFile();
+            if (script != null) {
+                File file = new File(script.getParentFile(), resource);
+                if (file.exists()) {
+                    return file.toURL();
+                }
             }
         }
+        else {
+            return url;
+        }
 
-        // Class was not found
+        // Else not found
         return null;
     }
 
