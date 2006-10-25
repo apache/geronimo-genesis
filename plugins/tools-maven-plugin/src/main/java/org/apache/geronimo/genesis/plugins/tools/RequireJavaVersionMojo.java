@@ -53,7 +53,7 @@ public class RequireJavaVersionMojo
     /**
      * Flag to skip the version check.
      *
-     * @parameter default-value="false"
+     * @parameter expression="${requirejavaversion.skip}" default-value="false"
      */
     private boolean skip = false;
     
