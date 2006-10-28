@@ -258,7 +258,7 @@ public abstract class MojoSupport
             else {
                 getArtifactResolver().resolve(
                         artifact,
-                        getProject().getRepositories(),
+                        getProject().getRemoteArtifactRepositories(),
                         getArtifactRepository());
             }
         }
