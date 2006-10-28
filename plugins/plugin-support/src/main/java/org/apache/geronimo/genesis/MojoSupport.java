@@ -25,6 +25,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.Collections;
 
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.artifact.factory.ArtifactFactory;
@@ -244,9 +245,22 @@ public abstract class MojoSupport
      * Resolves the Artifact from the remote repository if nessessary. If no version is specified, it will
      * be retrieved from the dependency list or from the DependencyManagement section of the pom.
      */
-    protected Artifact resolveArtifact(final Artifact artifact) throws MojoExecutionException {
+    protected Artifact resolveArtifact(final Artifact artifact, final boolean transitive) throws MojoExecutionException {
         try {
-            getArtifactResolver().resolve(artifact, getProject().getRemoteArtifactRepositories(), getArtifactRepository());
+            if (transitive) {
+                getArtifactResolver().resolveTransitively(
+                        Collections.singleton(artifact),
+                        getProject().getArtifact(),
+                        getProject().getRemoteArtifactRepositories(),
+                        getArtifactRepository(),
+                        dependencyHelper.getArtifactMetadataSource());
+            }
+            else {
+                getArtifactResolver().resolve(
+                        artifact,
+                        getProject().getRepositories(),
+                        getArtifactRepository());
+            }
         }
         catch (ArtifactResolutionException e) {
             throw new MojoExecutionException("Unable to resolve artifact.", e);
@@ -256,6 +270,14 @@ public abstract class MojoSupport
         }
 
         return artifact;
+    }
+
+    /**
+     * Resolves the Artifact from the remote repository if nessessary. If no version is specified, it will
+     * be retrieved from the dependency list or from the DependencyManagement section of the pom.
+     */
+    protected Artifact resolveArtifact(final Artifact artifact) throws MojoExecutionException {
+        return resolveArtifact(artifact, false);
     }
 
     /**
