@@ -95,6 +95,9 @@ public abstract class MojoSupport
 
     /**
      * Initializes logging.  Called by {@link #execute}.
+     *
+     * @throws MojoExecutionException   Initialization failed
+     * @throws MojoFailureException     Initialization failed
      */
     protected void init() throws MojoExecutionException, MojoFailureException {
         this.log = getLog();
@@ -150,7 +153,7 @@ public abstract class MojoSupport
     /**
      * Sub-class should override to provide custom execution logic.
      *
-     * @throws Exception
+     * @throws Exception    Execution failed
      */
     protected void doExecute() throws Exception {
         // Empty
@@ -165,6 +168,9 @@ public abstract class MojoSupport
      *
      * <p>
      * Sub-class must overridde to provide access.
+     * </p>
+     *
+     * @return  The maven project; never null
      */
     protected MavenProject getProject() {
         throw new Error("Sub-class must override to provide access to : " + MavenProject.class);
@@ -175,6 +181,9 @@ public abstract class MojoSupport
      *
      * <p>
      * Sub-class must overridde to provide access.
+     * </p>
+     *
+     * @return  An artifact repository; never null
      */
     protected ArtifactRepository getArtifactRepository() {
         throw new Error("Sub-class must override to provide access to: " + ArtifactRepository.class);
@@ -182,6 +191,8 @@ public abstract class MojoSupport
 
     /**
      * Get the artifact factory.
+     *
+     * @return  An artifact factory; never null
      */
     protected final ArtifactFactory getArtifactFactory() {
         return dependencyHelper.getArtifactFactory();
@@ -189,6 +200,8 @@ public abstract class MojoSupport
 
     /**
      * Get the artifact resolver.
+     *
+     * @return  An artifact resolver; never null
      */
     protected final ArtifactResolver getArtifactResolver() {
         return dependencyHelper.getArtifactResolver();
@@ -197,8 +210,15 @@ public abstract class MojoSupport
     /**
      * Create a new artifact. If no version is specified, it will be retrieved from the dependency
      * list or from the DependencyManagement section of the pom.
+     *
+     * @param item  The item to create an artifact for
+     * @return      An unresolved artifact for the given item.
+     *
+     * @throws MojoExecutionException   Failed to create artifact
      */
     protected Artifact createArtifact(final ArtifactItem item) throws MojoExecutionException {
+        assert item != null;
+
         if (item.getVersion() == null) {
             fillMissingArtifactVersion(item);
 
@@ -220,22 +240,28 @@ public abstract class MojoSupport
             throw new MojoExecutionException("Could not create range for version: " + item.getVersion(), e);
         }
         
-        Artifact artifact = getArtifactFactory().createDependencyArtifact(
+        return getArtifactFactory().createDependencyArtifact(
             item.getGroupId(),
             item.getArtifactId(),
             range,
             item.getType(),
             item.getClassifier(),
             Artifact.SCOPE_PROVIDED);
-
-        return artifact;
     }
 
     /**
      * Resolves the Artifact from the remote repository if nessessary. If no version is specified, it will
      * be retrieved from the dependency list or from the DependencyManagement section of the pom.
+     *
+     *
+     * @param item  The item to create an artifact for; must not be null
+     * @return      The artifact for the given item
+     *
+     * @throws MojoExecutionException   Failed to create artifact
      */
     protected Artifact getArtifact(final ArtifactItem item) throws MojoExecutionException {
+        assert item != null;
+        
         Artifact artifact = createArtifact(item);
         
         return resolveArtifact(artifact);
@@ -244,8 +270,16 @@ public abstract class MojoSupport
     /**
      * Resolves the Artifact from the remote repository if nessessary. If no version is specified, it will
      * be retrieved from the dependency list or from the DependencyManagement section of the pom.
+     *
+     * @param artifact      The artifact to be resolved; must not be null
+     * @param transitive    True to resolve the artifact transitivly
+     * @return              The resolved artifact; never null
+     *
+     * @throws MojoExecutionException   Failed to resolve artifact
      */
     protected Artifact resolveArtifact(final Artifact artifact, final boolean transitive) throws MojoExecutionException {
+        assert artifact != null;
+
         try {
             if (transitive) {
                 getArtifactResolver().resolveTransitively(
@@ -273,8 +307,14 @@ public abstract class MojoSupport
     }
 
     /**
-     * Resolves the Artifact from the remote repository if nessessary. If no version is specified, it will
-     * be retrieved from the dependency list or from the DependencyManagement section of the pom.
+     * Resolves the Artifact from the remote repository non-transitivly.
+     *
+     * @param artifact  The artifact to be resolved; must not be null
+     * @return          The resolved artifact; never null
+     *
+     * @throws MojoExecutionException   Failed to resolve artifact
+     *
+     * @see #resolveArtifact(Artifact,boolean)
      */
     protected Artifact resolveArtifact(final Artifact artifact) throws MojoExecutionException {
         return resolveArtifact(artifact, false);
@@ -283,6 +323,8 @@ public abstract class MojoSupport
     /**
      * Tries to find missing version from dependancy list and dependency management.
      * If found, the artifact is updated with the correct version.
+     *
+     * @param item  The item to fill in missing version details into
      */
     private void fillMissingArtifactVersion(final ArtifactItem item) {
         log.debug("Attempting to find missing version in " + item.getGroupId() + ":" + item.getArtifactId());

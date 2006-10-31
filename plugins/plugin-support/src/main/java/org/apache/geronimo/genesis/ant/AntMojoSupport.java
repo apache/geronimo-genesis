@@ -36,7 +36,6 @@ import org.apache.tools.ant.taskdefs.Java;
 import org.apache.tools.ant.taskdefs.Mkdir;
 import org.apache.tools.ant.taskdefs.Property;
 
-import org.apache.geronimo.genesis.ant.MavenAntLoggerAdapter;
 import org.apache.geronimo.genesis.MojoSupport;
 
 /**

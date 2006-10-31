@@ -32,7 +32,7 @@ import org.apache.maven.plugin.logging.Log;
  * @version $Rev$ $Date$
  */
 public class MavenAntLoggerAdapter
-        extends DefaultLogger
+    extends DefaultLogger
 {
     protected Log log;
     
