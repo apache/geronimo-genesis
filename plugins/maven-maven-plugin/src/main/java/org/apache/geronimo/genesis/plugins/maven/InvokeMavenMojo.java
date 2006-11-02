@@ -25,10 +25,12 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.Iterator;
 
-import org.apache.geronimo.genesis.ant.AntMojoSupport;
+import org.apache.geronimo.genesis.MojoSupport;
+import org.apache.geronimo.genesis.ant.AntHelper;
 
 import org.apache.maven.project.MavenProject;
 import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.plugin.MojoFailureException;
 
 import org.codehaus.plexus.util.Os;
 import org.codehaus.plexus.util.DirectoryScanner;
@@ -43,7 +45,7 @@ import org.apache.tools.ant.taskdefs.ExecTask;
  * @version $Rev$ $Date$
  */
 public class InvokeMavenMojo
-    extends AntMojoSupport
+    extends MojoSupport
 {
     /**
      * Defines the set of pom.xml files to invoke.
@@ -81,6 +83,11 @@ public class InvokeMavenMojo
      */
     private String[] goals = null;
 
+    /**
+     * @component
+     */
+    protected AntHelper ant;
+
     //
     // MojoSupport Hooks
     //
@@ -96,6 +103,12 @@ public class InvokeMavenMojo
 
     protected MavenProject getProject() {
         return project;
+    }
+
+    protected void init() throws MojoExecutionException, MojoFailureException {
+        super.init();
+
+        ant.setProject(getProject());
     }
 
     protected void doExecute() throws Exception {
@@ -120,7 +133,7 @@ public class InvokeMavenMojo
 
         log.info("Invoking: " + pom);
         
-        ExecTask exec = (ExecTask)createTask("exec");
+        ExecTask exec = (ExecTask)ant.createTask("exec");
 
         exec.setExecutable(getMavenExecutable().getAbsolutePath());
         exec.setFailIfExecutionFails(true);
