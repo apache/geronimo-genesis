@@ -19,15 +19,21 @@
 
 package org.apache.geronimo.genesis.plugins.tools;
 
-import org.apache.geronimo.genesis.ant.AntMojoSupport;
-import org.apache.tools.ant.taskdefs.Copy;
-import org.apache.tools.ant.types.FileSet;
-import org.apache.maven.project.MavenProject;
-
 import java.io.File;
 
+import org.codehaus.plexus.util.DirectoryScanner;
+
+import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.plugin.MojoFailureException;
+import org.apache.maven.project.MavenProject;
+import org.apache.tools.ant.taskdefs.Copy;
+import org.apache.tools.ant.types.FileSet;
+
+import org.apache.geronimo.genesis.MojoSupport;
+import org.apache.geronimo.genesis.ant.AntHelper;
+
 /**
- * Copy legal files (LICENSE[.txt], NOTICE[.txt] and DISCLAIMER[.txt]) for inclusion into generated jars.
+ * Copy legal files for inclusion into generated jars.
  *
  * @goal copy-legal-files
  * @phase validate
@@ -35,8 +41,20 @@ import java.io.File;
  * @version $Rev$ $Date$
  */
 public class CopyLegalFilesMojo
-    extends AntMojoSupport
+    extends MojoSupport
 {
+    /**
+     * The default includes when no fileset is configured.
+     */
+    private static final String[] DEFAULT_INCLUDES = {
+        "LICENSE.txt",
+        "LICENSE",
+        "NOTICE.txt",
+        "NOTICE",
+        "DISCLAIMER.txt",
+        "DISCLAIMER"
+    };
+
     /**
      * Directory to copy legal files into.
      *
@@ -53,6 +71,18 @@ public class CopyLegalFilesMojo
      * @readonly
      */
     protected File basedir;
+
+    /**
+     * The set of legal files to be copied.  Default fileset includes: LICENSE[.txt], NOTICE[.txt] and DISCLAIMER[.txt].
+     *
+     * @parameter
+     */
+    private DirectoryScanner fileset;
+
+    /**
+     * @component
+     */
+    private AntHelper ant;
 
     //
     // MojoSupport Hooks
@@ -75,30 +105,57 @@ public class CopyLegalFilesMojo
     // Mojo
     //
 
+    protected void init() throws MojoExecutionException, MojoFailureException {
+        super.init();
+
+        ant.setProject(getProject());
+    }
+
     protected void doExecute() throws Exception {
-        // Only copy if the packaging is not pom
-        if (!"pom".equals(getProject().getPackaging())) {
-            mkdir(outputDirectory);
-
-            Copy copy = (Copy)createTask("copy");
-            copy.setTodir(outputDirectory);
-
-            FileSet files = createFileSet();
-            files.setDir(basedir);
-
-            //
-            // FIXME: Expose as configuration... though I'm too lazy right now, so just hardcode
-            //
-
-            files.createInclude().setName("LICENSE.txt");
-            files.createInclude().setName("NOTICE.txt");
-            files.createInclude().setName("DISCLAIMER.txt");
-            files.createInclude().setName("LICENSE");
-            files.createInclude().setName("NOTICE");
-            files.createInclude().setName("DISCLAIMER");
-            copy.addFileset(files);
-
-            copy.execute();
+        if (!shouldInstallLegalFiles(getProject())) {
+            return;
         }
+
+        if (fileset == null) {
+            fileset = new DirectoryScanner();
+            fileset.setBasedir(basedir);
+            fileset.setIncludes(DEFAULT_INCLUDES);
+        }
+
+        fileset.addDefaultExcludes();
+        fileset.scan();
+
+        String[] filenames = fileset.getIncludedFiles();
+
+        if (filenames.length == 0) {
+            log.error("No legal files found to copy");
+            return;
+        }
+
+        ant.mkdir(outputDirectory);
+
+        Copy copy = (Copy)ant.createTask("copy");
+        copy.setTodir(outputDirectory);
+
+        FileSet files = ant.createFileSet();
+        files.setDir(basedir);
+
+        for (int i=0; i<filenames.length; i++) {
+            files.createInclude().setName(filenames[i]);
+        }
+
+        copy.addFileset(files);
+
+        copy.execute();
+    }
+
+    private boolean shouldInstallLegalFiles(final MavenProject project) {
+        assert project != null;
+
+        //
+        // TODO: Expose a list of packagings
+        //
+        
+        return !"pom".equals(getProject().getPackaging());
     }
 }
