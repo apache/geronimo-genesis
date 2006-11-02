@@ -17,11 +17,10 @@
  * under the License.
  */
 
-package org.apache.geronimo.genesis.util;
+package org.apache.geronimo.genesis.logging;
 
+import org.apache.maven.plugin.Mojo;
 import org.apache.commons.logging.Log;
-
-import java.io.Serializable;
 
 /**
  * Bridge from the Maven plugin Log to a JCL Log.
@@ -29,30 +28,30 @@ import java.io.Serializable;
  * @version $Rev$ $Date$
  */
 public class MavenPluginLog
-    implements Log, Serializable
+    implements Log
 {
-    private static org.apache.maven.plugin.logging.Log log;
+    private static Mojo mojo;
 
-    public static void setLog(final org.apache.maven.plugin.logging.Log log) {
-        assert log != null;
-        
-        MavenPluginLog.log = log;
-    }
+    public static void setMojo(final Mojo mojo) {
+        assert mojo != null;
 
-    public static org.apache.maven.plugin.logging.Log getLog() {
-        if (log == null) {
-            throw new RuntimeException("Maven plugin log delegate as not been initialized");
-        }
-
-        return log;
+        MavenPluginLog.mojo = mojo;
     }
 
     private String name;
 
     public MavenPluginLog(final String name) {
         assert name != null;
-        
+
         this.name = name;
+    }
+
+    private org.apache.maven.plugin.logging.Log getLog() {
+        if (mojo == null) {
+            throw new RuntimeException("Mojo not set; can not delegate logging");
+        }
+
+        return mojo.getLog();
     }
 
     public boolean isDebugEnabled() {
@@ -72,10 +71,6 @@ public class MavenPluginLog
     }
 
     public boolean isTraceEnabled() {
-        //
-        // FIXME: Trace is way to verbose to allow it to be turned on with debug
-        //        Maybe add a custom system prop to enable this
-        //
         // return getLog().isDebugEnabled();
         return false;
     }
@@ -92,56 +87,56 @@ public class MavenPluginLog
             return String.valueOf(object);
         }
     }
-    
-    public void trace(Object object) {
+
+    public void trace(final Object object) {
         if (isTraceEnabled()) {
             debug(object);
         }
     }
 
-    public void trace(Object object, Throwable throwable) {
+    public void trace(final Object object, final Throwable throwable) {
         if (isTraceEnabled()) {
             debug(object, throwable);
         }
     }
 
-    public void debug(Object object) {
+    public void debug(final Object object) {
         getLog().debug(createMessage(object));
     }
 
-    public void debug(Object object, Throwable throwable) {
+    public void debug(final Object object, final Throwable throwable) {
         getLog().debug(createMessage(object), throwable);
     }
 
-    public void info(Object object) {
+    public void info(final Object object) {
         getLog().info(createMessage(object));
     }
 
-    public void info(Object object, Throwable throwable) {
+    public void info(final Object object, final Throwable throwable) {
         getLog().info(createMessage(object), throwable);
     }
 
-    public void warn(Object object) {
+    public void warn(final Object object) {
         getLog().warn(createMessage(object));
     }
 
-    public void warn(Object object, Throwable throwable) {
+    public void warn(final Object object, final Throwable throwable) {
         getLog().warn(createMessage(object), throwable);
     }
 
-    public void error(Object object) {
+    public void error(final Object object) {
         getLog().error(createMessage(object));
     }
 
-    public void error(Object object, Throwable throwable) {
+    public void error(final Object object, final Throwable throwable) {
         getLog().error(createMessage(object), throwable);
     }
 
-    public void fatal(Object object) {
+    public void fatal(final Object object) {
         error(object);
     }
 
-    public void fatal(Object object, Throwable throwable) {
+    public void fatal(final Object object, final Throwable throwable) {
         error(object, throwable);
     }
 }

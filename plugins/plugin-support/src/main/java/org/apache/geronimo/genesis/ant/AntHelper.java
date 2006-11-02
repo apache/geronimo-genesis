@@ -33,8 +33,8 @@ import org.apache.tools.ant.taskdefs.Java;
 import org.apache.tools.ant.taskdefs.Mkdir;
 import org.apache.tools.ant.taskdefs.Echo;
 import org.apache.maven.project.MavenProject;
-import org.apache.commons.logging.LogFactory;
-import org.apache.commons.logging.Log;
+
+import org.apache.geronimo.genesis.ComponentSupport;
 
 /**
  * Support for Ant-based Mojos.
@@ -42,9 +42,8 @@ import org.apache.commons.logging.Log;
  * @version $Rev$ $Date$
  */
 public class AntHelper
+    extends ComponentSupport
 {
-    private static final Log log = LogFactory.getLog(AntHelper.class);
-
     private MavenProject project;
 
     private Project ant;

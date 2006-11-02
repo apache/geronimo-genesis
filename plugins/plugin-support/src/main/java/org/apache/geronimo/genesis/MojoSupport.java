@@ -53,7 +53,9 @@ import org.codehaus.plexus.personality.plexus.lifecycle.phase.Contextualizable;
 
 import org.apache.geronimo.genesis.dependency.DependencyHelper;
 import org.apache.geronimo.genesis.util.ArtifactItem;
-import org.apache.geronimo.genesis.util.MavenPluginLog;
+import org.apache.geronimo.genesis.logging.MavenPluginLog;
+import org.apache.geronimo.genesis.logging.Logging;
+import org.apache.geronimo.genesis.logging.DelegatingLog;
 
 /**
  * Support for Mojo implementations.
@@ -64,25 +66,6 @@ public abstract class MojoSupport
     extends AbstractMojo
     implements Contextualizable
 {
-    static {
-        //
-        // NOTE: Force install our custom JCL Log bridge, and disable Geronimo's bootstrap logging
-        //       in case any sub-clas ends up dependening on geronimo-kernel which will muck
-        //       with logging in unexpected ways.
-        //
-
-        System.setProperty("org.apache.commons.logging.LogFactory", "org.apache.commons.logging.impl.LogFactoryImpl");
-
-        //
-        // NOTE: org.apache.commons.logging.Log is set in commons-logging.properties.  Hard-coding this here
-        //       causes some other Maven plugins to have problems (like the site plugin when it runs checkstyle).
-        //       Not sure that this will always get picked up though... :-(
-        //
-        // System.setProperty("org.apache.commons.logging.Log", "org.apache.geronimo.genesis.util.MavenPluginLog");
-
-        System.setProperty("geronimo.bootstrap.logging.enabled", "false");
-    }
-
     protected PlexusContainer container;
 
     /**
@@ -92,6 +75,11 @@ public abstract class MojoSupport
     protected Log log;
     
     private DependencyHelper dependencyHelper;
+
+    protected MojoSupport() {
+        // Need to init our logging support before components are initialized and attached
+        Logging.init();
+    }
 
     /**
      * Initializes logging.  Called by {@link #execute}.
@@ -103,8 +91,9 @@ public abstract class MojoSupport
         this.log = getLog();
 
         // Install the bridge from JCL to this plugins Log
-        MavenPluginLog.setLog(log);
-
+        MavenPluginLog.setMojo(this);
+        DelegatingLog.setDelegateType(MavenPluginLog.class);
+        
         //
         // NOTE: Using direct lookup because this class may not have been directly configured
         //
@@ -147,6 +136,10 @@ public abstract class MojoSupport
             else {
                 throw new MojoExecutionException(e.getMessage(), e);
             }
+        }
+        finally {
+            // Reset logging after we are done to avoid complications with other plugins using JCL
+            Logging.reset();
         }
     }
 
