@@ -89,6 +89,10 @@ public class GpgSignAttachedMojo
         artifacts.add(project.getArtifact());
         artifacts.addAll(project.getAttachedArtifacts());
 
+        //
+        // TODO: Sign the POM file
+        //
+        
         if (log.isDebugEnabled()) {
             log.info("Artifacts to be signed: " + artifacts);
         }
