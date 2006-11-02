@@ -107,7 +107,8 @@ Other Tools
 
 * Copy legal files
 
- Copy LICENSE.txt and NOTICE.txt to target/classes/META-INF for inclusion into archives.
+ Copy <<<LICENSE[.txt]>>>, <<<NOTICE[.txt]>>> and <<<DISCLAIMER[.txt].>>> to <<<target/classes/META-INF>>>
+ for inclusion into archives.
 
 +----------+
 <plugin>
@@ -120,6 +121,32 @@ Other Tools
             <goals>
                 <goal>copy-legal-files</goal>
             </goals>
+        </execution>
+    </executions>
+</plugin>
++----------+
+
+ The list of files to include can be configured explicitly if desired.
+
++----------+
+<plugin>
+    <groupId>org.apache.geronimo.genesis.plugins</groupId>
+    <artifactId>tools-maven-plugin</artifactId>
+    <executions>
+        <execution>
+            <id>install-legal-files</id>
+            <phase>generate-resources</phase>
+            <goals>
+                <goal>copy-legal-files</goal>
+            </goals>
+            <configuration>
+                <fileset>
+                    <basedir>${pom.basedir}</basedir>
+                    <includes>
+                        <include>*.txt</include>
+                    </includes>
+                </fileset>
+            <configuration>
         </execution>
     </executions>
 </plugin>
