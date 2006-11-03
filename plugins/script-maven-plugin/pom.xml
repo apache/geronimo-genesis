@@ -54,9 +54,30 @@
         <!--
         NOTE: Included for AntBuilder support.  Needs to be in the same classloader as groovy-all-1.0-jsr
         -->
+        
         <dependency>
             <groupId>ant</groupId>
             <artifactId>ant</artifactId>
+        </dependency>
+        
+        <dependency>
+            <groupId>ant</groupId>
+            <artifactId>ant-nodeps</artifactId>
+        </dependency>
+        
+        <dependency>
+            <groupId>ant</groupId>
+            <artifactId>ant-launcher</artifactId>
+        </dependency>
+        
+        <dependency>
+            <groupId>ant</groupId>
+            <artifactId>ant-apache-oro</artifactId>
+        </dependency>
+        
+        <dependency>
+            <groupId>oro</groupId>
+            <artifactId>oro</artifactId>
         </dependency>
     </dependencies>
     
