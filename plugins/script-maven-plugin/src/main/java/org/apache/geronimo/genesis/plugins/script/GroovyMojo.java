@@ -343,7 +343,7 @@ public class GroovyMojo
 
         // Put all of the additional project props, which should already be resolved by mvn
         if (properties != null) {
-            props.putAll(props);
+            props.putAll(properties);
         }
 
         // Setup the variables which should be used for resolution
