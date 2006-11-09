@@ -33,4 +33,3 @@ To perform clean builds, which are sometimes needed after some changes to the
 source tree:
 
     mvn clean install
-
