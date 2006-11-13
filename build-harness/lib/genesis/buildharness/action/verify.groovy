@@ -56,7 +56,5 @@ class verify
         files.each {
             log.info("    ${it}")
         }
-        
-        assert found
     }
 }
