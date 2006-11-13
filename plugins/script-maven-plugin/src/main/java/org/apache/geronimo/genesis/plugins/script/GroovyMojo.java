@@ -185,7 +185,9 @@ public class GroovyMojo
             }
             
             Throwable cause = e.getCause();
-            assert cause != null;
+            if (cause == null) {
+                cause = e;
+            }
             
             throw new MojoExecutionException(cause.getMessage(), cause);
         }
