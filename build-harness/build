@@ -1,0 +1,89 @@
+#!/bin/sh
+##
+## $Rev: 1667 $ $Date: 2006-11-10 01:37:31 -0800 (Fri, 10 Nov 2006) $
+##
+
+PROGNAME=`basename $0`
+DIRNAME=`dirname $0`
+
+usage() {
+    cat <<EOF
+Main entry point for the build-harness.
+
+usage: $PROGNAME [options] <pom-glob> [--] [mvn options]
+
+options:
+    -h,--help       Display help information
+    --              Stop option processing
+EOF
+    exit 1
+}
+
+if [ $# -lt 1 ]; then
+    usage
+fi
+
+HARNESS_ROOT=`cd "$DIRNAME" && pwd`
+OUTPUT_DIR="$HARNESS_ROOT/output"
+
+pomglob=""
+args=""
+
+assertOptionArg() {
+    if [ "x$2" = "x" ]; then
+        echo "Option '$1' requires an argument"
+        exit 2
+    fi
+}
+
+while [ "x$1" != "x" ]; do
+    case "$1" in
+        -h|--help)
+            usage
+            ;;
+        
+        --)
+            shift
+            if [ "x$args" = "x" ]; then
+                args="$*"
+            else
+                args="$args $*"
+            fi
+            break
+            ;;
+        
+        # Collect extra options to pass on to mvn
+        -*)
+            if [ "x$args" = "x" ]; then
+                args="$1"
+            else
+                args="$args $1"
+            fi
+            ;;
+        
+        # Non-option args is the pomglob
+        *)
+            if [ "x$pomglob" = "x" ]; then
+                pomglob="$1"
+            else
+                echo "Can not specify more than one pom-glob"
+                exit 3
+            fi
+            ;;
+    esac
+    shift
+done
+
+# Make sure a pomglob was selected
+if [ "x$pomglob" = "x" ]; then
+    usage
+fi
+
+# Fire up Maven to do the real work
+mvn --file "$DIRNAME/harness.xml" \
+    -Dharness.root="$HARNESS_ROOT" \
+    -Doutput.dir="$OUTPUT_DIR" \
+    -Dpomglob="$pomglob" \
+    $args
+
+exit $?
