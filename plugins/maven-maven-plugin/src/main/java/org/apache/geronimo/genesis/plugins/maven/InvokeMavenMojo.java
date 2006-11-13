@@ -183,7 +183,7 @@ public class InvokeMavenMojo
         String path = System.getProperty("maven.home");
         if (path == null) {
             // This should really never happen
-            throw new MojoExecutionException("Missing msaven.home system property");
+            throw new MojoExecutionException("Missing maven.home system property");
         }
 
         File home = new File(path);
