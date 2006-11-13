@@ -14,6 +14,7 @@ usage: $PROGNAME [options] <pom-glob> [--] [mvn options]
 
 options:
     -h,--help       Display help information
+    --showenv       Display shell environment
     --              Stop option processing
 EOF
     exit 1
@@ -26,8 +27,10 @@ fi
 HARNESS_ROOT=`cd "$DIRNAME" && pwd`
 OUTPUT_DIR="$HARNESS_ROOT/output"
 
+profiles=""
 pomglob=""
 args=""
+showenv="false"
 
 assertOptionArg() {
     if [ "x$2" = "x" ]; then
@@ -40,6 +43,20 @@ while [ "x$1" != "x" ]; do
     case "$1" in
         -h|--help)
             usage
+            ;;
+        
+        -p|--profile)
+            assertOptionArg $1 $2
+            if [ "x$profiles" = "x" ]; then
+                profiles="$2"
+            else
+                profiles="$profiles,$2"
+            fi
+            shift
+            ;;
+        
+        --showenv)
+            showenv="true"
             ;;
         
         --)
@@ -79,11 +96,17 @@ if [ "x$pomglob" = "x" ]; then
     usage
 fi
 
+if "$showenv"; then
+    echo "Environment:"
+    set
+fi
+
 # Fire up Maven to do the real work
 mvn --file "$DIRNAME/harness.xml" \
     -Dharness.root="$HARNESS_ROOT" \
     -Doutput.dir="$OUTPUT_DIR" \
     -Dpomglob="$pomglob" \
+    -Dprofiles="$profiles" \
     $args
 
 exit $?
