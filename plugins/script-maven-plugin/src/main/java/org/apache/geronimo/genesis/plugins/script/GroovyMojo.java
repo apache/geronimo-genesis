@@ -34,6 +34,7 @@ import java.util.Properties;
 import groovy.lang.GroovyClassLoader;
 import groovy.lang.GroovyObject;
 import groovy.lang.GroovyResourceLoader;
+import groovy.lang.GroovyRuntimeException;
 
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.artifact.DependencyResolutionRequiredException;
@@ -173,7 +174,21 @@ public class GroovyMojo
         if (debug) {
             log.debug("Invoking run() on: " + obj);
         }
-        obj.invokeMethod("run", new Object[0]);
+        
+        try {
+            obj.invokeMethod("run", new Object[0]);
+        }
+        catch (GroovyRuntimeException e) {
+            if (log.isDebugEnabled()) {
+                // Yes, log error if debug is enabled
+                log.error("Groovy script execution failure", e);
+            }
+            
+            Throwable cause = e.getCause();
+            assert cause != null;
+            
+            throw new MojoExecutionException(cause.getMessage(), cause);
+        }
     }
 
     private Class loadGroovyClass(final CodeSource source) throws Exception {
@@ -254,7 +269,11 @@ public class GroovyMojo
 
     private URL resolveGroovyScript(final String classname) throws MalformedURLException {
         assert classname != null;
-
+        
+        if (log.isDebugEnabled()) {
+            log.debug("Resolving script for class: " + classname);
+        }
+        
         String resource = classname.replace('.', '/');
         if (!resource.startsWith("/")) {
             resource = "/" + resource;
@@ -289,7 +308,11 @@ public class GroovyMojo
         else {
             return url;
         }
-
+        
+        if (log.isDebugEnabled()) {
+            log.debug("Unable to resolve script for class: " + classname);
+        }
+        
         // Else not found
         return null;
     }
