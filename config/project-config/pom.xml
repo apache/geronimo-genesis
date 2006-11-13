@@ -526,6 +526,31 @@
                 </plugins>
             </build>
         </profile>
+        
+        <profile>
+            <id>build-harness</id>
+            
+            <build>
+                <defaultGoal>deploy</defaultGoal>
+            </build>
+            
+            <distributionManagement>
+                <repository>
+                    <id>buildharness-releases</id>
+                    <url>file://${output.dir}/release</url>
+                </repository>
+
+                <snapshotRepository>
+                    <id>buildharness-snapshots</id>
+                    <url>file://${output.dir}/snapshots</url>
+                </snapshotRepository>
+
+                <site>
+                    <id>buildharness-website</id>
+                    <url>output://${output.dir}/website</url>
+                </site>
+            </distributionManagement>
+        </profile>
     </profiles>
     
     <reporting>
