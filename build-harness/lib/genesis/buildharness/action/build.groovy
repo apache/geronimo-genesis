@@ -71,7 +71,7 @@ class build
         log.info("Building: ${pom}...")
         
         // Make this configurable?! only append build-harness
-        def profiles = [ 'build-harness' ]
+        def profiles = [ 'default', 'build-harness' ]
         
         try {
             ant.exec(executable: mvn, failonerror: true) {
