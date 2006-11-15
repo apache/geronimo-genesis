@@ -3,34 +3,43 @@
 ## $Rev: 1667 $ $Date: 2006-11-10 01:37:31 -0800 (Fri, 10 Nov 2006) $
 ##
 
-PROGNAME=`basename $0`
-DIRNAME=`dirname $0`
+PROGNAME=`basename "$0"`
+DIRNAME=`dirname "$0"`
+
+BASEDIR=`cd "$DIRNAME" && pwd`
+DEPDIR="$BASEDIR/dependencies"
+OUTDIR="$BASEDIR/output"
+
+warn() {
+    echo "${PROGNAME}: $*"
+}
+
+die() {
+    warn $*
+    exit
+}
 
 usage() {
     cat <<EOF
-Main entry point for the build-harness.
+Build harness tool
 
-usage: $PROGNAME [options] <pom-glob> [--] [mvn options]
+usage: $PROGNAME [options] <pom> [--] [mvn options]
 
 options:
-    -h,--help       Display help information
-    --showenv       Display shell environment
-    --              Stop option processing
+    -h,--help           Display this help message
+    -j,--java version   Set the JAVA_HOME according to version
+    --                  Stop processing options
+
 EOF
-    exit 1
 }
 
-if [ $# -lt 1 ]; then
+if [ "x$1" = "x" ]; then
     usage
+    exit
 fi
 
-HARNESS_ROOT=`cd "$DIRNAME" && pwd`
-OUTPUT_DIR="$HARNESS_ROOT/output"
-
-profiles=""
-pomglob=""
+pom=""
 args=""
-showenv="false"
 
 assertOptionArg() {
     if [ "x$2" = "x" ]; then
@@ -43,20 +52,30 @@ while [ "x$1" != "x" ]; do
     case "$1" in
         -h|--help)
             usage
+            exit
             ;;
         
-        -p|--profile)
+        -j|--java)
             assertOptionArg $1 $2
-            if [ "x$profiles" = "x" ]; then
-                profiles="$2"
-            else
-                profiles="$profiles,$2"
+            ver=$2; shift
+            case "$ver" in
+                1.4)
+                    export JAVA_HOME="$JAVA_HOME_1_4"
+                    ;;
+                
+                1.5|5)
+                    export JAVA_HOME="$JAVA_HOME_1_5"
+                    ;;
+                
+                *)
+                    die "Unsupported java version: $ver"
+                    ;;
+            esac
+            
+            if [ ! -d "$JAVA_HOME" ]; then
+                tmp=`echo $ver | tr . _`
+                die "Unable to configure Java to use $ver; missing JAVA_HOME_$tmp"
             fi
-            shift
-            ;;
-        
-        --showenv)
-            showenv="true"
             ;;
         
         --)
@@ -69,7 +88,6 @@ while [ "x$1" != "x" ]; do
             break
             ;;
         
-        # Collect extra options to pass on to mvn
         -*)
             if [ "x$args" = "x" ]; then
                 args="$1"
@@ -78,35 +96,53 @@ while [ "x$1" != "x" ]; do
             fi
             ;;
         
-        # Non-option args is the pomglob
         *)
-            if [ "x$pomglob" = "x" ]; then
-                pomglob="$1"
+            if [ "x$pom" = "x" ]; then
+                pom="$1"
             else
-                echo "Can not specify more than one pom-glob"
-                exit 3
+                die "Only one pom may be configured"
             fi
             ;;
     esac
     shift
 done
 
-# Make sure a pomglob was selected
-if [ "x$pomglob" = "x" ]; then
-    usage
+# Require a pom to continue
+if [ "x$pom" = "x" ]; then
+    die "Missing pom"
 fi
 
-if "$showenv"; then
-    echo "Environment:"
-    set
+echo "Pom: $pom"
+echo "Args: $args"
+
+# Install dependency artifacts
+if [ -d "$DEPDIR" ]; then
+    echo "Installing dependency artifacts from: $DEPDIR"
+    
+    repos=`ls "$DEPDIR"`
+    echo "Dependency repositories: $repos"
+    
+    for repo in $repos; do
+        dir="$DEPDIR/$repo"
+        echo "Installing dependencies from: $dir"
+        cp -rfv "$dir/"* "$HOME/.m2/repository"
+    done
+else
+    echo "No dependency artifacts to install"
 fi
 
-# Fire up Maven to do the real work
-mvn --file "$DIRNAME/harness.xml" \
-    -Dharness.root="$HARNESS_ROOT" \
-    -Doutput.dir="$OUTPUT_DIR" \
-    -Dpomglob="$pomglob" \
-    -Dprofiles="$profiles" \
-    $args
+# Execute Maven
+mvn --file "$pom" -Doutput.dir="$OUTDIR" $args
+status=$?
 
-exit $?
+# Verify outputs
+if [ -d "$OUTDIR" ]; then
+    count=`find "$OUTDIR" -type f | wc -l | awk '{print $1}'`
+    echo "Found $count output files:"
+    find "$OUTDIR" -type f
+else
+    echo "No output files found"
+fi
+
+# Exit with Maven's status
+exit $status
