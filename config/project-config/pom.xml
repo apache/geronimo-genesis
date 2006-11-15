@@ -528,7 +528,7 @@
         </profile>
         
         <profile>
-            <id>build-harness</id>
+            <id>output</id>
             
             <build>
                 <defaultGoal>deploy</defaultGoal>
@@ -536,17 +536,17 @@
             
             <distributionManagement>
                 <repository>
-                    <id>buildharness-releases</id>
+                    <id>output-releases</id>
                     <url>file://${output.dir}/release</url>
                 </repository>
 
                 <snapshotRepository>
-                    <id>buildharness-snapshots</id>
+                    <id>output-snapshots</id>
                     <url>file://${output.dir}/snapshots</url>
                 </snapshotRepository>
 
                 <site>
-                    <id>buildharness-website</id>
+                    <id>output-website</id>
                     <url>output://${output.dir}/website</url>
                 </site>
             </distributionManagement>
