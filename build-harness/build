@@ -131,6 +131,9 @@ else
     echo "No dependency artifacts to install"
 fi
 
+# Clean the output directory
+rm -rf "$OUTDIR"
+
 # Execute Maven
 mvn --file "$pom" -Doutput.dir="$OUTDIR" $args
 status=$?
