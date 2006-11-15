@@ -538,11 +538,13 @@
                 <repository>
                     <id>output-releases</id>
                     <url>file://${output.dir}/release</url>
+                    <uniqueVersion>false</uniqueVersion>
                 </repository>
 
                 <snapshotRepository>
                     <id>output-snapshots</id>
                     <url>file://${output.dir}/snapshots</url>
+                    <uniqueVersion>false</uniqueVersion>
                 </snapshotRepository>
 
                 <site>
