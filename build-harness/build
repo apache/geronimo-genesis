@@ -134,6 +134,7 @@ fi
 # Execute Maven
 mvn --file "$pom" -Doutput.dir="$OUTDIR" $args
 status=$?
+echo "Maven exit status: $status"
 
 # Verify outputs
 if [ -d "$OUTDIR" ]; then
