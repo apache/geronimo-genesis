@@ -41,6 +41,9 @@ class InstallDependencies
             }
         }
         
+        // Strip off the base director name from all files so we can
+        // re-root them to ~/.m2/repository
+        
         def l = depdir.path.length() + 1
         scanner.each { file->
             def basepath = file.getPath()[l .. -1]
