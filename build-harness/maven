@@ -29,4 +29,6 @@ export GROOVY_HOME="$DIRNAME/groovy"
 groovy="$GROOVY_HOME/bin/groovy"
 chmod +x "$groovy"
 
+set
+
 exec "$groovy" "$PROGNAME.groovy" $@
