@@ -67,7 +67,7 @@ class InstallDependencies
         }
     }
     
-    def main() {
+    def main(args) {
         println "Installing dependencies..."
         
         for (depdir in depsdir.listFiles()) {
@@ -76,4 +76,4 @@ class InstallDependencies
     }
 }
 
-new InstallDependencies().main()
+new InstallDependencies().main(args)
