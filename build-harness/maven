@@ -29,6 +29,7 @@ export GROOVY_HOME="$DIRNAME/groovy"
 groovy="$GROOVY_HOME/bin/groovy"
 chmod +x "$groovy"
 
+export JAVA_HOME="$JAVA_HOME_1_5"
 set
 
 exec "$groovy" "$PROGNAME.groovy" $@
