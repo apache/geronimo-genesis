@@ -25,7 +25,8 @@
 DIRNAME=`dirname $0`
 PROGNAME=`basename $0`
 
-groovy="$DIRNAME/groovy/bin/groovy"
+export GROOVY_HOME="$DIRNAME/groovy"
+groovy="$GROOVY_HOME/bin/groovy"
 chmod +x "$groovy"
 
 exec "$groovy" "$PROGNAME.groovy" $@
