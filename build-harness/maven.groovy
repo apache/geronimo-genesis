@@ -117,6 +117,9 @@ class MavenBuilder
             throw new Exception("Missing pom")
         }
         
+        // Mare sure outputdir is clean
+        ant.delete(dir: outdir)
+        
         maven(pom, args)
     }
 }
