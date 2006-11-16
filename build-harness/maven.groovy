@@ -31,6 +31,8 @@ class MavenBuilder
     
     def javaHome = System.getenv("JAVA_HOME")
     
+    int timeout
+    
     def MavenBuilder() {
         // Enable emacs mode to disable [task] prefix on output
         def p = ant.getAntProject()
@@ -48,7 +50,21 @@ class MavenBuilder
     }
     
     def maven(pom, args) {
+        if (javaHome == null) {
+            throw new Exception("Please define JAVA_HOME; or use --java <ver>")
+        }
+        
         ant.exec(executable: "mvn", failonerror: true) {
+            // Get a reference to the current node so we can conditionally set attributes
+            def node = current.wrapper
+            
+            // Maybe set timeout
+            if (timeout > 0) {
+                println("Timeout after: ${timeout} seconds");
+                def millis = timeout * 1000
+                node.setAttribute('timeout', "${millis}")
+            }
+            
             arg(value: "--file")
             arg(file: "${pom}")
             arg(value: "-Doutput.dir=${outdir}")
@@ -69,13 +85,16 @@ class MavenBuilder
         while (iter.hasNext()) {
             def arg = iter.next()
             
-            println arg
-            
             switch (arg) {
                 case '--java':
                     setJava(iter.next())
                     break
                 
+                case '--timeout':
+                    timeout = Integer.parseInt(iter.next())
+                    break
+                
+                // HACK: Groovy's use of commons-cli eats up an '--' so need to use '---' to skip
                 case '---':
                     while (iter.hasNext()) {
                         args.add(iter.next())
@@ -94,10 +113,11 @@ class MavenBuilder
             }
         }
         
-        println "Pom: ${pom}"
-        println "Args: ${args}"
+        if (pom == null) {
+            throw new Exception("Missing pom")
+        }
         
-        // maven(pom, args)
+        maven(pom, args)
     }
 }
 
