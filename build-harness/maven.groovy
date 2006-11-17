@@ -23,11 +23,11 @@
 
 class MavenBuilder
 {
+    def ant = new AntBuilder()
+    
     def basedir = new File(".").getCanonicalFile()
     
-    def outdir = new File(basedir, "output")
-    
-    def ant = new AntBuilder()
+    def repodir = new File(basedir, "repository")
     
     def javaHome = System.getenv("JAVA_HOME")
     
@@ -65,9 +65,12 @@ class MavenBuilder
                 node.setAttribute('timeout', "${millis}")
             }
             
-            arg(value: "--file")
+            arg(value: "-Dmaven.repo.local=${repodir}")
+            arg(value: '--batch-mode')
+            arg(value: '--errors')
+            
+            arg(value: '--file')
             arg(file: "${pom}")
-            arg(value: "-Doutput.dir=${outdir}")
             
             args.each {
                 arg(value: "${it}")
@@ -101,6 +104,10 @@ class MavenBuilder
                     }
                     break
                 
+                //
+                // TODO: Add bits to pick off -P* so we can always insert a profile to activate
+                //
+                
                 case ~"-.*":
                     args.add(arg)
                     break
@@ -116,9 +123,6 @@ class MavenBuilder
         if (pom == null) {
             throw new Exception("Missing pom")
         }
-        
-        // Mare sure outputdir is clean
-        ant.delete(dir: outdir)
         
         maven(pom, args)
     }

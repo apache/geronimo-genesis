@@ -25,8 +25,12 @@
 DIRNAME=`dirname $0`
 PROGNAME=`basename $0`
 
-export GROOVY_HOME="$DIRNAME/groovy"
+BASEDIR=`cd "$DIRNAME" && pwd`
+
+export GROOVY_HOME="$BASEDIR/groovy"
 groovy="$GROOVY_HOME/bin/groovy"
+
+# Make sure we can exec it
 chmod +x "$groovy"
 
 # Use 1.5 for Groovy
