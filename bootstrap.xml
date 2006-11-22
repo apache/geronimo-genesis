@@ -27,6 +27,8 @@
         <attribute name="dir" default="${basedir}"/>
         <sequential>
             <exec executable="mvn${platform.script.ext}" dir="@{dir}">
+                <arg value="--batch-mode"/>
+                <arg value="-Dmaven.repo.local=${maven.repo.local}"/>
                 <arg value="@{goal}"/>
             </exec>
         </sequential>
@@ -59,6 +61,7 @@
     
     <target name="init:defaults">
         <property name="platform.script.ext" value=""/>
+        <property name="maven.repo.local" value="${user.home}/.m2/repository"/>
     </target>
     
     
@@ -84,10 +87,10 @@
     <target name="clean" depends="init">
         <echo>Cleaning...</echo>
         
-        <mkdir dir="${user.home}/.m2/repository"/>
+        <mkdir dir="${maven.repo.local}"/>
         
         <delete>
-            <fileset dir="${user.home}/.m2/repository">
+            <fileset dir="${maven.repo.local}">
                 <include name="org/apache/geronimo/genesis/**"/>
             </fileset>
         </delete>
