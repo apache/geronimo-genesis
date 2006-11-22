@@ -22,10 +22,21 @@
 ## $Rev$ $Date$
 ##
 
-DIRNAME=`dirname $0`
-PROGNAME=`basename $0`
+BASEDIR=`cd "$DIRNAME" && pwd`
 
-. "$DIRNAME/groovy.shlib"
+export GROOVY_HOME="$BASEDIR/groovy"
+GROOVY="$GROOVY_HOME/bin/groovy"
 
-groovy "$PROGNAME.groovy" $@
+# Make sure we can exec it
+chmod +x "$GROOVY"
+
+# Use 1.5 for Groovy
+export JAVA_HOME="$JAVA_HOME_1_5"
+
+# Display the current environment
+set
+
+groovy() {
+    exec "$GROOVY" $*
+}
 

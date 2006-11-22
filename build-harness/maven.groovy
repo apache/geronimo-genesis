@@ -46,6 +46,8 @@ class MavenBuilder
             throw new Exception("Unable to use Java ${ver}; missing JAVA_HOME_${tmp}")
         }
         
+        println("Using JAVA_HOME: ${dir}")
+        
         this.javaHome = dir
     }
     
@@ -89,7 +91,7 @@ class MavenBuilder
             def arg = iter.next()
             
             switch (arg) {
-                case '--java':
+                case [ '-j', '--java' ]:
                     setJava(iter.next())
                     break
                 
