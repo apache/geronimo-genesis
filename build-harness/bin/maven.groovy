@@ -22,11 +22,8 @@
 //
 
 class MavenBuilder
+    extends CliSupport
 {
-    def ant = new AntBuilder()
-    
-    def basedir = new File(".").getCanonicalFile()
-    
     def repodir = new File(basedir, "repository")
     
     def javaHome = System.getenv("JAVA_HOME")
@@ -39,7 +36,7 @@ class MavenBuilder
         p.getBuildListeners()[0].setEmacsMode(true)
     }
     
-    def setJava(ver) {
+    def setJavaVersion(ver) {
         def tmp = ver.replace(".", "_")
         def dir = System.getenv("JAVA_HOME_${tmp}")
         if (dir == null) {
@@ -49,37 +46,6 @@ class MavenBuilder
         println("Using JAVA_HOME: ${dir}")
         
         this.javaHome = dir
-    }
-    
-    def maven(pom, args) {
-        if (javaHome == null) {
-            throw new Exception("Please define JAVA_HOME; or use --java <ver>")
-        }
-        
-        ant.exec(executable: "mvn", failonerror: true) {
-            // Get a reference to the current node so we can conditionally set attributes
-            def node = current.wrapper
-            
-            // Maybe set timeout
-            if (timeout > 0) {
-                println("Timeout after: ${timeout} seconds");
-                def millis = timeout * 1000
-                node.setAttribute('timeout', "${millis}")
-            }
-            
-            arg(value: "-Dmaven.repo.local=${repodir}")
-            arg(value: '--batch-mode')
-            arg(value: '--errors')
-            
-            arg(value: '--file')
-            arg(file: "${pom}")
-            
-            args.each {
-                arg(value: "${it}")
-            }
-            
-            env(key: "JAVA_HOME", file: javaHome)
-        }
     }
     
     def main(args) {
@@ -92,7 +58,7 @@ class MavenBuilder
             
             switch (arg) {
                 case [ '-j', '--java' ]:
-                    setJava(iter.next())
+                    setJavaVersion(iter.next())
                     break
                 
                 case '--timeout':
@@ -119,6 +85,10 @@ class MavenBuilder
                         throw new Exception("Unexpected argument: ${arg}")
                     }
                     pom = new File(arg)
+                    if (!pom.isAbsolute()) {
+                        pom = new File(basedir, arg)
+                    }
+                    break
             }
         }
         
@@ -127,6 +97,40 @@ class MavenBuilder
         }
         
         maven(pom, args)
+    }
+    
+    def maven(pom, args) {
+        assert pom != null
+        assert args != null
+        
+        if (javaHome == null) {
+            throw new Exception("Please define JAVA_HOME; or use --java <ver>")
+        }
+        
+        ant.exec(executable: "mvn", dir: basedir, failonerror: true) {
+            // Get a reference to the current node so we can conditionally set attributes
+            def node = current.wrapper
+            
+            // Maybe set timeout
+            if (timeout > 0) {
+                println("Timeout after: ${timeout} seconds");
+                def millis = timeout * 1000
+                node.setAttribute('timeout', "${millis}")
+            }
+            
+            arg(value: "-Dmaven.repo.local=${repodir}")
+            arg(value: '--batch-mode')
+            arg(value: '--errors')
+            
+            arg(value: '--file')
+            arg(file: "${pom}")
+            
+            args.each {
+                arg(value: "${it}")
+            }
+            
+            env(key: "JAVA_HOME", file: javaHome)
+        }
     }
 }
 

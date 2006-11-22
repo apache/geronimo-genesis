@@ -23,7 +23,7 @@
 
 class VerifyOutputs
 {
-    def basedir = new File(".").getCanonicalFile()
+    def basedir = new File(System.getenv("BASEDIR").getCanonicalFile()
     
     def outdir = new File(basedir, "output")
     

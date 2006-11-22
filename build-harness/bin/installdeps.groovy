@@ -27,7 +27,7 @@ class InstallDependencies
     
     def m2RepoCache = new File(homedir, ".m2/repository")
     
-    def basedir = new File(".").getCanonicalFile()
+    def basedir = new File(System.getenv("BASEDIR").getCanonicalFile()
     
     def depsdir = new File(basedir, "dependencies")
     

@@ -22,7 +22,8 @@
 ## $Rev$ $Date$
 ##
 
-BASEDIR=`cd "$DIRNAME" && pwd`
+export BINDIR=`cd "$DIRNAME" && pwd`
+export BASEDIR=`cd "$BINDIR/.." && pwd`
 
 export GROOVY_HOME="$BASEDIR/groovy"
 GROOVY="$GROOVY_HOME/bin/groovy"
@@ -34,9 +35,12 @@ chmod +x "$GROOVY"
 export JAVA_HOME="$JAVA_HOME_1_5"
 
 # Display the current environment
-set
+# set
 
 groovy() {
-    exec "$GROOVY" $*
+    (
+        cd "$BINDIR"
+        exec "$GROOVY" "$PROGNAME.groovy" $*
+    )
 }
 
