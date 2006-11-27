@@ -172,9 +172,15 @@ public class InvokeMavenMojo
                 exec.createArg().setValue(goals[i]);
             }
         }
-
+        
         exec.createArg().setValue("-f");
         exec.createArg().setFile(pom);
+        
+        // Batch mode to use simple download progress output
+        exec.createArg().setValue("--batch-mode");
+        
+        // Always enable verbose error output
+        exec.createArg().setValue("--errors");
         
         exec.execute();
     }
