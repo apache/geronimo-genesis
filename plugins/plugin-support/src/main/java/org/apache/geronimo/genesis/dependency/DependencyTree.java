@@ -47,6 +47,10 @@ public class DependencyTree
         return rootNode;
     }
 
+    public void setRootNode(Node rootNode) {
+        this.rootNode = rootNode;
+    }
+
     //
     // Node
     //
@@ -71,6 +75,10 @@ public class DependencyTree
 
         public int getDepth() {
             return depth;
+        }
+
+        public String toString() {
+            return "DependencyTree$Node: " + artifact + "(" + depth + ")";
         }
     }
 }
