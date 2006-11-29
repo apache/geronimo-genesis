@@ -32,5 +32,5 @@ else
 fi
 echo "Cleaning $dir..."
 
-find "$dir" -name target | xargs rm -rfv
+find "$dir" -name target | xargs rm -rfv | egrep "^removed directory:"
 
