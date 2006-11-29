@@ -28,7 +28,13 @@ class MavenBuilder
     
     def javaHome = System.getenv("JAVA_HOME")
     
+    def mavenOpts = System.getenv("MAVEN_OPTS")
+    
     int timeout
+    
+    def setMavenOptions(options) {
+        mavenOpts = "${mavenOpts}"
+    }
     
     def setJavaVersion(ver) {
         def tmp = ver.replace(".", "_")
@@ -53,6 +59,10 @@ class MavenBuilder
             switch (arg) {
                 case [ '-j', '--java' ]:
                     setJavaVersion(iter.next())
+                    break
+                
+                case '--mvnopts':
+                    setMavenOptions(iter.next())
                     break
                 
                 case '--timeout':
@@ -124,6 +134,10 @@ class MavenBuilder
             }
             
             env(key: "JAVA_HOME", file: javaHome)
+            
+            if (mavenOpts != null) {
+                env(key: "MAVEN_OPTS", value: mavenOpts)
+            }
         }
     }
 }
