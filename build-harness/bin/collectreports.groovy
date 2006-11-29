@@ -45,9 +45,14 @@ class ReportCollector
                     if (dir != null) {
                         throw new Exception("Unexpected argument: ${arg}")
                     }
-                    dir = new File(arg)
-                    if (!dir.isAbsolute()) {
-                        dir = new File(basedir, arg)
+                    if (arg == ".") {
+                        dir = basedir
+                    }
+                    else {
+                        dir = new File(arg)
+                        if (!dir.isAbsolute()) {
+                            dir = new File(basedir, arg)
+                        }
                     }
                     break
             }
