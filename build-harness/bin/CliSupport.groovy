@@ -29,5 +29,9 @@ abstract class CliSupport
     
     protected CliSupport() {
         assert basedir != null
+        
+        // Enable emacs mode to disable [task] prefix on output
+        def p = ant.getAntProject()
+        p.getBuildListeners()[0].setEmacsMode(true)
     }
 }

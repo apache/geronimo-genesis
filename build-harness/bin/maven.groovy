@@ -30,12 +30,6 @@ class MavenBuilder
     
     int timeout
     
-    def MavenBuilder() {
-        // Enable emacs mode to disable [task] prefix on output
-        def p = ant.getAntProject()
-        p.getBuildListeners()[0].setEmacsMode(true)
-    }
-    
     def setJavaVersion(ver) {
         def tmp = ver.replace(".", "_")
         def dir = System.getenv("JAVA_HOME_${tmp}")

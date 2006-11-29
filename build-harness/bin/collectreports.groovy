@@ -26,12 +26,6 @@ class ReportCollector
 {
     def reportsdir = new File(basedir, "reports/surefire")
     
-    def ReportCollector() {
-        // Enable emacs mode to disable [task] prefix on output
-        def p = ant.getAntProject()
-        p.getBuildListeners()[0].setEmacsMode(true)
-    }
-    
     def main(args) {
         def iter = args.toList().iterator()
         def dir
