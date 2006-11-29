@@ -34,3 +34,5 @@ echo "Cleaning $dir..."
 
 find "$dir" -name target | xargs rm -rfv | egrep "^removed directory:"
 
+# egrep will return non-zero if no match
+exit 0
