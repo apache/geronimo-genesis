@@ -25,9 +25,12 @@
 DIRNAME=`dirname $0`
 PROGNAME=`basename $0`
 
-BASEDIR=`cd "$DIRNAME"/.. && pwd`
+if [ "x$1" = "x" ]; then
+    dir=`pwd`
+else
+    dir=`cd "$1" && pwd`
+fi
+echo "Cleaning $dir..."
 
-echo "Cleaning $BASEDIR..."
-
-find "$BASEDIR" -name target | xargs rm -rfv
+find "$dir" -name target | xargs rm -rfv
 
