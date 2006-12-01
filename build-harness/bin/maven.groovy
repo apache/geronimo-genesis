@@ -111,6 +111,8 @@ class MavenBuilder
             throw new Exception("Please define JAVA_HOME; or use --java <ver>")
         }
         
+        println "Using local repo: ${repodir}"
+        
         ant.exec(executable: "mvn", dir: basedir, failonerror: true) {
             // Get a reference to the current node so we can conditionally set attributes
             def node = current.wrapper
