@@ -40,7 +40,7 @@ export JAVA_HOME="$JAVA_HOME_1_5"
 groovy() {
     (
         cd "$BINDIR"
-        exec "$GROOVY" "$PROGNAME.groovy" $*
+        exec "$GROOVY" "$PROGNAME.groovy" $* | 2>&1 tee "$BASEDIR/$PROGNAME.log"
     )
 }
 
