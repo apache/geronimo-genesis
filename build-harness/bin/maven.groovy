@@ -100,7 +100,14 @@ class MavenBuilder
             throw new Exception("Missing pom")
         }
         
-        maven(pom, args)
+        try {
+            maven(pom, args)
+        }
+        catch (Throwable t) {
+            println "ERROR: ${t}"
+            t.printStackTrace()
+            System.exit(1)
+        }
     }
     
     def maven(pom, args) {
