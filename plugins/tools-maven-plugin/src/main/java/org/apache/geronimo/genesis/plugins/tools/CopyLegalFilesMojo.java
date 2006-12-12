@@ -82,7 +82,7 @@ public class CopyLegalFilesMojo
     /**
      * When set to true, fail the build when no legal files are found.
      *
-     * @paramater default-value="false"
+     * @parameter default-value="false"
      */
     private boolean strict;
     
