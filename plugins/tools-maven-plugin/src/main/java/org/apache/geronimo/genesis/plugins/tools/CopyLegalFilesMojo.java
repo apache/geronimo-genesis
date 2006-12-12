@@ -78,7 +78,14 @@ public class CopyLegalFilesMojo
      * @parameter
      */
     private DirectoryScanner fileset;
-
+    
+    /**
+     * When set to true, fail the build when no legal files are found.
+     *
+     * @paramater default-value="false"
+     */
+    private boolean strict;
+    
     /**
      * @component
      */
@@ -128,7 +135,13 @@ public class CopyLegalFilesMojo
         String[] filenames = fileset.getIncludedFiles();
 
         if (filenames.length == 0) {
-            log.error("No legal files found to copy");
+            if (strict) {
+                throw new MojoExecutionException("No legal files found to copy");
+            }
+            else {
+                log.warn("No legal files found to copy");
+            }
+            
             return;
         }
 
