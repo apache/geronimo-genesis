@@ -105,7 +105,7 @@ class MavenBuilder
         }
         catch (Throwable t) {
             println "ERROR: ${t}"
-            t.printStackTrace()
+            // t.printStackTrace()
             System.exit(1)
         }
     }
