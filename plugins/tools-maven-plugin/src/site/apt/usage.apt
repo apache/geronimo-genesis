@@ -152,7 +152,78 @@ Other Tools
 </plugin>
 +----------+
 
+* Verify that artifacts include legal files
+
+ Help to make sure that your generated project artifacts (and attached artifacts), which are zip-encoded
+ include required legal files.
+
+ By default checks for <<<LICENSE.txt>>> and <<<NOTICE.txt>>> in <<<META-INF/>>> and <<<artifactId-version/>>>:
+
++----------+
+<plugin>
+    <groupId>org.apache.geronimo.genesis.plugins</groupId>
+    <artifactId>tools-maven-plugin</artifactId>
+    <executions>
+        <execution>
+            <id>verify-legal-files</id>
+            <phase>verify</phase>
+            <goals>
+                <goal>verify-legal-files</goal>
+            </goals>
+        </execution>
+    </executions>
+</plugin>
++----------+
+
+ Fail builds using strict mode:
+
++----------+
+<plugin>
+    <groupId>org.apache.geronimo.genesis.plugins</groupId>
+    <artifactId>tools-maven-plugin</artifactId>
+    <executions>
+        <execution>
+            <id>verify-legal-files</id>
+            <phase>verify</phase>
+            <goals>
+                <goal>verify-legal-files</goal>
+            </goals>
+        </execution>
+        <configuration>
+            <strict>true</strict>
+        </configuration>
+    </executions>
+</plugin>
++----------+
+
+ Specify the list of required legal files:
+
++----------+
+<plugin>
+    <groupId>org.apache.geronimo.genesis.plugins</groupId>
+    <artifactId>tools-maven-plugin</artifactId>
+    <executions>
+        <execution>
+            <id>verify-legal-files</id>
+            <phase>verify</phase>
+            <goals>
+                <goal>verify-legal-files</goal>
+            </goals>
+        </execution>
+        <configuration>
+            <requiredFiles>
+                <requiredFile>LICENSE.txt</requiredFile>
+                <requiredFile>NOTICE.txt</requiredFile>
+                <requiredFile>DISCLAIMER.txt</requiredFile>
+            </requiredFiles>
+        </configuration>
+    </executions>
+</plugin>
++----------+
+
 * Sign artifacts with GnuPG
+
+ <<NOTE:>> Deprecated; use the {{{http://maven.apache.org/plugins/maven-gpg-plugin/}maven-gpg-plugin}} instead.
 
  Signs all of a project's attached artifacts with GnuPG.
 
