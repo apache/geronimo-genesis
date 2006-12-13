@@ -111,8 +111,18 @@ public class VerifyLegalFilesMojo
     private boolean containsLegalFiles(final ZipFile file) throws IOException {
         assert file != null;
 
+        // First check in META-INF
         for (int i=0; i < LEGAL_FILES.length; i++) {
             ZipEntry entry = file.getEntry("META-INF/" + LEGAL_FILES[i]);
+            if (entry != null) {
+                // found one, thats all we need
+                return true;
+            }
+        }
+
+        // Then root (needed for assemblies)
+        for (int i=0; i < LEGAL_FILES.length; i++) {
+            ZipEntry entry = file.getEntry(LEGAL_FILES[i]);
             if (entry != null) {
                 // found one, thats all we need
                 return true;
