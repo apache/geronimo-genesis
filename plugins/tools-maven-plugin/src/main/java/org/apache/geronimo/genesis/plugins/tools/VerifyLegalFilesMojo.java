@@ -83,6 +83,12 @@ public class VerifyLegalFilesMojo
             Artifact artifact = (Artifact)iter.next();
             File file = artifact.getFile();
 
+            // Some artifacts might not have files, so skip them
+            if (file == null) {
+                log.debug("Skipping artifact; no attached file: " + artifact);
+                continue;
+            }
+
             log.info("Verifying legal files: " + file.getName());
             
             try {
