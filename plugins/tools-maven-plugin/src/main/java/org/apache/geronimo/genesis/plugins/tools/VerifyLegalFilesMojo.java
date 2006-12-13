@@ -46,15 +46,11 @@ public class VerifyLegalFilesMojo
     extends MojoSupport
 {
     /**
-     * The list of legal files under META-INF we look for.
+     * The default required legal files.
      */
-    private static final String[] LEGAL_FILES = {
+    private static final String[] DEFAULT_REQUIRED_FILES = {
         "LICENSE.txt",
-        "LICENSE",
-        "NOTICE.txt",
-        "NOTICE",
-        "DISCLAIMER.txt",
-        "DISCLAIMER"
+        "NOTICE.txt"
     };
 
     /**
@@ -63,6 +59,14 @@ public class VerifyLegalFilesMojo
      * @parameter default-value="false"
      */
     private boolean strict;
+
+
+    /**
+     * The list of required legal files.
+     *
+     * @parameter
+     */
+    private String[] requiredFiles = DEFAULT_REQUIRED_FILES;
 
     /**
      * The maven project.
@@ -89,16 +93,18 @@ public class VerifyLegalFilesMojo
                 continue;
             }
 
-            log.info("Verifying legal files: " + file.getName());
-            
             try {
                 ZipFile zfile = new ZipFile(file);
+
+                log.info("Checking legal files in: " + file.getName());
+
                 if (!containsLegalFiles(zfile)) {
+                    String msg = "Artifact does not contain any legal files: " + file.getName();
                     if (strict) {
-                        throw new MojoExecutionException("Artifact does not contain any legal files: " + file);
+                        throw new MojoExecutionException(msg);
                     }
                     else {
-                        log.warn("Artifact does not contain any legal files: " + file);
+                        log.warn(msg);
                     }
                 }
             }
@@ -111,24 +117,24 @@ public class VerifyLegalFilesMojo
     private boolean containsLegalFiles(final ZipFile file) throws IOException {
         assert file != null;
 
-        // First check in META-INF
-        for (int i=0; i < LEGAL_FILES.length; i++) {
-            ZipEntry entry = file.getEntry("META-INF/" + LEGAL_FILES[i]);
-            if (entry != null) {
-                // found one, thats all we need
-                return true;
+        return containsLegalFiles(file, "META-INF") ||
+               containsLegalFiles(file, project.getArtifactId() + "-" + project.getVersion());
+    }
+
+    private boolean containsLegalFiles(final ZipFile file, final String basedir) {
+        assert file != null;
+        assert basedir != null;
+
+        for (int i=0; i < requiredFiles.length; i++) {
+            String filename = basedir + "/" + requiredFiles[i];
+            log.debug("Checking for: " + filename);
+            
+            ZipEntry entry = file.getEntry(filename);
+            if (entry == null) {
+                return false;
             }
         }
 
-        // Then root (needed for assemblies)
-        for (int i=0; i < LEGAL_FILES.length; i++) {
-            ZipEntry entry = file.getEntry(LEGAL_FILES[i]);
-            if (entry != null) {
-                // found one, thats all we need
-                return true;
-            }
-        }
-
-        return false;
+        return true;
     }
 }
