@@ -145,35 +145,9 @@
         </profile>
         
         <profile>
-            <id>output</id>
-            
-            <build>
-                <defaultGoal>deploy</defaultGoal>
-            </build>
-            
-            <distributionManagement>
-                <repository>
-                    <id>output-releases</id>
-                    <url>file://${output.dir}/release</url>
-                    <uniqueVersion>false</uniqueVersion>
-                </repository>
-
-                <snapshotRepository>
-                    <id>output-snapshots</id>
-                    <url>file://${output.dir}/snapshots</url>
-                    <uniqueVersion>false</uniqueVersion>
-                </snapshotRepository>
-
-                <site>
-                    <id>output-website</id>
-                    <url>file://${output.dir}/website</url>
-                </site>
-            </distributionManagement>
-        </profile>
-        <profile>
             <!-- Problems: it's not signing JavaDoc and Source JARs -->
             <id>staging</id>
-    
+
             <pluginRepositories>
                 <pluginRepository>
                     <id>apache.org</id>
@@ -204,6 +178,7 @@
                             </execution>
                         </executions>
                     </plugin>
+                    
                     <!-- We want the JavaDoc JAR published with the release -->
                     <plugin>
                         <inherited>true</inherited>
@@ -221,6 +196,7 @@
                             </execution>
                         </executions>
                     </plugin>
+                    
                     <!-- We want to deploy the artifact to a staging location for perusal -->
                     <plugin>
                         <inherited>true</inherited>
@@ -231,6 +207,7 @@
                             <altDeploymentRepository>${deploy.altRepository}</altDeploymentRepository>
                         </configuration>
                     </plugin>
+                    
                     <!-- We want to deploy the site to a staging location for perusal -->
                     <plugin>
                         <artifactId>maven-site-plugin</artifactId>
@@ -246,6 +223,7 @@
                             </execution>
                         </executions>
                     </plugin>
+                    
                     <!-- We want to sign the artifact, the POM, and all attached artifacts -->
                     <plugin>
                         <artifactId>maven-gpg-plugin</artifactId>
@@ -261,6 +239,7 @@
                             </execution>
                         </executions>
                     </plugin>
+                    
                     <!-- We want to package up license resources in the JARs produced -->
                     <plugin>
                         <artifactId>maven-remote-resources-plugin</artifactId>
