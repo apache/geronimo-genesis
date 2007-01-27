@@ -144,6 +144,11 @@
             </modules>
         </profile>
         
+        <!--
+        FIXME: We need to revisit this profile after the Maven plugins to support it have
+               been officially released, and update our process to effectivly use them.
+        -->
+        
         <profile>
             <!-- Problems: it's not signing JavaDoc and Source JARs -->
             <id>staging</id>
