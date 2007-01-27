@@ -421,19 +421,6 @@
         </repository>
         
         <repository>
-            <id>codehaus</id>
-            <name>Codehaus Repository</name>
-            <url>http://repository.codehaus.org</url>
-            <layout>default</layout>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-        </repository>
-        
-        <repository>
             <id>codehaus-snapshots</id>
             <name>Codehaus Snapshots Repository</name>
             <url>http://snapshots.repository.codehaus.org</url>
@@ -462,19 +449,6 @@
             </snapshots>
             <releases>
                 <enabled>false</enabled>
-            </releases>
-        </pluginRepository>
-        
-        <pluginRepository>
-            <id>codehaus</id>
-            <name>Codehaus Repository</name>
-            <url>http://repository.codehaus.org</url>
-            <layout>default</layout>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-            <releases>
-                <enabled>true</enabled>
             </releases>
         </pluginRepository>
         
