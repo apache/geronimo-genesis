@@ -57,12 +57,12 @@ public class RequireMavenVersionMojo
      */
     private boolean skip = false;
     
-    /**
-     * The version of Maven we are running in.
-     */
-    private String mavenVersion;
-    
-    private Properties loadProperties() throws Exception {
+    private String loadMavenVersion() throws Exception {
+        //
+        // HACK: Not sure where is the best place to get the Maven version from, so pull it from
+        //       the maven-core's pom details until we find a better way.
+        //
+        
         InputStream input = getClass().getClassLoader().getResourceAsStream("META-INF/maven/org.apache.maven/maven-core/pom.properties");
         if (input == null) {
             throw new MojoFailureException("Missing 'maven-core/pom.properties', can't find Maven version");
@@ -76,7 +76,12 @@ public class RequireMavenVersionMojo
             input.close();
         }
         
-        return props;
+        String version = props.getProperty("version");
+        if (version == null) {
+            throw new MojoFailureException("Missing 'version' property in 'maven-core/pom.properties'");
+        }
+        
+        return version;
     }
     
     /**
@@ -111,13 +116,8 @@ public class RequireMavenVersionMojo
             log.warn("Skipping Maven version check");
         }
         
-        Properties props = loadProperties();
-        mavenVersion = props.getProperty("version");
-        if (mavenVersion == null) {
-            throw new MojoFailureException("Missing 'version' property in 'maven-core/pom.properties'");
-        }
+        String mavenVersion = loadMavenVersion();
         log.debug("Current Maven version: " + mavenVersion);
-        
         float mavenVersionFloat = parseFloat(mavenVersion);
         
         version = version.trim();
