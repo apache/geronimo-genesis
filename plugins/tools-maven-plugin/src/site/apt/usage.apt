@@ -103,6 +103,36 @@ Java Version Control
 </plugin>
 +----------+
 
+Maven Version Control
+
+ Allow builds to fail quickly if the Maven version is not correct.
+
+* Require a specific Maven version
+
+ This will only allow the build to function if the Maven version is 2.0.4,
+ any other version will cause a build failure.
+ 
+ NOTE: The basic syntax is the same as for require-java-version, except that you can specify
+ values like 1.4.1 (you do not need to, or should, specify 1.41).
+
++----------+
+<plugin>
+    <groupId>org.apache.geronimo.genesis.plugins</groupId>
+    <artifactId>tools-maven-plugin</artifactId>
+    <executions>
+        <execution>
+            <phase>validate</phase>
+            <goals>
+                <goal>require-maven-version</goal>
+            </goals>
+            <configuration>
+                <version>2.0.4</version>
+            </configuration>
+        </execution>
+    </executions>
+</plugin>
++----------+
+
 Other Tools
 
 * Copy legal files
