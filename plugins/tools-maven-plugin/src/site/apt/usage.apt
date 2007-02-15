@@ -221,30 +221,3 @@ Other Tools
 </plugin>
 +----------+
 
-* Sign artifacts with GnuPG
-
- <<NOTE:>> Deprecated; use the {{{http://maven.apache.org/plugins/maven-gpg-plugin/}maven-gpg-plugin}} instead.
-
- Signs all of a project's attached artifacts with GnuPG.
-
- You need to specify the passphrase with a <<<-Dpassphrase=thephrase>>> on the command line.
- <<<gpg>>> also needs to be on the search path.
- 
- You need to have previously configured the default key.
-
-+----------+
-<plugin>
-    <groupId>org.apache.geronimo.genesis.plugins</groupId>
-    <artifactId>tools-maven-plugin</artifactId>
-    <executions>
-        <execution>
-            <id>sign-artifacts</id>
-            <phase>verify</phase>
-            <goals>
-                <goal>gpg-sign-attached</goal>
-            </goals>
-        </execution>
-    </executions>
-</plugin>
-+----------+
-
