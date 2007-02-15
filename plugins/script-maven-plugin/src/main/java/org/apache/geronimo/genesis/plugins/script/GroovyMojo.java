@@ -138,6 +138,10 @@ public class GroovyMojo
         boolean debug = log.isDebugEnabled();
 
         Class type = loadGroovyClass(source);
+        if (type == null) {
+            throw new MojoExecutionException("Source did not evaluate to a Groovy class: " + source);
+        }
+        
         GroovyObject obj = (GroovyObject)type.newInstance();
 
         /*
