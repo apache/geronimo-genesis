@@ -27,10 +27,10 @@ import org.apache.maven.project.MavenProject;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 
-import org.apache.geronimo.genesis.dependency.DependencyHelper;
-import org.apache.geronimo.genesis.dependency.DependencyTree;
-import org.apache.geronimo.genesis.dependency.DependencyTree.Node;
-import org.apache.geronimo.genesis.MojoSupport;
+import org.codehaus.mojo.pluginsupport.dependency.DependencyHelper;
+import org.codehaus.mojo.pluginsupport.dependency.DependencyTree;
+import org.codehaus.mojo.pluginsupport.dependency.DependencyTree.Node;
+import org.codehaus.mojo.pluginsupport.MojoSupport;
 
 /**
  * Helper to show a projects dependencies.

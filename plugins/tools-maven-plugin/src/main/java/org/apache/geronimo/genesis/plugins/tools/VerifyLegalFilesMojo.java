@@ -32,7 +32,7 @@ import org.apache.maven.project.MavenProject;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.artifact.Artifact;
 
-import org.apache.geronimo.genesis.MojoSupport;
+import org.codehaus.mojo.pluginsupport.MojoSupport;
 
 /**
  * Verify (kinda) that legal files are in all attached zip-encoded artifacts.

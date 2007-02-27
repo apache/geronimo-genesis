@@ -19,7 +19,7 @@
 
 package org.apache.geronimo.genesis.plugins.tools;
 
-import org.apache.geronimo.genesis.MojoSupport;
+import org.codehaus.mojo.pluginsupport.MojoSupport;
 
 import org.apache.maven.project.MavenProject;
 

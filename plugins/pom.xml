@@ -47,82 +47,10 @@
                 <artifactId>commons-lang</artifactId>
                 <version>2.2</version>
             </dependency>
-            
-            <dependency>
-                <groupId>commons-lang</groupId>
-                <artifactId>commons-lang</artifactId>
-                <version>2.2</version>
-            </dependency>
-            
-            <dependency>
-                <groupId>commons-logging</groupId>
-                <artifactId>commons-logging</artifactId>
-                <version>1.0.4</version>
-            </dependency>
-            
-            <dependency>
-                <groupId>commons-jexl</groupId>
-                <artifactId>commons-jexl</artifactId>
-                <version>1.1</version>
-            </dependency>
-            
-            <dependency>
-                <groupId>ant</groupId>
-                <artifactId>ant</artifactId>
-                <version>1.6.5</version>
-            </dependency>
-            
-            <dependency>
-                <groupId>ant</groupId>
-                <artifactId>ant-nodeps</artifactId>
-                <version>1.6.5</version>
-            </dependency>
-            
-            <dependency>
-                <groupId>ant</groupId>
-                <artifactId>ant-launcher</artifactId>
-                <version>1.6.5</version>
-            </dependency>
-            
-            <dependency>
-                <groupId>ant</groupId>
-                <artifactId>ant-apache-oro</artifactId>
-                <version>1.6.5</version>
-            </dependency>
-            
-            <dependency>
-                <groupId>oro</groupId>
-                <artifactId>oro</artifactId>
-                <version>2.0.8</version>
-            </dependency>
-            
-            <dependency>
-                <groupId>org.apache.geronimo.genesis.plugins</groupId>
-                <artifactId>plugin-support</artifactId>
-                <version>1.2-SNAPSHOT</version>
-            </dependency>
         </dependencies>
     </dependencyManagement>
     
     <dependencies>
-        <dependency>
-            <groupId>org.apache.maven</groupId>
-            <artifactId>maven-plugin-api</artifactId>
-            <version>2.0.4</version>
-        </dependency>
-        
-        <dependency>
-            <groupId>org.apache.maven</groupId>
-            <artifactId>maven-project</artifactId>
-            <version>2.0.4</version>
-        </dependency>
-        
-        <dependency>
-            <groupId>org.apache.maven</groupId>
-            <artifactId>maven-artifact</artifactId>
-            <version>2.0.4</version>
-        </dependency>
-        
         <!--
         NOTE: Include newer plexus-utils to gain access to a richer CommandLine API
         -->
@@ -130,6 +58,12 @@
             <groupId>org.codehaus.plexus</groupId>
             <artifactId>plexus-utils</artifactId>
             <version>1.2</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>plugin-support</artifactId>
+            <version>1.0-alpha-1-SNAPSHOT</version>
         </dependency>
     </dependencies>
     
@@ -169,9 +103,7 @@
     </build>
     
     <modules>
-        <module>plugin-support</module>
         <module>tools-maven-plugin</module>
-        <module>script-maven-plugin</module>
         <module>maven-maven-plugin</module>
     </modules>
     

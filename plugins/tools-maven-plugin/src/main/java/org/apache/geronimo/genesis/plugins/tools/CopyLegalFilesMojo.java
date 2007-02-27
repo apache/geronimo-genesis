@@ -29,8 +29,8 @@ import org.apache.maven.project.MavenProject;
 import org.apache.tools.ant.taskdefs.Copy;
 import org.apache.tools.ant.types.FileSet;
 
-import org.apache.geronimo.genesis.MojoSupport;
-import org.apache.geronimo.genesis.ant.AntHelper;
+import org.codehaus.mojo.pluginsupport.MojoSupport;
+import org.codehaus.mojo.pluginsupport.ant.AntHelper;
 
 /**
  * Copy legal files for inclusion into generated jars.

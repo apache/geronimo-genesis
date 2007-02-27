@@ -22,7 +22,8 @@ package org.apache.geronimo.genesis.plugins.tools;
 import java.util.Properties;
 import java.io.InputStream;
 
-import org.apache.geronimo.genesis.MojoSupport;
+import org.codehaus.mojo.pluginsupport.MojoSupport;
+
 import org.apache.maven.plugin.MojoFailureException;
 
 /**
