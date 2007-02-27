@@ -134,12 +134,6 @@
             </dependency>
             
             <dependency>
-                <groupId>org.apache.geronimo.genesis.plugins</groupId>
-                <artifactId>plugin-support</artifactId>
-                <version>1.2-SNAPSHOT</version>
-            </dependency>
-            
-            <dependency>
                 <groupId>org.apache.geronimo.genesis.config</groupId>
                 <artifactId>logging-config</artifactId>
                 <version>1.2-SNAPSHOT</version>
@@ -344,12 +338,6 @@
                     <version>1.2-SNAPSHOT</version>
                 </plugin>
                 
-                <plugin>
-                    <groupId>org.apache.geronimo.genesis.plugins</groupId>
-                    <artifactId>script-maven-plugin</artifactId>
-                    <version>1.2-SNAPSHOT</version>
-                </plugin>
-
                 <plugin>
                     <groupId>org.apache.geronimo.genesis.plugins</groupId>
                     <artifactId>maven-maven-plugin</artifactId>
