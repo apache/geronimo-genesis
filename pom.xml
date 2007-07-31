@@ -171,9 +171,10 @@
                 <plugins>
                     <!-- We want the sources JAR published with the release -->
                     <plugin>
-                        <inherited>true</inherited>
+                        <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-source-plugin</artifactId>
                         <version>2.0.2</version>
+                        <inherited>true</inherited>
                         <executions>
                             <execution>
                                 <id>attach-sources</id>
@@ -186,9 +187,10 @@
                     
                     <!-- We want the JavaDoc JAR published with the release -->
                     <plugin>
-                        <inherited>true</inherited>
+                        <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-javadoc-plugin</artifactId>
                         <version>2.2</version>
+                        <inherited>true</inherited>
                         <configuration>
                             <source>1.5</source>
                         </configuration>
@@ -204,9 +206,11 @@
                     
                     <!-- We want to deploy the artifact to a staging location for perusal -->
                     <plugin>
-                        <inherited>true</inherited>
+                        <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-deploy-plugin</artifactId>
+                        <!-- FIXME: This is really a SNAPSHOT -->
                         <version>2.3-20061210.174233-3</version>
+                        <inherited>true</inherited>
                         <configuration>
                             <updateReleaseInfo>true</updateReleaseInfo>
                             <altDeploymentRepository>${deploy.altRepository}</altDeploymentRepository>
@@ -215,6 +219,7 @@
                     
                     <!-- We want to deploy the site to a staging location for perusal -->
                     <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-site-plugin</artifactId>
                         <version>2.0-beta-5</version>
                         <executions>
@@ -231,7 +236,9 @@
                     
                     <!-- We want to sign the artifact, the POM, and all attached artifacts -->
                     <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-gpg-plugin</artifactId>
+                        <!-- FIXME: This is really a SNAPSHOT -->
                         <version>1.0-alpha-2-20061214.035657-1</version>
                         <configuration>
                             <passphrase>${gpg.passphrase}</passphrase>
@@ -247,6 +254,7 @@
                     
                     <!-- We want to package up license resources in the JARs produced -->
                     <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-remote-resources-plugin</artifactId>
                         <version>1.0-alpha-1</version>
                         <executions>
