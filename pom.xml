@@ -69,15 +69,21 @@
                     <artifactId>maven-release-plugin</artifactId>
                     <version>2.0-beta-6</version>
                 </plugin>
+                
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-remote-resources-plugin</artifactId>
+                    <version>1.0-beta-1</version>
+                </plugin>
             </plugins>
         </pluginManagement>
         
         <plugins>
             <plugin>
-                <inherited>true</inherited>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-install-plugin</artifactId>
                 <version>2.2</version>
+                <inherited>true</inherited>
             </plugin>
 
             <plugin>
@@ -125,6 +131,7 @@
             </activation>
             
             <modules>
+                <module>legal-bundle</module>
                 <module>config</module>
                 <module>plugins</module>
             </modules>
