@@ -8,6 +8,10 @@
 
 Copyright ${projectTimespan}#if($project.organization.name) $project.organization.name#else The Apache Software Foundation#end
 
+
+This product includes software developed at
+Apache Software Foundation (http://www.apache.org/).
+
 #if($preProjectText)
 $preProjectText
 #end
