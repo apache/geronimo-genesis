@@ -36,19 +36,23 @@ Apache Software Foundation (http://www.apache.org/).
 $preProjectText
 #end
 
-###foreach ( $organizationName in $projectsSortedByOrganization.keySet() )
-##This product includes/uses software(s) developed by '$organizationName.name'#if($organizationName.url) ($organizationName.url)#end
-##
-###foreach ( $project in $projectsSortedByOrganization.get( $organizationName ) )
-##  - $project.name#if ($addVersion) (version $project.version)#end#if ($addArtifact) ($project.artifact)#end#if($project.url) ($project.url)#end
-###if ($addLicense)#foreach ( $license in $project.licenses)
-##
-##      License: $license.name #if ($license.url) ($license.url)#end
-###end#end
-##
-###end
-##
-###end
+#if($includeProjectDependencies)
+#foreach ( $organizationName in $projectsSortedByOrganization.keySet() )
+This product includes/uses software(s) developed by '$organizationName.name'#if($organizationName.url) ($organizationName.url)#end
+
+#foreach ( $project in $projectsSortedByOrganization.get( $organizationName ) )
+  - $project.name#if ($addVersion) (version $project.version)#end#if ($addArtifact) ($project.artifact)#end#if($project.url) ($project.url)#end
+#if ($addLicense)#foreach ( $license in $project.licenses)
+
+      License: $license.name #if ($license.url) ($license.url)#end
+#end
+#end
+    
+#end
+    
+#end
+    
+#end
 
 #if($postProjectText)
 $postProjectText
