@@ -201,6 +201,7 @@
                             <arguments>-Prelease</arguments>
                         </configuration>
                     </plugin>
+
                     <!-- We want a source jar -->
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
@@ -213,10 +214,12 @@
                             </execution>
                         </executions>
                     </plugin>
+
                     <!-- We want to sign the artifact, the POM, and all attached artifacts -->
                     <plugin>
-                        <inherited>true</inherited>
+						<groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-gpg-plugin</artifactId>
+						<inherited>true</inherited>
                         <configuration>
                             <passphrase>${gpg.passphrase}</passphrase>
                         </configuration>
@@ -228,20 +231,24 @@
                             </execution>
                         </executions>
                     </plugin>
+
                     <!-- We want to deploy the artifact to a staging location for perusal -->
                     <plugin>
-                        <inherited>true</inherited>
+						<groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-deploy-plugin</artifactId>
+						<inherited>true</inherited>
                         <configuration>
                             <altDeploymentRepository>${deploy.altRepository}</altDeploymentRepository>
                             <updateReleaseInfo>true</updateReleaseInfo>
                         </configuration>
                     </plugin>
+
                     <!-- We want the JavaDoc JAR published with the release -->
                     <plugin>
-                        <inherited>true</inherited>
+                        <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-javadoc-plugin</artifactId>
-                        <configuration>
+                        <inherited>true</inherited>
+						<configuration>
                             <source>1.5</source>
                         </configuration>
                         <executions>
