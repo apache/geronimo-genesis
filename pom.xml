@@ -36,7 +36,7 @@
     <packaging>pom</packaging>
     <inceptionYear>2003</inceptionYear>
     
-    <version>1.5-SNAPSHOT</version>
+    <version>1.4-SNAPSHOT</version>
     
     <description>
         Genesis provides support for Maven2 builds; adding shared configurations
@@ -201,7 +201,6 @@
                             <arguments>-Prelease</arguments>
                         </configuration>
                     </plugin>
-
                     <!-- We want a source jar -->
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
@@ -214,12 +213,10 @@
                             </execution>
                         </executions>
                     </plugin>
-
                     <!-- We want to sign the artifact, the POM, and all attached artifacts -->
                     <plugin>
-						<groupId>org.apache.maven.plugins</groupId>
+                        <inherited>true</inherited>
                         <artifactId>maven-gpg-plugin</artifactId>
-						<inherited>true</inherited>
                         <configuration>
                             <passphrase>${gpg.passphrase}</passphrase>
                         </configuration>
@@ -231,24 +228,20 @@
                             </execution>
                         </executions>
                     </plugin>
-
                     <!-- We want to deploy the artifact to a staging location for perusal -->
                     <plugin>
-						<groupId>org.apache.maven.plugins</groupId>
+                        <inherited>true</inherited>
                         <artifactId>maven-deploy-plugin</artifactId>
-						<inherited>true</inherited>
                         <configuration>
                             <altDeploymentRepository>${deploy.altRepository}</altDeploymentRepository>
                             <updateReleaseInfo>true</updateReleaseInfo>
                         </configuration>
                     </plugin>
-
                     <!-- We want the JavaDoc JAR published with the release -->
                     <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-javadoc-plugin</artifactId>
                         <inherited>true</inherited>
-						<configuration>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <configuration>
                             <source>1.5</source>
                         </configuration>
                         <executions>
