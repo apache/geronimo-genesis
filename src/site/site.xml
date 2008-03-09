@@ -24,9 +24,9 @@
     <skin>
         <groupId>org.apache.geronimo.genesis.config</groupId>
         <artifactId>geronimo-skin</artifactId>
-        <version>1.2-SNAPSHOT</version>
+        <version>${project.version}</version>
     </skin>
-    
+
     <publishDate format="dd MMM yyyy"/>
     
     <bannerLeft>
