@@ -40,8 +40,6 @@
         by all Apache Geronimo projects.
     </description>
     
-    <url>http://geronimo.apache.org</url>
-    
     <organization>
         <name>Apache Software Foundation</name>
         <url>http://www.apache.org</url>
