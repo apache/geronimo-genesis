@@ -145,7 +145,6 @@
     <distributionManagement>
         <site>
             <id>geronimo-website</id>
-            <!--<url>${staging.siteURL}/genesis/${version}</url>-->
             <url>${staging.siteURL}/${siteId}/${version}</url>
         </site>
     </distributionManagement>

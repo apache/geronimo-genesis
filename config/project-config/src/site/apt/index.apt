@@ -1,0 +1,61 @@
+------
+ Genesis project-config for Geronimo projects
+ ------
+ ------
+ $Rev: $ $Date: $
+
+~~
+~~ Licensed to the Apache Software Foundation (ASF) under one
+~~ or more contributor license agreements.  See the NOTICE file
+~~ distributed with this work for additional information
+~~ regarding copyright ownership.  The ASF licenses this file
+~~ to you under the Apache License, Version 2.0 (the
+~~ "License"); you may not use this file except in compliance
+~~ with the License.  You may obtain a copy of the License at
+~~
+~~  http://www.apache.org/licenses/LICENSE-2.0
+~~
+~~ Unless required by applicable law or agreed to in writing,
+~~ software distributed under the License is distributed on an
+~~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+~~ KIND, either express or implied.  See the License for the
+~~ specific language governing permissions and limitations
+~~ under the License.
+~~
+
+Tips for setting up Geronimo projects to use the genesis features:
+
+Legal files:
+
+* Each "complete project" under trunk/branches/tags MUST have a LICENSE and NOTICE file checked into svn that applies to the
+  entire project.
+
+* All other subprojects should not have LICENSE or NOTICE files. If the standard files are not sufficient due to inclusion of
+  code under non-asl licenses or other reasons, the ADDITIONAL material to be appended to the standard LICENSE and NOTICE files
+  should be put in src/main/appended-resources/LICENSE and src/main/appended-resources/NOTICE
+
+* If for some reason correct legal files cannot be constructed in this way, the tools-maven-plugin:install-legal-files can be
+  used to install explicitly constructed files.
+
+* A DEPENDENCIES file will be constructed listing the transitive dependencies of the project, organization, and license.
+
+Site generation:
+
+* Sites go in http://geronimo.apache.org/maven/$artifactId/$version.
+  This is divided up into ${staging.siteURL}/${siteId}/${version}
+
+* In the root project for the site, set the siteId property to the artifactId of the project, such as "server" or "roller"
+
+* In your settings.xml set staging.siteURL in the release profile and in another profile such as default.  You can set
+  these to different values for different purposes.  The release location should be
+  scp://people.apache.org/x1/home/<your apache id>/public_html/staging-site
+
+* When building the site be sure to include the profile with the desired site location.
+
+Release:
+
+* Be sure the scm section of the root pom is correct.
+
+* See the release process docs on the wiki for information about setting up your settings.xml.
+
+* If your project follows the normal trunk/branches/tags layout no further configuration should be necessary.
