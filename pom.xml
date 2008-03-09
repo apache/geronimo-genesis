@@ -36,7 +36,7 @@
     <packaging>pom</packaging>
     <inceptionYear>2003</inceptionYear>
 
-    <version>1.5-SNAPSHOT</version>
+    <version>1.4-SNAPSHOT</version>
 
     <description>
         Genesis provides support for Maven2 builds; adding shared configurations
