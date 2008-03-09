@@ -18,9 +18,22 @@
 ##
 ## $Date$ $Rev$
 ##
+// ------------------------------------------------------------------
+// Transitive dependencies of this project determined from the
+// maven pom organized by organization.
+// ------------------------------------------------------------------
+
 #if ($projectName)$projectName#else${project.name}#end
 
-Copyright ${projectTimespan}#if($project.organization.name) $project.organization.name#else The Apache Software Foundation#end
+#foreach ( $organizationName in $projectsSortedByOrganization.keySet() )
+From: '$organizationName.name'#if($organizationName.url) ($organizationName.url)#end
 
-This product includes software developed at
-Apache Software Foundation (http://www.apache.org/).
+#foreach ( $project in $projectsSortedByOrganization.get( $organizationName ) )
+  - $project.name ($project.url) $project.artifact
+#foreach ( $license in $project.licenses)
+      License: $license.name #if ($license.url) ($license.url)#end
+#end
+
+#end
+    
+#end

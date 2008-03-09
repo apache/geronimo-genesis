@@ -51,6 +51,11 @@
         <url>http://svn.apache.org/viewvc/geronimo/genesis/trunk</url>
     </scm>
 
+    <properties>
+        <!-- set siteId to artifactId for any "top level" project rooting a website -->
+        <siteId>genesis</siteId>
+    </properties>
+
     <build>
         <defaultGoal>install</defaultGoal>
 
@@ -92,12 +97,6 @@
                     <inherited>true</inherited>
                     <artifactId>maven-javadoc-plugin</artifactId>
                     <version>2.3</version>
-                </plugin>
-
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-remote-resources-plugin</artifactId>
-                    <version>1.0-beta-1</version>
                 </plugin>
 
                 <plugin>
@@ -146,7 +145,8 @@
     <distributionManagement>
         <site>
             <id>geronimo-website</id>
-            <url>scp://people.apache.org/www/geronimo.apache.org/maven/genesis</url>
+            <!--<url>${staging.siteURL}/genesis/${version}</url>-->
+            <url>${staging.siteURL}/${siteId}/${version}</url>
         </site>
     </distributionManagement>
 
@@ -191,6 +191,7 @@
 
             <build>
                 <plugins>
+                    
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-release-plugin</artifactId>

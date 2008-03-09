@@ -325,6 +325,23 @@
                     <artifactId>maven-maven-plugin</artifactId>
                     <version>1.4-SNAPSHOT</version>
                 </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-remote-resources-plugin</artifactId>
+                    <version>1.0-beta-2</version>
+                    <executions>
+                      <execution>
+                        <goals>
+                          <goal>process</goal>
+                        </goals>
+                        <configuration>
+                          <resourceBundles>
+                              <resourceBundle>org.apache.geronimo.genesis:legal-bundle:${version}</resourceBundle>
+                          </resourceBundles>
+                        </configuration>
+                      </execution>
+                    </executions>
+                </plugin>
             </plugins>
         </pluginManagement>
         
@@ -350,14 +367,11 @@
                 </configuration>
             </plugin>
             
+            -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-release-plugin</artifactId>
-                <configuration>
-                    <tagBase>https://svn.apache.org/repos/asf/geronimo/tags</tagBase>
-                </configuration>
+                <artifactId>maven-remote-resources-plugin</artifactId>
             </plugin>
-            -->
          </plugins>
     </build>
     
