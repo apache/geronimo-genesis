@@ -49,8 +49,8 @@ public class VerifyLegalFilesMojo
      * The default required legal files.
      */
     private static final String[] DEFAULT_REQUIRED_FILES = {
-        "LICENSE.txt",
-        "NOTICE.txt"
+        "LICENSE",
+        "NOTICE"
     };
 
     /**
