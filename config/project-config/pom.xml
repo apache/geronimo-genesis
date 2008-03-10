@@ -334,7 +334,7 @@
                         </goals>
                         <configuration>
                           <resourceBundles>
-                              <resourceBundle>org.apache.geronimo.genesis:legal-bundle:${version}</resourceBundle>
+                              <resourceBundle>org.apache.geronimo.genesis:legal-bundle:1.4-SNAPSHOT</resourceBundle>
                           </resourceBundles>
                         </configuration>
                       </execution>

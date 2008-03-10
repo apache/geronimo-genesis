@@ -29,9 +29,9 @@
 From: '$organizationName.name'#if($organizationName.url) ($organizationName.url)#end
 
 #foreach ( $project in $projectsSortedByOrganization.get( $organizationName ) )
-  - $project.name ($project.url) $project.artifact
+  - $project.name #if ($project.url)($project.url)#end $project.artifact
 #foreach ( $license in $project.licenses)
-      License: $license.name #if ($license.url) ($license.url)#end
+    License: $license.name #if ($license.url) ($license.url)#end
 #end
 
 #end
