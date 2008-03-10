@@ -27,7 +27,7 @@
     <parent>
         <groupId>org.apache.geronimo.genesis</groupId>
         <artifactId>genesis</artifactId>
-        <version>1.4-SNAPSHOT</version>
+        <version>1.4</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -78,7 +78,7 @@
             <extension>
                 <groupId>org.apache.geronimo.genesis.config</groupId>
                 <artifactId>checkstyle-config</artifactId>
-                <version>1.4-SNAPSHOT</version>
+                <version>1.4</version>
             </extension>
         </extensions>
         
