@@ -27,7 +27,7 @@
     <parent>
         <groupId>org.apache.geronimo.genesis.config</groupId>
         <artifactId>config</artifactId>
-        <version>1.5-SNAPSHOT</version>
+        <version>1.4-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     
@@ -134,7 +134,7 @@
             <dependency>
                 <groupId>org.apache.geronimo.genesis.config</groupId>
                 <artifactId>logging-config</artifactId>
-                <version>1.5-SNAPSHOT</version>
+                <version>1.4-SNAPSHOT</version>
             </dependency>
             
         </dependencies>
@@ -183,7 +183,7 @@
             <extension>
                 <groupId>org.apache.geronimo.genesis.config</groupId>
                 <artifactId>checkstyle-config</artifactId>
-                <version>1.5-SNAPSHOT</version>
+                <version>1.4-SNAPSHOT</version>
             </extension>
             
             <extension>
@@ -315,13 +315,13 @@
                 <plugin>
                     <groupId>org.apache.geronimo.genesis.plugins</groupId>
                     <artifactId>tools-maven-plugin</artifactId>
-                    <version>1.5-SNAPSHOT</version>
+                    <version>1.4-SNAPSHOT</version>
                 </plugin>
                 
                 <plugin>
                     <groupId>org.apache.geronimo.genesis.plugins</groupId>
                     <artifactId>maven-maven-plugin</artifactId>
-                    <version>1.5-SNAPSHOT</version>
+                    <version>1.4-SNAPSHOT</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
