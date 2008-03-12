@@ -130,23 +130,11 @@
                 <artifactId>junit</artifactId>
                 <version>3.8.1</version>
             </dependency>
-            
-            <dependency>
-                <groupId>org.apache.geronimo.genesis.config</groupId>
-                <artifactId>logging-config</artifactId>
-                <version>1.4-SNAPSHOT</version>
-            </dependency>
-            
+
         </dependencies>
     </dependencyManagement>
     
-    <dependencies>
-        <dependency>
-            <groupId>org.apache.geronimo.genesis.config</groupId>
-            <artifactId>logging-config</artifactId>
-            <scope>test</scope>
-        </dependency>
-        
+    <dependencies>        
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
