@@ -6,8 +6,8 @@
 Building for the first time
 ===========================
 
-Genesis currently must be bootstrapped, which will build all modules that are
-used as extensions by config/project-config.
+Genesis currently must be bootstrapped, which will build partial builds until
+all plugins are available.
 
 You will need Ant installed and available in the search path of your shell.
 
