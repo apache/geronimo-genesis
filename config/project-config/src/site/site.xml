@@ -21,27 +21,10 @@
 <!-- $Rev$ $Date$ -->
 
 <project name="${project.name}">
-<!--
-    <skin>
-        <groupId>org.apache.geronimo.genesis.config</groupId>
-        <artifactId>geronimo-skin</artifactId>
-        <version>1.4-SNAPSHOT</version>
-    </skin>
--->
 
-    <publishDate format="dd MMM yyyy"/>
-    
-    <bannerLeft>
-        <src>images/topleft_logo_437x64.gif</src>
-        <href>http://geronimo.apache.org</href>
-    </bannerLeft>
-    
     <body>
-        
         <menu ref="parent" />
-        
-        ${reports}
-        
+        <menu ref="reports" />
     </body>
 </project>
 
