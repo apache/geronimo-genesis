@@ -27,7 +27,7 @@
     <parent>
         <groupId>org.apache.geronimo.genesis.config</groupId>
         <artifactId>config</artifactId>
-        <version>1.4-SNAPSHOT</version>
+        <version>1.4</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     
@@ -298,7 +298,7 @@
                 <plugin>
                     <groupId>org.apache.geronimo.genesis.plugins</groupId>
                     <artifactId>maven-maven-plugin</artifactId>
-                    <version>1.4-SNAPSHOT</version>
+                    <version>1.4</version>
                 </plugin>
             </plugins>
         </pluginManagement>
