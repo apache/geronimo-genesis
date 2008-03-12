@@ -34,7 +34,7 @@ Genesis project-config
 
  * All other subprojects should not have LICENSE or NOTICE files. If the standard files are not sufficient due to inclusion of
   code under non-asl licenses or other reasons, the ADDITIONAL material to be appended to the standard LICENSE and NOTICE files
-  should be put in src/main/appended-resources/LICENSE and src/main/appended-resources/NOTICE
+  should be put in src/main/appended-resources/META-INF/LICENSE and src/main/appended-resources/META-INF/NOTICE
 
  * If for some reason correct legal files cannot be constructed in this way, the tools-maven-plugin:install-legal-files can be
   used to install explicitly constructed files.
