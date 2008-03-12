@@ -38,7 +38,7 @@
         <attribute name="name"/>
         <sequential>
             <exec executable="mvn${platform.script.ext}" dir="${basedir}">
-                <arg value="-Dstage=@{name}"/>
+                <arg value="-N"/>
                 <arg value="install"/>
             </exec>
         </sequential>
@@ -69,17 +69,21 @@
     <!-- Steps -->
     <!-- ===== -->
     
-    <target name="bootstrap" depends="clean, stage1, stage2"/>
+    <target name="bootstrap" depends="clean, stage1, stage2, stage3"/>
     
     <target name="stage1" depends="init">
         <build-stage name="bootstrap"/>
     </target>
     
     <target name="stage2" depends="init">
-        <mvn goal="install"/>
+        <mvn goal="install" dir="plugins"/>
     </target>
     
-    
+    <target name="stage3" depends="init">
+        <mvn goal="install"/>
+    </target>
+
+
     <!-- ======== -->
     <!-- Cleaning -->
     <!-- ======== -->

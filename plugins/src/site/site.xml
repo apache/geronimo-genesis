@@ -23,13 +23,9 @@
 <project name="${project.name}">
     
     <body>
-        
-        ${parentProject}
-        
-        ${modules}
-        
-        ${reports}
-        
+        <menu ref="parent" />
+        <menu ref="modules" />
+        <menu ref="reports" />
     </body>
 
 </project>

@@ -25,9 +25,7 @@
     <body>
         <menu ref="parent" />
         <menu ref="modules" />
-
-        ${reports}
-        
+        <menu ref="reports" />
     </body>
 
 </project>

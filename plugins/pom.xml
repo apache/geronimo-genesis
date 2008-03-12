@@ -73,15 +73,7 @@
                 <directory>${pom.basedir}/src/main/resources</directory>
             </resource>
         </resources>
-        
-        <extensions>
-            <extension>
-                <groupId>org.apache.geronimo.genesis.config</groupId>
-                <artifactId>checkstyle-config</artifactId>
-                <version>1.4</version>
-            </extension>
-        </extensions>
-        
+
         <pluginManagement>
             <plugins>
                 <plugin>
@@ -185,16 +177,20 @@
                 <version>2.0.1</version>
             </plugin>
             
+<!--
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-checkstyle-plugin</artifactId>
                 <version>2.1</version>
                 <configuration>
-                    <!-- Pulled as resource from checkstyle-config plugin -->
+                    -->
+<!-- Pulled as resource from checkstyle-config plugin -->
+<!--
                     <configLocation>org/apache/geronimo/checkstyle.xml</configLocation>
                 </configuration>
             </plugin>
-            
+-->
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-plugin-plugin</artifactId>

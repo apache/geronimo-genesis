@@ -175,41 +175,13 @@
         </site>
     </distributionManagement>
 
+    <modules>
+        <module>legal-bundle</module>
+        <module>config</module>
+        <module>plugins</module>
+    </modules>
+
     <profiles>
-        <profile>
-            <id>default</id>
-
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-
-            <modules>
-                <module>legal-bundle</module>
-                <module>config</module>
-                <module>plugins</module>
-            </modules>
-        </profile>
-
-        <!--
-        NOTE: The staged build is used to get around a problem with Maven
-              and extension plugins.
-              
-              See http://issues.apache.org/jira/browse/GERONIMO-2172 for more details.
-        -->
-        <profile>
-            <id>stage-bootstrap</id>
-
-            <activation>
-                <property>
-                    <name>stage</name>
-                    <value>bootstrap</value>
-                </property>
-            </activation>
-
-            <modules>
-                <module>config/checkstyle-config</module>
-            </modules>
-        </profile>
 
         <profile>
             <id>release</id>

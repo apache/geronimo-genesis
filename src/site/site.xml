@@ -41,9 +41,9 @@
             <item name="Apache" href="http://apache.org/"/>
         </links>
         
-        ${modules}
-        
-        ${reports}
+        <menu ref="parent" />
+        <menu ref="modules" />
+        <menu ref="reports" />
         
     </body>
 </project>
