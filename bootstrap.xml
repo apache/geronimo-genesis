@@ -76,10 +76,14 @@
     </target>
     
     <target name="stage2" depends="init">
-        <mvn goal="install" dir="plugins"/>
+        <mvn goal="install" dir="legal-bundle"/>
     </target>
     
     <target name="stage3" depends="init">
+        <mvn goal="install" dir="plugins"/>
+    </target>
+
+    <target name="stage4" depends="init">
         <mvn goal="install"/>
     </target>
 
