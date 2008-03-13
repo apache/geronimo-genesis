@@ -28,7 +28,6 @@
         <groupId>org.apache.geronimo.genesis.config</groupId>
         <artifactId>config</artifactId>
         <version>1.5-SNAPSHOT</version>
-        <relativePath>../pom.xml</relativePath>
     </parent>
     
     <artifactId>project-config</artifactId>
@@ -484,20 +483,6 @@
                 <artifactId>maven-project-info-reports-plugin</artifactId>
                 <version>2.0.1</version>
             </plugin>
-            
-<!--
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-checkstyle-plugin</artifactId>
-                <version>2.1</version>
-                <configuration>
-                    -->
-<!-- Pulled as resource from checkstyle-config plugin -->
-<!--
-                    <configLocation>org/apache/geronimo/checkstyle.xml</configLocation>
-                </configuration>
-            </plugin>
--->
         </plugins>
     </reporting>
 

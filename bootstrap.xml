@@ -34,16 +34,6 @@
         </sequential>
     </macrodef>
     
-    <macrodef name="build-stage">
-        <attribute name="name"/>
-        <sequential>
-            <exec executable="mvn${platform.script.ext}" dir="${basedir}">
-                <arg value="-N"/>
-                <arg value="install"/>
-            </exec>
-        </sequential>
-    </macrodef>
-    
     <target name="init" depends="init:discover, init:windows, init:defaults">
         <record name="${basedir}/bootstrap.log"/>
         <echo>Starting bootstrap build...</echo>
@@ -64,33 +54,12 @@
         <property name="maven.repo.local" value="${user.home}/.m2/repository"/>
     </target>
     
-    
-    <!-- ===== -->
-    <!-- Steps -->
-    <!-- ===== -->
-    
-    <target name="bootstrap" depends="clean, stage1, stage2, stage3"/>
-    
-    <target name="stage1" depends="init">
-        <build-stage name="bootstrap"/>
-    </target>
-    
-    <target name="stage2" depends="init">
+    <target name="bootstrap" depends="clean">
+        <echo>Bootstrapping...</echo>
         <mvn goal="install" dir="legal-bundle"/>
-    </target>
-    
-    <target name="stage3" depends="init">
-        <mvn goal="install" dir="plugins"/>
-    </target>
-
-    <target name="stage4" depends="init">
+        <mvn goal="install" dir="plugins/tools-maven-plugin"/>
         <mvn goal="install"/>
     </target>
-
-
-    <!-- ======== -->
-    <!-- Cleaning -->
-    <!-- ======== -->
     
     <target name="clean" depends="init">
         <echo>Cleaning...</echo>
@@ -103,7 +72,11 @@
             </fileset>
         </delete>
         
-        <mvn goal="clean"/>
+        <delete>
+            <fileset dir="${basedir}">
+                <include name="**/target/**"/>
+            </fileset>
+        </delete>
     </target>
 
 </project>

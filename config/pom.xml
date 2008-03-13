@@ -28,7 +28,6 @@
         <groupId>org.apache.geronimo.genesis</groupId>
         <artifactId>genesis</artifactId>
         <version>1.5-SNAPSHOT</version>
-        <relativePath>../pom.xml</relativePath>
     </parent>
 
     <groupId>org.apache.geronimo.genesis.config</groupId>

@@ -28,7 +28,6 @@
         <groupId>org.apache.geronimo.genesis.plugins</groupId>
         <artifactId>plugins</artifactId>
         <version>1.5-SNAPSHOT</version>
-        <relativePath>../pom.xml</relativePath>
     </parent>
 
     <artifactId>tools-maven-plugin</artifactId>
