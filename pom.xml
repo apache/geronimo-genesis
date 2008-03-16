@@ -129,6 +129,12 @@
                 </plugin>
 
                 <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-stage-plugin</artifactId>
+                    <version>1.0-alpha-1</version>
+                </plugin>
+
+                <plugin>
                     <groupId>org.codehaus.mojo</groupId>
                     <artifactId>rat-maven-plugin</artifactId>
                     <version>1.0-alpha-3</version>
@@ -163,6 +169,11 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>rat-maven-plugin</artifactId>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-stage-plugin</artifactId>
             </plugin>
 
         </plugins>
