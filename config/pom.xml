@@ -45,23 +45,6 @@
         <pluginManagement>
             <plugins>
                 <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-remote-resources-plugin</artifactId>
-                    <version>1.0-beta-2</version>
-                    <executions>
-                      <execution>
-                        <goals>
-                          <goal>process</goal>
-                        </goals>
-                        <configuration>
-                          <resourceBundles>
-                              <resourceBundle>org.apache.geronimo.genesis:legal-bundle:${legalBundleVersion}</resourceBundle>
-                          </resourceBundles>
-                        </configuration>
-                      </execution>
-                    </executions>
-                </plugin>
-                <plugin>
                     <groupId>org.apache.geronimo.genesis.plugins</groupId>
                     <artifactId>tools-maven-plugin</artifactId>
                     <version>1.5-SNAPSHOT</version>
@@ -69,10 +52,6 @@
             </plugins>
         </pluginManagement>
         <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-remote-resources-plugin</artifactId>
-            </plugin>
             <plugin>
                 <groupId>org.apache.geronimo.genesis.plugins</groupId>
                 <artifactId>tools-maven-plugin</artifactId>

@@ -56,7 +56,6 @@
     
     <target name="bootstrap" depends="clean">
         <echo>Bootstrapping...</echo>
-        <mvn goal="install" dir="legal-bundle"/>
         <mvn goal="install" dir="plugins/tools-maven-plugin"/>
         <mvn goal="install"/>
     </target>
