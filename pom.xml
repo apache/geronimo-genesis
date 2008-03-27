@@ -54,8 +54,6 @@
     <properties>
         <!-- set siteId to artifactId for any "top level" project rooting a website -->
         <siteId>genesis</siteId>
-        <!-- IMPORTANT update this to the release version before releasing -->
-        <legalBundleVersion>1.5-SNAPSHOT</legalBundleVersion>
     </properties>
 
     <build>
