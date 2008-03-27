@@ -100,7 +100,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>2.3</version>
+                <version>2.4</version>
                 <configuration>
                     <minmemory>128m</minmemory>
                     <maxmemory>512</maxmemory>
@@ -152,20 +152,6 @@
                 <artifactId>maven-project-info-reports-plugin</artifactId>
                 <version>2.0.1</version>
             </plugin>
-            
-<!--
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-checkstyle-plugin</artifactId>
-                <version>2.1</version>
-                <configuration>
-                    -->
-<!-- Pulled as resource from checkstyle-config plugin -->
-<!--
-                    <configLocation>org/apache/geronimo/checkstyle.xml</configLocation>
-                </configuration>
-            </plugin>
--->
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
