@@ -46,9 +46,9 @@
     <url>http://geronimo.apache.org/maven/${siteId}/${version}</url>
 
     <scm>
-        <connection>scm:svn:http://svn.apache.org/repos/asf/geronimo/genesis/trunk</connection>
-        <developerConnection>scm:svn:https://svn.apache.org/repos/asf/geronimo/genesis/trunk</developerConnection>
-        <url>http://svn.apache.org/viewvc/geronimo/genesis/trunk</url>
+        <connection>scm:svn:http://svn.apache.org/repos/asf/geronimo/genesis/branches/genesis-1.x/</connection>
+        <developerConnection>scm:svn:https://svn.apache.org/repos/asf/geronimo/genesis/branches/genesis-1.x/</developerConnection>
+        <url>http://svn.apache.org/viewvc/geronimo/genesis/branches/genesis-1.x/</url>
     </scm>
 
     <properties>
@@ -328,7 +328,7 @@
                 </plugins>
             </build>
         </profile>
-
     </profiles>
+
 </project>
 
