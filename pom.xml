@@ -82,24 +82,24 @@
                 </plugin>
 
                 <plugin>
-                    <inherited>true</inherited>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-gpg-plugin</artifactId>
                     <version>1.0-alpha-4</version>
+                    <inherited>true</inherited>
                 </plugin>
 
                 <plugin>
-                    <inherited>true</inherited>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-deploy-plugin</artifactId>
                     <version>2.3</version>
+                    <inherited>true</inherited>
                 </plugin>
 
                 <plugin>
-                    <inherited>true</inherited>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-javadoc-plugin</artifactId>
                     <version>2.4</version>
+                    <inherited>true</inherited>
                 </plugin>
 
                 <plugin>
