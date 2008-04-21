@@ -109,31 +109,17 @@
         <url>http://issues.apache.org/jira/browse/GERONIMO</url>
     </issueManagement>
     
-    <ciManagement>
-        <system>continuum</system>
-        <notifiers>
-            <notifier>
-                <type>mail</type>
-                <sendOnError />
-                <sendOnFailure />
-                <address>dev@geronimo.apache.org</address>
-            </notifier>
-        </notifiers>
-    </ciManagement>
-    
     <dependencyManagement>
         <dependencies>
-            
             <dependency>
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>
                 <version>3.8.1</version>
             </dependency>
-
         </dependencies>
     </dependencyManagement>
     
-    <dependencies>        
+    <dependencies>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
@@ -144,22 +130,6 @@
     <build>
         <defaultGoal>install</defaultGoal>
         
-        <sourceDirectory>${pom.basedir}/src/main/java</sourceDirectory>
-        <testSourceDirectory>${pom.basedir}/src/test/java</testSourceDirectory>
-        
-        <resources>
-            <resource>
-                <directory>${pom.basedir}/src/main/resources</directory>
-            </resource>
-        </resources>
-
-        <testResources>
-            <testResource>
-                <directory>${pom.basedir}/src/test/resources</directory>
-            </testResource>
-            
-        </testResources>
-        
         <extensions>
             <extension>
                 <groupId>org.apache.maven.wagon</groupId>
@@ -167,7 +137,7 @@
                 <version>1.0-beta-2</version>
             </extension>
         </extensions>
-            
+        
         <pluginManagement>
             <plugins>
                 <plugin>
@@ -200,13 +170,13 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-dependency-plugin</artifactId>
-                    <version>2.0-alpha-4</version>
+                    <version>2.0</version>
                 </plugin>
 
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-eclipse-plugin</artifactId>
-                    <version>2.4</version>
+                    <version>2.5.1</version>
                 </plugin>
 
                 <plugin>
@@ -218,13 +188,13 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-jar-plugin</artifactId>
-                    <version>2.1</version>
+                    <version>2.2</version>
                 </plugin>
 
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-one-plugin</artifactId>
-                    <version>1.1</version>
+                    <version>1.2</version>
                 </plugin>
 
                 <plugin>
@@ -242,10 +212,11 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-surefire-plugin</artifactId>
-                    <version>2.3</version>
+                    <version>2.4.2</version>
                     <configuration>
+                        <redirectTestOutputToFile>true</redirectTestOutputToFile>
                         <forkMode>once</forkMode>
-                        <argLine>-enableassertions -Dgeronimo.bootstrap.logging.enabled=false -Dlog4j.configuration=org/apache/geronimo/test-log4j.properties</argLine>
+                        <argLine>-enableassertions</argLine>
                         <workingDirectory>${project.build.directory}</workingDirectory>
                         
                         <!-- Override the default, do not accept Test* as test classes -->
@@ -425,7 +396,6 @@
     <profiles>
         <profile>
             <id>tools</id>
-
             <build>
                 <plugins>
                     <plugin>
@@ -442,7 +412,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-report-plugin</artifactId>
-                <version>2.3</version>
+                <version>2.4.2</version>
             </plugin>
             
             <plugin>
@@ -463,23 +433,8 @@
                     -->
                     <linksource>true</linksource>
                     <links>
-                        <!-- J2SE -->
                         <link>http://java.sun.com/j2se/1.5.0/docs/api/</link>
-                        <link>http://java.sun.com/j2se/1.4.2/docs/api/</link>
-                        <link>http://java.sun.com/j2se/1.3/docs/api/</link>
-                        
-                        <!-- JavaEE -->
                         <link>http://java.sun.com/javaee/5/docs/api/</link>
-                        <link>http://java.sun.com/j2ee/1.4/docs/api/</link>
-                        <link>http://java.sun.com/j2ee/sdk_1.3/techdocs/api/</link>
-                        
-                        <!-- Libraries -->
-                        <link>http://jakarta.apache.org/commons/collections/apidocs</link>
-                        <link>http://jakarta.apache.org/commons/logging/apidocs/</link>
-                        <link>http://www.junit.org/junit/javadoc/</link>
-                        <link>http://logging.apache.org/log4j/docs/api/</link>
-                        <link>http://jakarta.apache.org/regexp/apidocs/</link>
-                        <link>http://jakarta.apache.org/velocity/api/</link>
                     </links>
                 </configuration>
             </plugin>
@@ -493,7 +448,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-pmd-plugin</artifactId>
-                <version>2.2</version>
+                <version>2.3</version>
             </plugin>
             
             <plugin>
