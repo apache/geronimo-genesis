@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+    
+     http://www.apache.org/licenses/LICENSE-2.0
+    
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+    KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+-->
+
+<!-- $Rev$ $Date$ -->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+    
+    <!--
+    IMPORTANT: This pom should only contain the very minimal configuration to drive the Genesis build,
+               and provide fundamental release support.  All other configuration should be added to
+               a genesis-flava module.
+    -->
+    
+    <groupId>org.apache.geronimo.genesis</groupId>
+    <artifactId>genesis</artifactId>
+    <name>Genesis</name>
+    <packaging>pom</packaging>
+    
+    <version>2.0-SNAPSHOT</version>
+
+    <description>
+        Genesis provides build support for Apache Geronimo's Maven projects.
+    </description>
+    
+    <inceptionYear>2003</inceptionYear>
+    
+    <url>http://geronimo.apache.org/maven-generated/${project.artifactId}/${project.version}</url>
+
+    <scm>
+        <connection>scm:svn:http://svn.apache.org/repos/asf/geronimo/genesis/trunk</connection>
+        <developerConnection>scm:svn:https://svn.apache.org/repos/asf/geronimo/genesis/trunk</developerConnection>
+        <url>http://svn.apache.org/viewvc/geronimo/genesis/trunk</url>
+    </scm>
+
+    <build>
+        <defaultGoal>install</defaultGoal>
+
+        <extensions>
+            <extension>
+                <groupId>org.apache.maven.wagon</groupId>
+                <artifactId>wagon-ssh</artifactId>
+                <version>1.0-beta-2</version>
+            </extension>
+        </extensions>
+    </build>
+    
+    <modules>
+        <module>genesis-packaging</module>
+        <module>genesis-flava</module>
+        <module>genesis-skin</module>
+    </modules>
+    
+    <profiles>
+        <profile>
+            <id>stage-distribution</id>
+
+            <activation>
+                <property>
+                    <name>stage.distributionUrl</name>
+                </property>
+            </activation>
+
+            <distributionManagement>
+                <repository>
+                    <id>stage-repository</id>
+                    <url>${stage.distributionUrl}/repository</url>
+                </repository>
+                <snapshotRepository>
+                    <id>stage-snapshot-repository</id>
+                    <url>${stage.distributionUrl}/snapshot-repository</url>
+                </snapshotRepository>
+                <site>
+                    <id>stage-site</id>
+                    <url>${stage.distributionUrl}/site</url>
+                </site>
+            </distributionManagement>
+        </profile>
+    </profiles>
+
+</project>
+

@@ -1,0 +1,110 @@
+
+~~ 
+~~ Licensed to the Apache Software Foundation (ASF) under one
+~~ or more contributor license agreements.  See the NOTICE file
+~~ distributed with this work for additional information
+~~ regarding copyright ownership.  The ASF licenses this file
+~~ to you under the Apache License, Version 2.0 (the
+~~ "License"); you may not use this file except in compliance
+~~ with the License.  You may obtain a copy of the License at
+~~
+~~  http://www.apache.org/licenses/LICENSE-2.0
+~~
+~~ Unless required by applicable law or agreed to in writing,
+~~ software distributed under the License is distributed on an
+~~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+~~ KIND, either express or implied.  See the License for the
+~~ specific language governing permissions and limitations
+~~ under the License.
+~~ 
+
+ ------
+ Genesis Geronimo Skin
+ ------
+ ???
+ ------
+ ???
+
+Usage
+
+ To use this skin for a module, the skin needs to be specified in the modules
+ <<<site.xml>>>, or the module need to inherit from a module which has that
+ configuration it it's <<<site.xml>>>.
+ 
+ Normally this is done automatically for projects that use <<<project-config>>>
+ as the parent of the projects top-level pom.
+ 
+* Standalone Example
+
++----------+
+<project name="${project.name}">
+    <skin>
+        <groupId>org.apache.geronimo.genesis.config</groupId>
+        <artifactId>geronimo-skin</artifactId>
+        <version>1.2-SNAPSHOT</version>
+    </skin>
+    
+    <publishDate format="dd MMM yyyy"/>
+    
+    <bannerLeft>
+        <src>images/topleft_logo_437x64.gif</src>
+        <href>http://geronimo.apache.org</href>
+    </bannerLeft>
+    
+    <body>
+        
+        ${parentProject}
+        
+        ${modules}
+        
+        ${reports}
+        
+    </body>
+</project>
++----------+
+
+* Top-level Example
+
+ For projects which inherit from <<<project-config>>> the skin is picked up
+ automatically.
+ 
+ <<NOTE:>> That the top-level omits <<<$\{parentProject\}>>> to avoid listing any
+ genesis bits in the generated site navigation.
+
++----------+
+<project name="${project.name}">
+    
+    <body>
+        
+        ${modules}
+        
+        ${reports}
+        
+    </body>
+
+</project>
++----------+
+
+* Module Example
+
+ For projects which inherit from <<<project-config>>> the skin is picked up
+ automatically.
+ 
+ Children modules however should display links to their parent, so they need
+ to include <<<$\{parentProject\}>>>.
+
++----------+
+<project name="${project.name}">
+    
+    <body>
+        
+        ${parentProject}
+        
+        ${modules}
+        
+        ${reports}
+        
+    </body>
+
+</project>
++----------+
