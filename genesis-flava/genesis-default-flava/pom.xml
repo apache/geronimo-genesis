@@ -30,7 +30,7 @@
         <version>2.0-SNAPSHOT</version>
     </parent>
     
-    <artifactId>genesis-java-1.4-flava</artifactId>
+    <artifactId>genesis-default-lava</artifactId>
 
 </project>
 
