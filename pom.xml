@@ -46,9 +46,9 @@
     <url>http://geronimo.apache.org/maven-generated/${project.artifactId}/${project.version}</url>
 
     <scm>
-        <connection>scm:svn:http://svn.apache.org/repos/asf/geronimo/genesis/trunk</connection>
-        <developerConnection>scm:svn:https://svn.apache.org/repos/asf/geronimo/genesis/trunk</developerConnection>
-        <url>http://svn.apache.org/viewvc/geronimo/genesis/trunk</url>
+        <connection>scm:svn:http://svn.apache.org/repos/asf/geronimo/${project.artifactId}/trunk</connection>
+        <developerConnection>scm:svn:https://svn.apache.org/repos/asf/geronimo/${project.artifactId}/trunk</developerConnection>
+        <url>http://svn.apache.org/viewvc/geronimo/${project.artifactId}/trunk</url>
     </scm>
 
     <build>

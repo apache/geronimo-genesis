@@ -35,8 +35,7 @@
     <packaging>pom</packaging>
     
     <modules>
-        <module>genesis-java-1.4-flava</module>
-        <module>genesis-java-5-flava</module>
+        <module>genesis-default-flava</module>
     </modules>
     
 </project>
