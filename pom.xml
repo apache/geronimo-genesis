@@ -63,10 +63,18 @@
         <developerConnection>scm:svn:https://svn.apache.org/repos/asf/geronimo/${project.artifactId}/trunk</developerConnection>
         <url>http://svn.apache.org/viewvc/geronimo/${project.artifactId}/trunk</url>
     </scm>
-
+    
+    <distributionManagement>
+        <site>
+            <id>geronimo-website</id>
+            <url>scp://people.apache.org/www/geronimo.apache.org/maven-generated/${project.artifactId}/${project.version}</url>
+        </site>
+    </distributionManagement>
+    
     <build>
         <defaultGoal>install</defaultGoal>
-
+        
+        <!--
         <extensions>
             <extension>
                 <groupId>org.apache.maven.wagon</groupId>
@@ -74,6 +82,7 @@
                 <version>1.0-beta-2</version>
             </extension>
         </extensions>
+        -->
     </build>
     
     <modules>
