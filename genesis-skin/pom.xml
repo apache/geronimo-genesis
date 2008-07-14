@@ -32,6 +32,7 @@
     
     <groupId>org.apache.geronimo.genesis.skin</groupId>
     <artifactId>genesis-skin</artifactId>
+    <name>Genesis Skin</name>
     <packaging>pom</packaging>
     
     <modules>

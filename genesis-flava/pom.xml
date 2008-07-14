@@ -32,6 +32,7 @@
     
     <groupId>org.apache.geronimo.genesis.flava</groupId>
     <artifactId>genesis-flava</artifactId>
+    <name>Genesis Flava</name>
     <packaging>pom</packaging>
     
     <modules>

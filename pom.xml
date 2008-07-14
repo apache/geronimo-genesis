@@ -41,6 +41,19 @@
         Genesis provides build support for Apache Geronimo's Maven projects.
     </description>
     
+    <organization>
+        <name>The Apache Software Foundation</name>
+        <url>http://www.apache.org</url>
+    </organization>
+    
+    <licenses>
+        <license>
+            <name>The Apache Software License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+    
     <inceptionYear>2003</inceptionYear>
     
     <url>http://geronimo.apache.org/maven-generated/${project.artifactId}/${project.version}</url>

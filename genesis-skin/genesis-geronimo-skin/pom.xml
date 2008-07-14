@@ -31,6 +31,7 @@
     </parent>
     
     <artifactId>genesis-geronimo-skin</artifactId>
+    <name>Genesis Skin :: Geronimo</name>
 
 </project>
 
