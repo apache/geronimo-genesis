@@ -40,6 +40,7 @@
         <resources>
             <resource>
                 <directory>${project.basedir}/src/main/resources</directory>
+                <filtering>false</filtering>
                 <includes>
                     <include>**/*</include>
                 </includes>
@@ -280,7 +281,7 @@
                 
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
-                    <artifactId>corbertura-maven-plugin</artifactId>
+                    <artifactId>cobertura-maven-plugin</artifactId>
                     <version>2.2</version>
                 </plugin>
                 
@@ -360,26 +361,112 @@
         </plugins>
     </build>
     
+    <reporting>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.4</version>
+                <configuration>
+                    <quiet>true</quiet>
+                    <!--
+                    <links>
+                        <link>http://java.sun.com/j2se/1.5.0/docs/api</link>
+                    </links>
+                    -->
+                    <tags>
+                        <tag>
+                            <name>goal</name>
+                            <placement>Xt</placement>
+                        </tag>
+                        <tag>
+                            <name>phase</name>
+                            <placement>Xt</placement>
+                        </tag>
+                        <tag>
+                            <name>execute</name>
+                            <placement>Xt</placement>
+                        </tag>
+                        <tag>
+                            <name>requiresDependencyResolution</name>
+                            <placement>Xt</placement>
+                        </tag>
+                        <tag>
+                            <name>parameter</name>
+                            <placement>Xf</placement>
+                        </tag>
+                        <tag>
+                            <name>required</name>
+                            <placement>Xf</placement>
+                        </tag>
+                        <tag>
+                            <name>readonly</name>
+                            <placement>Xf</placement>
+                        </tag>
+                        <tag>
+                            <name>component</name>
+                            <placement>Xf</placement>
+                        </tag>
+                        <tag>
+                            <name>plexus.component</name>
+                            <placement>Xf</placement>
+                        </tag>
+                        <tag>
+                            <name>plexus.requirement</name>
+                            <placement>Xf</placement>
+                        </tag>
+                    </tags>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-pmd-plugin</artifactId>
+                <version>2.4</version>
+                <!--
+                <configuration>
+                    <targetJdk>1.5</targetJdk>
+                </configuration>
+                -->
+            </plugin>
+            
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-report-plugin</artifactId>
+                <version>2.4.3</version>
+            </plugin>
+            
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>cobertura-maven-plugin</artifactId>
+                <version>2.2</version>
+                <configuration>
+                    <quiet>true</quiet>
+                </configuration>
+            </plugin>
+        </plugins>
+    </reporting>
+    
     <profiles>
         <profile>
             <id>stage-distribution</id>
             <activation>
                 <property>
-                    <name>stage.distributionUrl</name>
+                    <name>stageDistributionURL</name>
                 </property>
             </activation>
             <distributionManagement>
                 <repository>
                     <id>stage-repository</id>
-                    <url>${stage.distributionUrl}/repository</url>
+                    <url>${stageDistributionURL}/repository</url>
                 </repository>
                 <snapshotRepository>
                     <id>stage-snapshot-repository</id>
-                    <url>${stage.distributionUrl}/snapshot-repository</url>
+                    <url>${stageDistributionURL}/snapshot-repository</url>
                 </snapshotRepository>
                 <site>
                     <id>stage-site</id>
-                    <url>${stage.distributionUrl}/site</url>
+                    <url>${stageDistributionURL}/site</url>
                 </site>
             </distributionManagement>
         </profile>
