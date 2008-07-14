@@ -37,6 +37,7 @@
     
     <modules>
         <module>genesis-default-flava</module>
+        <module>genesis-java5-flava</module>
     </modules>
     
 </project>
