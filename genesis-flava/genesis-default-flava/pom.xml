@@ -420,6 +420,23 @@
                     </execution>
                 </executions>
             </plugin>
+            
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>ianal-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>verify-legal-files</goal>
+                        </goals>
+                        <!--
+                        <configuration>
+                            <strict>true</strict>
+                        </configuration>
+                        -->
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
     
