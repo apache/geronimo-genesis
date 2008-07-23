@@ -56,23 +56,18 @@
     
     <inceptionYear>2003</inceptionYear>
     
-    <properties>
-        <genesis.project.id>${project.artifactId}</genesis.project.id>
-        <genesis.project.version>${project.version}</genesis.project.version>
-    </properties>
-    
-    <url>http://geronimo.apache.org/maven-generated/${genesis.project.id}/${genesis.project.version}</url>
+    <url>http://geronimo.apache.org/maven-generated/${project.artifactId}/${project.version}</url>
 
     <scm>
-        <connection>scm:svn:http://svn.apache.org/repos/asf/geronimo/${genesis.project.id}/trunk</connection>
-        <developerConnection>scm:svn:https://svn.apache.org/repos/asf/geronimo/${genesis.project.id}/trunk</developerConnection>
-        <url>http://svn.apache.org/viewvc/geronimo/${genesis.project.id}/trunk</url>
+        <connection>scm:svn:http://svn.apache.org/repos/asf/geronimo/${project.artifactId}/trunk</connection>
+        <developerConnection>scm:svn:https://svn.apache.org/repos/asf/geronimo/${project.artifactId}/trunk</developerConnection>
+        <url>http://svn.apache.org/viewvc/geronimo/${project.artifactId}/trunk</url>
     </scm>
     
     <distributionManagement>
         <site>
             <id>geronimo-website</id>
-            <url>scp://people.apache.org/www/geronimo.apache.org/maven-generated/${genesis.project.id}/${genesis.project.version}</url>
+            <url>scp://people.apache.org/www/geronimo.apache.org/maven-generated/${project.artifactId}/${project.version}</url>
         </site>
     </distributionManagement>
     
