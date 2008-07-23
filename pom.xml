@@ -56,33 +56,64 @@
     
     <inceptionYear>2003</inceptionYear>
     
-    <url>http://geronimo.apache.org/maven-generated/${project.artifactId}/${project.version}</url>
+    <properties>
+        <genesis.project.id>${project.artifactId}</genesis.project.id>
+        <genesis.project.version>${project.version}</genesis.project.version>
+    </properties>
+    
+    <url>http://geronimo.apache.org/maven-generated/${genesis.project.id}/${genesis.project.version}</url>
 
     <scm>
-        <connection>scm:svn:http://svn.apache.org/repos/asf/geronimo/${project.artifactId}/trunk</connection>
-        <developerConnection>scm:svn:https://svn.apache.org/repos/asf/geronimo/${project.artifactId}/trunk</developerConnection>
-        <url>http://svn.apache.org/viewvc/geronimo/${project.artifactId}/trunk</url>
+        <connection>scm:svn:http://svn.apache.org/repos/asf/geronimo/${genesis.project.id}/trunk</connection>
+        <developerConnection>scm:svn:https://svn.apache.org/repos/asf/geronimo/${genesis.project.id}/trunk</developerConnection>
+        <url>http://svn.apache.org/viewvc/geronimo/${genesis.project.id}/trunk</url>
     </scm>
     
     <distributionManagement>
         <site>
             <id>geronimo-website</id>
-            <url>scp://people.apache.org/www/geronimo.apache.org/maven-generated/${project.artifactId}/${project.version}</url>
+            <url>scp://people.apache.org/www/geronimo.apache.org/maven-generated/${genesis.project.id}/${genesis.project.version}</url>
         </site>
     </distributionManagement>
     
     <build>
         <defaultGoal>install</defaultGoal>
         
-        <!--
-        <extensions>
-            <extension>
-                <groupId>org.apache.maven.wagon</groupId>
-                <artifactId>wagon-ssh</artifactId>
-                <version>1.0-beta-2</version>
-            </extension>
-        </extensions>
-        -->
+        <resources>
+            <resource>
+                <directory>${project.basedir}/src/main/resources</directory>
+                <filtering>false</filtering>
+                <includes>
+                    <include>**/*</include>
+                </includes>
+            </resource>
+            
+            <resource>
+                <directory>${project.basedir}/src/main/filtered-resources</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <include>**/*</include>
+                </includes>
+            </resource>
+        </resources>
+        
+        <testResources>
+            <testResource>
+                <directory>${project.basedir}/src/test/resources</directory>
+                <filtering>false</filtering>
+                <includes>
+                    <include>**/*</include>
+                </includes>
+            </testResource>
+            
+            <testResource>
+                <directory>${project.basedir}/src/test/filtered-resources</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <include>**/*</include>
+                </includes>
+            </testResource>
+        </testResources>
     </build>
     
     <modules>
@@ -94,25 +125,23 @@
     <profiles>
         <profile>
             <id>stage-distribution</id>
-
             <activation>
                 <property>
-                    <name>stage.distributionUrl</name>
+                    <name>stageDistributionURL</name>
                 </property>
             </activation>
-
             <distributionManagement>
                 <repository>
                     <id>stage-repository</id>
-                    <url>${stage.distributionUrl}/repository</url>
+                    <url>${stageDistributionURL}/repository</url>
                 </repository>
                 <snapshotRepository>
                     <id>stage-snapshot-repository</id>
-                    <url>${stage.distributionUrl}/snapshot-repository</url>
+                    <url>${stageDistributionURL}/snapshot-repository</url>
                 </snapshotRepository>
                 <site>
                     <id>stage-site</id>
-                    <url>${stage.distributionUrl}/site</url>
+                    <url>${stageDistributionURL}/site</url>
                 </site>
             </distributionManagement>
         </profile>

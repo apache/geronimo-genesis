@@ -447,11 +447,9 @@
                         <goals>
                             <goal>verify-legal-files</goal>
                         </goals>
-                        <!--
                         <configuration>
                             <strict>true</strict>
                         </configuration>
-                        -->
                     </execution>
                 </executions>
             </plugin>
