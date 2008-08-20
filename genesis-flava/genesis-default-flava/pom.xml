@@ -35,44 +35,6 @@
     <packaging>pom</packaging>
     
     <build>
-        <defaultGoal>install</defaultGoal>
-        
-        <resources>
-            <resource>
-                <directory>${project.basedir}/src/main/resources</directory>
-                <filtering>false</filtering>
-                <includes>
-                    <include>**/*</include>
-                </includes>
-            </resource>
-            
-            <resource>
-                <directory>${project.basedir}/src/main/filtered-resources</directory>
-                <filtering>true</filtering>
-                <includes>
-                    <include>**/*</include>
-                </includes>
-            </resource>
-        </resources>
-        
-        <testResources>
-            <testResource>
-                <directory>${project.basedir}/src/test/resources</directory>
-                <filtering>false</filtering>
-                <includes>
-                    <include>**/*</include>
-                </includes>
-            </testResource>
-            
-            <testResource>
-                <directory>${project.basedir}/src/test/filtered-resources</directory>
-                <filtering>true</filtering>
-                <includes>
-                    <include>**/*</include>
-                </includes>
-            </testResource>
-        </testResources>
-        
         <extensions>
             <extension>
                 <groupId>org.apache.geronimo.genesis</groupId>
@@ -280,6 +242,7 @@
                         <redirectTestOutputToFile>true</redirectTestOutputToFile>
                         <forkMode>once</forkMode>
                         <argLine>-enableassertions</argLine>
+                        <failIfNoTests>false</failIfNoTests>
                         <workingDirectory>${project.build.directory}</workingDirectory>
                         <excludes>
                             <exclude>**/Abstract*.java</exclude>
@@ -465,6 +428,7 @@
                 <configuration>
                     <quiet>true</quiet>
                     <tags>
+                        <!-- Maven/Plexus related tags -->
                         <tag>
                             <name>goal</name>
                             <placement>Xt</placement>
@@ -543,31 +507,6 @@
             </plugin>
         </plugins>
     </reporting>
-    
-    <profiles>
-        <profile>
-            <id>stage-distribution</id>
-            <activation>
-                <property>
-                    <name>stageDistributionURL</name>
-                </property>
-            </activation>
-            <distributionManagement>
-                <repository>
-                    <id>stage-repository</id>
-                    <url>${stageDistributionURL}/repository</url>
-                </repository>
-                <snapshotRepository>
-                    <id>stage-snapshot-repository</id>
-                    <url>${stageDistributionURL}/snapshot-repository</url>
-                </snapshotRepository>
-                <site>
-                    <id>stage-site</id>
-                    <url>${stageDistributionURL}/site</url>
-                </site>
-            </distributionManagement>
-        </profile>
-    </profiles>
     
 </project>
 
