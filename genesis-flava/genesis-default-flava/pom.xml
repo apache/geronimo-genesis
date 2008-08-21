@@ -35,6 +35,11 @@
     <packaging>pom</packaging>
     
     <build>
+        <!--
+        NOTE: This causes problems while building Genesis, projects which need the additional 
+              packaging bits, should define this locally until Maven can handle installing
+              this extention in the reactor that also builds the artifact.
+              
         <extensions>
             <extension>
                 <groupId>org.apache.geronimo.genesis</groupId>
@@ -42,6 +47,7 @@
                 <version>2.0-SNAPSHOT</version>
             </extension>
         </extensions>
+        -->
         
         <pluginManagement>
             <plugins>
@@ -348,7 +354,7 @@
                 <plugin>
                     <groupId>org.codehaus.groovy.maven</groupId>
                     <artifactId>gmaven-plugin</artifactId>
-                    <version>1.0-rc-2</version>
+                    <version>1.0-rc-3</version>
                 </plugin>
             </plugins>
         </pluginManagement>
