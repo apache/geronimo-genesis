@@ -56,25 +56,6 @@
     
     <inceptionYear>2003</inceptionYear>
     
-    <!--
-    FIXME: This won't work... mvn interpolation is not very intelligent.
-    
-    <url>http://geronimo.apache.org/maven-generated/${project.artifactId}/${project.version}</url>
-
-    <scm>
-        <connection>scm:svn:http://svn.apache.org/repos/asf/geronimo/${project.artifactId}/trunk</connection>
-        <developerConnection>scm:svn:https://svn.apache.org/repos/asf/geronimo/${project.artifactId}/trunk</developerConnection>
-        <url>http://svn.apache.org/viewvc/geronimo/${project.artifactId}/trunk</url>
-    </scm>
-    
-    <distributionManagement>
-        <site>
-            <id>geronimo-website</id>
-            <url>scp://people.apache.org/www/geronimo.apache.org/maven-generated/${project.artifactId}/${project.version}</url>
-        </site>
-    </distributionManagement>
-    -->
-    
     <build>
         <defaultGoal>install</defaultGoal>
         
@@ -124,13 +105,11 @@
     <profiles>
         <profile>
             <id>release</id>
-
             <activation>
                 <property>
                     <name>release</name>
                 </property>
             </activation>
-            
             <build>
                 <plugins>
                     <plugin>
@@ -146,6 +125,8 @@
                     </plugin>
                     
                     <!--
+                    FIXME: This needs to be re-enabled at sometime in the near future.
+                    
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-gpg-plugin</artifactId>
@@ -176,13 +157,11 @@
         
         <profile>
             <id>distribution</id>
-            
             <activation>
                 <property>
                     <name>release</name>
                 </property>
             </activation>
-            
             <build>
                 <plugins>
                     <plugin>
@@ -215,13 +194,11 @@
         
         <profile>
             <id>stage-deploy</id>
-
             <activation>
                 <property>
                     <name>stageDeployUrl</name>
                 </property>
             </activation>
-            
             <build>
                 <plugins>
                     <plugin>
