@@ -56,51 +56,50 @@
     
     <inceptionYear>2003</inceptionYear>
     
-    <build>
-        <defaultGoal>install</defaultGoal>
-        
-        <resources>
-            <resource>
-                <directory>${project.basedir}/src/main/resources</directory>
-                <filtering>false</filtering>
-                <includes>
-                    <include>**/*</include>
-                </includes>
-            </resource>
-            
-            <resource>
-                <directory>${project.basedir}/src/main/filtered-resources</directory>
-                <filtering>true</filtering>
-                <includes>
-                    <include>**/*</include>
-                </includes>
-            </resource>
-        </resources>
-        
-        <testResources>
-            <testResource>
-                <directory>${project.basedir}/src/test/resources</directory>
-                <filtering>false</filtering>
-                <includes>
-                    <include>**/*</include>
-                </includes>
-            </testResource>
-            
-            <testResource>
-                <directory>${project.basedir}/src/test/filtered-resources</directory>
-                <filtering>true</filtering>
-                <includes>
-                    <include>**/*</include>
-                </includes>
-            </testResource>
-        </testResources>
-    </build>
-    
     <modules>
         <module>genesis-packaging</module>
         <module>genesis-flava</module>
         <module>genesis-skin</module>
     </modules>
+    
+    <build>
+        <defaultGoal>install</defaultGoal>
+        
+        <!--
+        NOTE: Only define versions of plugings here which are required for 
+              reliable release support for Genesis.
+        -->
+        
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-release-plugin</artifactId>
+                    <version>2.0-beta-7</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-gpg-plugin</artifactId>
+                    <version>1.0-alpha-4</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-deploy-plugin</artifactId>
+                    <version>2.3</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-source-plugin</artifactId>
+                    <version>2.0.4</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-javadoc-plugin</artifactId>
+                    <version>2.4</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
     
     <profiles>
         <profile>
@@ -117,6 +116,7 @@
                         <artifactId>maven-release-plugin</artifactId>
                         <configuration>
                             <autoVersionSubmodules>true</autoVersionSubmodules>
+                            <allowTimestampedSnapshots>false</allowTimestampedSnapshots>
                             <useReleaseProfile>false</useReleaseProfile>
                             <arguments>-Drelease</arguments>
                             <preparationGoals>clean verify -Dit</preparationGoals>
@@ -124,16 +124,9 @@
                         </configuration>
                     </plugin>
                     
-                    <!--
-                    FIXME: This needs to be re-enabled at sometime in the near future.
-                    
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-gpg-plugin</artifactId>
-                        <inherited>true</inherited>
-                        <configuration>
-                            <passphrase>${gpg.passphrase}</passphrase>
-                        </configuration>
                         <executions>
                             <execution>
                                 <goals>
@@ -142,13 +135,41 @@
                             </execution>
                         </executions>
                     </plugin>
-                    -->
                     
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-deploy-plugin</artifactId>
                         <configuration>
                             <updateReleaseInfo>true</updateReleaseInfo>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        
+        <profile>
+            <id>release-stage</id>
+            <activation>
+                <property>
+                    <name>release</name>
+                    <value>stage</value>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-release-plugin</artifactId>
+                        <configuration>
+                            <arguments>-Drelease=stage</arguments>
+                        </configuration>
+                    </plugin>
+                    
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-deploy-plugin</artifactId>
+                        <configuration>
+                            <altDeploymentRepository>stage-deploy::default::${stageDeployUrl}</altDeploymentRepository>
                         </configuration>
                     </plugin>
                 </plugins>
@@ -192,45 +213,29 @@
             </build>
         </profile>
         
-        <profile>
-            <id>stage-deploy</id>
-            <activation>
-                <property>
-                    <name>stageDeployUrl</name>
-                </property>
-            </activation>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-deploy-plugin</artifactId>
-                        <configuration>
-                            <altDeploymentRepository>stage-deploy::default::${stageDeployUrl}</altDeploymentRepository>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
+        <!--
+        TODO: Rename, this is used to test release outputs w/o any SCM muck.
+        -->
         
         <profile>
             <id>stage-distribution</id>
             <activation>
                 <property>
-                    <name>stageDistributionURL</name>
+                    <name>stageDistributionUrl</name>
                 </property>
             </activation>
             <distributionManagement>
                 <repository>
                     <id>stage-repository</id>
-                    <url>${stageDistributionURL}/repository</url>
+                    <url>${stageDistributionUrl}/releases</url>
                 </repository>
                 <snapshotRepository>
                     <id>stage-snapshot-repository</id>
-                    <url>${stageDistributionURL}/snapshot-repository</url>
+                    <url>${stageDistributionUrl}/snapshots</url>
                 </snapshotRepository>
                 <site>
                     <id>stage-site</id>
-                    <url>${stageDistributionURL}/site</url>
+                    <url>${stageDistributionUrl}/site</url>
                 </site>
             </distributionManagement>
         </profile>
