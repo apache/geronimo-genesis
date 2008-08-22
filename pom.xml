@@ -129,15 +129,18 @@
                         <artifactId>gmaven-plugin</artifactId>
                         <executions>
                             <execution>
+                                <id>check-passphrase</id>
                                 <phase>validate</phase>
                                 <goals>
                                     <goal>execute</goal>
                                 </goals>
                                 <configuration>
+                                    <!--
+                                    Make sure that we have a configured GPG passphrase.
+                                    -->
                                     <source>
-                                        // Make sure that we have a configured GPG passphrase
                                         def phrase = project.properties['gpg.passphrase']
-                                        if (phrase == null) {
+                                        if (phrase == null || phrase.trim() == '') {
                                             fail('Missing required property: gpg.passphrase')
                                         }
                                     </source>
@@ -192,19 +195,21 @@
                         <artifactId>gmaven-plugin</artifactId>
                         <executions>
                             <execution>
+                                <id>check-deploy-url</id>
                                 <phase>validate</phase>
                                 <goals>
                                     <goal>execute</goal>
                                 </goals>
                                 <configuration>
+                                    <!--
+                                    Make sure that we have a valid stage deployment URL configured,
+                                    and that the URL is parsable (ie. not a file reference, which won't work
+                                    -->
                                     <source>
-                                        // Make sure that we have a valid stage deployment URL configured
                                         def url = project.properties['stageDeployUrl']
                                         if (url == null || url.trim() == '') {
                                             fail('Missing required property: stageDeployUrl')
                                         }
-                                        
-                                        // Make sure its really a URL too
                                         try {
                                             new URL(url)
                                         }
