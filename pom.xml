@@ -125,6 +125,28 @@
                     </plugin>
                     
                     <plugin>
+                        <groupId>org.codehaus.groovy.maven</groupId>
+                        <artifactId>gmaven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <phase>validate</phase>
+                                <goals>
+                                    <goal>execute</goal>
+                                </goals>
+                                <configuration>
+                                    <source>
+                                        // Make sure that we have a configured GPG passphrase
+                                        def phrase = project.properties['gpg.passphrase']
+                                        if (phrase == null) {
+                                            fail('Missing required property: gpg.passphrase')
+                                        }
+                                    </source>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    
+                    <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-gpg-plugin</artifactId>
                         <executions>
@@ -163,6 +185,36 @@
                         <configuration>
                             <arguments>-Drelease=stage</arguments>
                         </configuration>
+                    </plugin>
+                    
+                    <plugin>
+                        <groupId>org.codehaus.groovy.maven</groupId>
+                        <artifactId>gmaven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <phase>validate</phase>
+                                <goals>
+                                    <goal>execute</goal>
+                                </goals>
+                                <configuration>
+                                    <source>
+                                        // Make sure that we have a valid stage deployment URL configured
+                                        def url = project.properties['stageDeployUrl']
+                                        if (url == null || url.trim() == '') {
+                                            fail('Missing required property: stageDeployUrl')
+                                        }
+                                        
+                                        // Make sure its really a URL too
+                                        try {
+                                            new URL(url)
+                                        }
+                                        catch (Exception e) {
+                                            fail("Invalid URL: $url")
+                                        }
+                                    </source>
+                                </configuration>
+                            </execution>
+                        </executions>
                     </plugin>
                     
                     <plugin>
