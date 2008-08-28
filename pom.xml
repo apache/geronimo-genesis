@@ -273,29 +273,25 @@
             </build>
         </profile>
         
-        <!--
-        TODO: Rename, this is used to test release outputs w/o any SCM muck.
-        -->
-        
         <profile>
-            <id>stage-distribution</id>
+            <id>test-distribution</id>
             <activation>
                 <property>
-                    <name>stageDistributionUrl</name>
+                    <name>testDistributionUrl</name>
                 </property>
             </activation>
             <distributionManagement>
                 <repository>
-                    <id>stage-repository</id>
-                    <url>${stageDistributionUrl}/releases</url>
+                    <id>test-repository</id>
+                    <url>${testDistributionUrl}/releases</url>
                 </repository>
                 <snapshotRepository>
-                    <id>stage-snapshot-repository</id>
-                    <url>${stageDistributionUrl}/snapshots</url>
+                    <id>test-snapshot-repository</id>
+                    <url>${testDistributionUrl}/snapshots</url>
                 </snapshotRepository>
                 <site>
-                    <id>stage-site</id>
-                    <url>${stageDistributionUrl}/site</url>
+                    <id>test-site</id>
+                    <url>${testDistributionUrl}/site</url>
                 </site>
             </distributionManagement>
         </profile>
