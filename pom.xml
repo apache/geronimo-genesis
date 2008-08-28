@@ -125,27 +125,31 @@
                         <configuration>
                             <source>
                                 if (!project.groupId.startsWith('org.apache.geronimo.genesis')) {
-                                    //
-                                    // TODO: See if we can use GPath to simplify validation muck
-                                    //
-                                    
                                     def failIfNotConfigured = { var, value, name ->
                                         if (var.startsWith(value)) {
-                                            fail("Genesis child project must configure: $name")
+                                            fail("Genesis child project must configure element: $name")
                                         }
                                     }
                                     
-                                    failIfNotConfigured(project.scm.connection,
+                                    failIfNotConfigured(
+                                        project.description,
+                                        'Genesis provides',
+                                        'project/description')
+                                    
+                                    failIfNotConfigured(
+                                        project.scm.connection,
                                         'scm:svn:http://svn.apache.org/repos/asf/geronimo/genesis',
-                                        'scm.connection')
+                                        'project/scm/connection')
                                     
-                                    failIfNotConfigured(project.scm.developerConnection,
+                                    failIfNotConfigured(
+                                        project.scm.developerConnection,
                                         'scm:svn:https://svn.apache.org/repos/asf/geronimo/genesis',
-                                        'scm.developerConnection')
+                                        'project/scm/developerConnection')
                                     
-                                    failIfNotConfigured(project.scm.url,
+                                    failIfNotConfigured(
+                                        project.scm.url,
                                         'http://svn.apache.org/viewvc/geronimo/geronimo/genesis',
-                                        'scm.url')
+                                        'project/scm/url')
                                 }
                             </source>
                         </configuration>
