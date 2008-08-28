@@ -163,6 +163,10 @@
     TODO: Add default distributionManagement muck.
     -->
     
+    <!--
+    TODO: Add shunt to prevent non-staged releases via some property in settings for apache projects.
+    -->
+    
     <profiles>
         <profile>
             <id>release</id>
