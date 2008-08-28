@@ -56,6 +56,10 @@
     
     <inceptionYear>2003</inceptionYear>
     
+    <!--
+    TODO: Add scm for genesis.
+    -->
+    
     <modules>
         <module>genesis-packaging</module>
         <module>genesis-flava</module>
@@ -100,6 +104,14 @@
             </plugins>
         </pluginManagement>
     </build>
+    
+    <!--
+    TODO: Add default distributionManagement muck.
+    -->
+    
+    <!--
+    TODO: Add some verification that child modules change required bits.
+    -->
     
     <profiles>
         <profile>
