@@ -371,11 +371,7 @@
                     <version>2.3.1</version>
                 </plugin>
                 
-                <plugin>
-                    <groupId>org.codehaus.groovy.maven</groupId>
-                    <artifactId>gmaven-plugin</artifactId>
-                    <version>1.0-rc-3</version>
-                </plugin>
+                <!-- gmaven-plugin defined in top-level pom -->
             </plugins>
         </pluginManagement>
         

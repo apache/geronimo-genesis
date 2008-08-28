@@ -103,16 +103,48 @@
                     <artifactId>maven-javadoc-plugin</artifactId>
                     <version>2.5</version>
                 </plugin>
+                <plugin>
+                    <groupId>org.codehaus.groovy.maven</groupId>
+                    <artifactId>gmaven-plugin</artifactId>
+                    <version>1.0-rc-3</version>
+                </plugin>
             </plugins>
         </pluginManagement>
+        
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.groovy.maven</groupId>
+                <artifactId>gmaven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>check-coniguration</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>execute</goal>
+                        </goals>
+                        <configuration>
+                            <source>
+                                if (!project.groupId.startsWith('org.apache.geronimo.genesis')) {
+                                    if (project.scm.connection.startsWith('scm:svn:http://svn.apache.org/repos/asf/geronimo/genesis')) {
+                                        fail('Genesis child must configure: scm.connection')
+                                    }
+                                    if (project.scm.developerConnection.startsWith('scm:svn:https://svn.apache.org/repos/asf/geronimo/genesis')) {
+                                        fail('Genesis child must configure: scm.developerConnection')
+                                    }
+                                    if (project.scm.url.startsWith('http://svn.apache.org/viewvc/geronimo/geronimo/genesis')) {
+                                        fail('Genesis child must configure: scm.url')
+                                    }
+                                }
+                            </source>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
     </build>
     
     <!--
     TODO: Add default distributionManagement muck.
-    -->
-    
-    <!--
-    TODO: Add some verification that child modules change required bits.
     -->
     
     <profiles>
