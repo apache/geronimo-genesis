@@ -56,9 +56,11 @@
     
     <inceptionYear>2003</inceptionYear>
     
-    <!--
-    TODO: Add scm for genesis.
-    -->
+    <scm>
+        <connection>scm:svn:http://svn.apache.org/repos/asf/geronimo/genesis/trunk</connection>
+        <developerConnection>scm:svn:https://svn.apache.org/repos/asf/geronimo/genesis/trunk</developerConnection>
+        <url>http://svn.apache.org/viewvc/geronimo/geronimo/genesis/trunk</url>
+    </scm>
     
     <modules>
         <module>genesis-packaging</module>
