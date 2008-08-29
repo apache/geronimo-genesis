@@ -117,7 +117,6 @@
                 <artifactId>gmaven-plugin</artifactId>
                 <executions>
                     <execution>
-                        <id>check-coniguration</id>
                         <phase>validate</phase>
                         <goals>
                             <goal>execute</goal>
@@ -163,10 +162,6 @@
     TODO: Add default distributionManagement muck.
     -->
     
-    <!--
-    TODO: Add shunt to prevent non-staged releases via some property in settings for apache projects.
-    -->
-    
     <profiles>
         <profile>
             <id>release</id>
@@ -178,6 +173,35 @@
             <build>
                 <plugins>
                     <plugin>
+                        <groupId>org.codehaus.groovy.maven</groupId>
+                        <artifactId>gmaven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <phase>validate</phase>
+                                <goals>
+                                    <goal>execute</goal>
+                                </goals>
+                                <configuration>
+                                    <source>
+                                        // Optionally prevent non-staged releases for projects
+                                        if (project.properties['release.stageRequired']) {
+                                            if (project.properties['release'] != 'stage') {
+                                                fail('Release requires staging; use -Drelease=stage')
+                                            }
+                                        }
+                                        
+                                        // Make sure that we have a configured GPG passphrase
+                                        def phrase = project.properties['release.passphrase']
+                                        if (phrase == null || phrase.trim() == '') {
+                                            fail('Missing required property: release.passphrase')
+                                        }
+                                    </source>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    
+                    <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-release-plugin</artifactId>
                         <configuration>
@@ -188,31 +212,6 @@
                             <preparationGoals>clean verify -Dit</preparationGoals>
                             <goals>deploy</goals>
                         </configuration>
-                    </plugin>
-                    
-                    <plugin>
-                        <groupId>org.codehaus.groovy.maven</groupId>
-                        <artifactId>gmaven-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>check-passphrase</id>
-                                <phase>validate</phase>
-                                <goals>
-                                    <goal>execute</goal>
-                                </goals>
-                                <configuration>
-                                    <!--
-                                    Make sure that we have a configured GPG passphrase.
-                                    -->
-                                    <source>
-                                        def phrase = project.properties['release.passphrase']
-                                        if (phrase == null || phrase.trim() == '') {
-                                            fail('Missing required property: release.passphrase')
-                                        }
-                                    </source>
-                                </configuration>
-                            </execution>
-                        </executions>
                     </plugin>
                     
                     <plugin>
@@ -252,29 +251,18 @@
             <build>
                 <plugins>
                     <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-release-plugin</artifactId>
-                        <configuration>
-                            <arguments>-Drelease=stage</arguments>
-                        </configuration>
-                    </plugin>
-                    
-                    <plugin>
                         <groupId>org.codehaus.groovy.maven</groupId>
                         <artifactId>gmaven-plugin</artifactId>
                         <executions>
                             <execution>
-                                <id>check-deploy-url</id>
                                 <phase>validate</phase>
                                 <goals>
                                     <goal>execute</goal>
                                 </goals>
                                 <configuration>
-                                    <!--
-                                    Make sure that we have a valid stage deployment URL configured,
-                                    and that the URL is parsable (ie. not a file reference, which won't work
-                                    -->
                                     <source>
+                                        // Make sure that we have a valid stage deployment URL configured,
+                                        // and that the URL is parsable (ie. not a file reference, which won't work
                                         def url = project.properties['release.stageDeployUrl']
                                         if (url == null || url.trim() == '') {
                                             fail('Missing required property: release.stageDeployUrl')
@@ -289,6 +277,14 @@
                                 </configuration>
                             </execution>
                         </executions>
+                    </plugin>
+                    
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-release-plugin</artifactId>
+                        <configuration>
+                            <arguments>-Drelease=stage</arguments>
+                        </configuration>
                     </plugin>
                     
                     <plugin>
