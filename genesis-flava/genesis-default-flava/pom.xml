@@ -39,7 +39,7 @@
         NOTE: This causes problems while building Genesis, projects which need the additional 
               packaging bits, should define this locally until Maven can handle installing
               this extention in the reactor that also builds the artifact.
-              
+        
         <extensions>
             <extension>
                 <groupId>org.apache.geronimo.genesis</groupId>
@@ -250,6 +250,8 @@
                 
                 <!-- maven-source-plugin defined in top-level pom -->
                 
+                <!-- maven-stage-plugin defined in top-level pom -->
+                
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-stage-plugin</artifactId>
@@ -372,6 +374,7 @@
                 </plugin>
                 
                 <!-- gmaven-plugin defined in top-level pom -->
+                
             </plugins>
         </pluginManagement>
         
