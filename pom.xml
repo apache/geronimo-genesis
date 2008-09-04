@@ -94,7 +94,7 @@
             <subscribe>announce-subscribe@apache.org</subscribe>
             <unsubscribe>announce-unsubscribe@apache.org</unsubscribe>
             <post>announce@apache.org</post>
-            <archive>http://mail-archives.apache.org/mod_mbox/www-announce/</archive>
+            <archive>http://mail-archives.apache.org/mod_mbox/www-announce</archive>
         </mailingList>
     </mailingLists>
     
@@ -117,7 +117,7 @@
         <repository>
             <id>apache.incubator</id>
             <name>Apache Incubator Repository</name>
-            <url>http://people.apache.org/repo/m2-incubating-repository/</url>
+            <url>http://people.apache.org/repo/m2-incubating-repository</url>
             <layout>default</layout>
             <snapshots>
                 <enabled>false</enabled>
@@ -492,35 +492,6 @@
             <build>
                 <plugins>
                     <plugin>
-                        <groupId>org.codehaus.groovy.maven</groupId>
-                        <artifactId>gmaven-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <phase>validate</phase>
-                                <goals>
-                                    <goal>execute</goal>
-                                </goals>
-                                <configuration>
-                                    <source>
-                                        // Optionally prevent non-staged releases for projects
-                                        if (project.properties['release.stageRequired']) {
-                                            if (project.properties['release'] != 'stage') {
-                                                fail('Release requires staging; use -Drelease=stage')
-                                            }
-                                        }
-                                        
-                                        // Make sure that we have a configured GPG passphrase
-                                        def phrase = project.properties['release.gpgPassphrase']
-                                        if (phrase == null || phrase.trim() == '') {
-                                            fail('Missing required property: release.gpgPassphrase')
-                                        }
-                                    </source>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-
-                    <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-release-plugin</artifactId>
                         <configuration>
@@ -569,35 +540,6 @@
             </activation>
             <build>
                 <plugins>
-                    <plugin>
-                        <groupId>org.codehaus.groovy.maven</groupId>
-                        <artifactId>gmaven-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <phase>validate</phase>
-                                <goals>
-                                    <goal>execute</goal>
-                                </goals>
-                                <configuration>
-                                    <source>
-                                        // Make sure that we have a valid stage deployment URL configured,
-                                        // and that the URL is parsable (ie. not a file reference, which won't work
-                                        def url = project.properties['release.stageDeployUrl']
-                                        if (url == null || url.trim() == '') {
-                                            fail('Missing required property: release.stageDeployUrl')
-                                        }
-                                        try {
-                                            new URL(url)
-                                        }
-                                        catch (Exception e) {
-                                            fail("Invalid URL: $url")
-                                        }
-                                    </source>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-release-plugin</artifactId>
@@ -685,42 +627,6 @@
                     <value>strict</value>
                 </property>
             </activation>
-            
-            <!--
-            <repositories>
-                <repository>
-                    <id>apache-snapshots</id>
-                    <name>Apache Snapshots Repository</name>
-                    <url>http://people.apache.org/repo/m2-snapshot-repository</url>
-                    <layout>default</layout>
-                    <snapshots>
-                        <enabled>true</enabled>
-                        <updatePolicy>daily</updatePolicy>
-                        <checksumPolicy>ignore</checksumPolicy>
-                    </snapshots>
-                    <releases>
-                        <enabled>false</enabled>
-                    </releases>
-                </repository>
-            </repositories>
-
-            <pluginRepositories>
-                <pluginRepository>
-                    <id>apache-snapshots</id>
-                    <name>Apache Snapshots Repository</name>
-                    <url>http://people.apache.org/repo/m2-snapshot-repository</url>
-                    <layout>default</layout>
-                    <snapshots>
-                        <enabled>true</enabled>
-                        <updatePolicy>daily</updatePolicy>
-                        <checksumPolicy>ignore</checksumPolicy>
-                    </snapshots>
-                    <releases>
-                        <enabled>false</enabled>
-                    </releases>
-                </pluginRepository>
-            </pluginRepositories>
-            -->
             
             <build>
                 <pluginManagement>
