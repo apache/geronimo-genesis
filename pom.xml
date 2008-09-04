@@ -403,15 +403,11 @@ t
                     <version>2.2</version>
                 </plugin>
                 
-                <!--
-                FIXME: Need to publish new versions of these soon... for now disable.
-                
                 <plugin>
                     <groupId>org.codehaus.mojo.jspc</groupId>
                     <artifactId>jspc-maven-plugin</artifactId>
-                    <version>2.0-alpha-2-SNAPSHOT</version>
+                    <version>2.0-alpha-2</version>
                 </plugin>
-                -->
                 
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
