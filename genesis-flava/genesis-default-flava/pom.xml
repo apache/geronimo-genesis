@@ -233,7 +233,6 @@
                 </executions>
             </plugin>
             
-            <!--
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>ianal-maven-plugin</artifactId>
@@ -248,7 +247,6 @@
                     </execution>
                 </executions>
             </plugin>
-            -->
         </plugins>
     </build>
     
