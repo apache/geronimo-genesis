@@ -176,6 +176,7 @@
     </pluginRepositories>
     
     <modules>
+        <module>genesis-maven-plugin</module>
         <module>genesis-packaging</module>
         <module>genesis-flava</module>
         <module>genesis-skin</module>
@@ -453,58 +454,16 @@
                     <artifactId>xmlbeans-maven-plugin</artifactId>
                     <version>2.3.1</version>
                 </plugin>
+                
+                <!-- INTERNAL -->
+                
+                <plugin>
+                    <groupId>org.apache.geronimo.genesis</groupId>
+                    <artifactId>genesis-maven-plugin</artifactId>
+                    <version>2.0-SNAPSHOT</version>
+                </plugin>
             </plugins>
         </pluginManagement>
-
-        <plugins>
-            <plugin>
-                <groupId>org.codehaus.groovy.maven</groupId>
-                <artifactId>gmaven-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <phase>validate</phase>
-                        <goals>
-                            <goal>execute</goal>
-                        </goals>
-                        <configuration>
-                            <source>
-                                if (!project.groupId.startsWith('org.apache.geronimo.genesis')) {
-                                    def failIfNotConfigured = { var, value, name ->
-                                        if (var.startsWith(value)) {
-                                            fail("Genesis child project must configure element: $name")
-                                        }
-                                    }
-                                    
-                                    // TODO: project/url
-                                    
-                                    // TODO: project/distributionManagement/site
-                                    
-                                    failIfNotConfigured(
-                                        project.description,
-                                        'Genesis provides',
-                                        'project/description')
-                                    
-                                    failIfNotConfigured(
-                                        project.scm.connection,
-                                        'scm:svn:http://svn.apache.org/repos/asf/geronimo/genesis',
-                                        'project/scm/connection')
-                                    
-                                    failIfNotConfigured(
-                                        project.scm.developerConnection,
-                                        'scm:svn:https://svn.apache.org/repos/asf/geronimo/genesis',
-                                        'project/scm/developerConnection')
-                                    
-                                    failIfNotConfigured(
-                                        project.scm.url,
-                                        'http://svn.apache.org/viewvc/geronimo/geronimo/genesis',
-                                        'project/scm/url')
-                                }
-                            </source>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
     </build>
 
     <distributionManagement>
@@ -513,6 +472,7 @@
             <name>Apache Release Repository</name>
             <url>scp://people.apache.org/www/people.apache.org/repo/m2-ibiblio-rsync-repository</url>
         </repository>
+        
         <snapshotRepository>
             <id>apache.snapshots</id>
             <name>Apache Development Repository</name>
