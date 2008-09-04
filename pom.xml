@@ -23,12 +23,6 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
-    
-    <!--
-    IMPORTANT: This pom should only contain the very minimal configuration to drive the Genesis build,
-               and provide fundamental release support.  All other configuration should be added to
-               a genesis-flava module.
-    -->
 
     <groupId>org.apache.geronimo.genesis</groupId>
     <artifactId>genesis</artifactId>
@@ -40,7 +34,9 @@
     <description>
         Genesis provides build support for Apache Geronimo's Maven projects.
     </description>
-
+    
+    <url>http://www.apache.org</url>
+    
     <organization>
         <name>The Apache Software Foundation</name>
         <url>http://www.apache.org</url>
