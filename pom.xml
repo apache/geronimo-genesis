@@ -57,7 +57,124 @@
         <developerConnection>scm:svn:https://svn.apache.org/repos/asf/geronimo/genesis/trunk</developerConnection>
         <url>http://svn.apache.org/viewvc/geronimo/geronimo/genesis/trunk</url>
     </scm>
-
+    
+    <mailingLists>
+        <mailingList>
+            <name>Geronimo User List</name>
+            <subscribe>user-subscribe@geronimo.apache.org</subscribe>
+            <unsubscribe>user-unsubscribe@geronimo.apache.org</unsubscribe>
+            <post>mailto:user@geronimo.apache.org</post>
+            <archive>http://mail-archives.apache.org/mod_mbox/geronimo-user</archive>
+            <otherArchives>
+                <otherArchive>http://www.nabble.com/Apache-Geronimo---Users-f135.html</otherArchive>
+            </otherArchives>
+        </mailingList>
+        
+        <mailingList>
+            <name>Geronimo Developer List</name>
+            <subscribe>dev-subscribe@geronimo.apache.org</subscribe>
+            <unsubscribe>dev-unsubscribe@geronimo.apache.org</unsubscribe>
+            <post>mailto:dev@geronimo.apache.org</post>
+            <archive>http://mail-archives.apache.org/mod_mbox/geronimo-dev</archive>
+            <otherArchives>
+                <otherArchive>http://www.nabble.com/Apache-Geronimo---Dev-f136.html</otherArchive>
+            </otherArchives>
+        </mailingList>
+        
+        <mailingList>
+            <name>Source Control List</name>
+            <subscribe>scm-subscribe@geronimo.apache.org</subscribe>
+            <unsubscribe>scm-unsubscribe@geronimo.apache.org</unsubscribe>
+            <post>scm@geronimo.apache.org</post>
+            <archive>http://mail-archives.apache.org/mod_mbox/geronimo-scm</archive>
+        </mailingList>
+        
+        <mailingList>
+            <name>Apache Announce List</name>
+            <subscribe>announce-subscribe@apache.org</subscribe>
+            <unsubscribe>announce-unsubscribe@apache.org</unsubscribe>
+            <post>announce@apache.org</post>
+            <archive>http://mail-archives.apache.org/mod_mbox/www-announce/</archive>
+        </mailingList>
+    </mailingLists>
+    
+    <repositories>
+        <repository>
+            <id>apache.snapshots</id>
+            <name>Apache Snapshots Repository</name>
+            <url>http://people.apache.org/repo/m2-snapshot-repository</url>
+            <layout>default</layout>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>daily</updatePolicy>
+                <checksumPolicy>ignore</checksumPolicy>
+            </snapshots>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+        </repository>
+        
+        <repository>
+            <id>apache.incubator</id>
+            <name>Apache Incubator Repository</name>
+            <url>http://people.apache.org/repo/m2-incubating-repository/</url>
+            <layout>default</layout>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+        </repository>
+        
+        <repository>
+            <id>codehaus.snapshots</id>
+            <name>Codehaus Snapshots Repository</name>
+            <url>http://snapshots.repository.codehaus.org</url>
+            <layout>default</layout>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>daily</updatePolicy>
+                <checksumPolicy>ignore</checksumPolicy>
+            </snapshots>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+        </repository>
+    </repositories>
+    
+    <pluginRepositories>
+        <pluginRepository>
+            <id>apache.snapshots</id>
+            <name>Apache Snapshots Repository</name>
+            <url>http://people.apache.org/repo/m2-snapshot-repository</url>
+            <layout>default</layout>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>daily</updatePolicy>
+                <checksumPolicy>ignore</checksumPolicy>
+            </snapshots>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+        </pluginRepository>
+        
+        <pluginRepository>
+            <id>codehaus.snapshots</id>
+            <name>Codehaus Snapshots Repository</name>
+            <url>http://snapshots.repository.codehaus.org</url>
+            <layout>default</layout>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>daily</updatePolicy>
+                <checksumPolicy>ignore</checksumPolicy>
+            </snapshots>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+        </pluginRepository>
+    </pluginRepositories>
+    
     <modules>
         <module>genesis-packaging</module>
         <module>genesis-flava</module>
@@ -358,6 +475,10 @@
                                         }
                                     }
                                     
+                                    // TODO: project/url
+                                    
+                                    // TODO: project/distributionManagement/site
+                                    
                                     failIfNotConfigured(
                                         project.description,
                                         'Genesis provides',
@@ -604,7 +725,8 @@
                     <value>strict</value>
                 </property>
             </activation>
-
+            
+            <!--
             <repositories>
                 <repository>
                     <id>apache-snapshots</id>
@@ -638,7 +760,8 @@
                     </releases>
                 </pluginRepository>
             </pluginRepositories>
-
+            -->
+            
             <build>
                 <pluginManagement>
                     <plugins>
