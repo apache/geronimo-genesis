@@ -23,7 +23,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
-t
+
     <groupId>org.apache.geronimo.genesis</groupId>
     <artifactId>genesis</artifactId>
     <name>Genesis</name>
@@ -190,7 +190,7 @@ t
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-enforcer-plugin</artifactId>
-                    <version>1.0-alpha-3</version>
+                    <version>1.0-alpha-4</version>
                 </plugin>
 
                 <plugin>
@@ -634,16 +634,6 @@ t
             </activation>
             
             <build>
-                <pluginManagement>
-                    <plugins>
-                        <plugin>
-                            <groupId>org.apache.maven.plugins</groupId>
-                            <artifactId>maven-enforcer-plugin</artifactId>
-                            <version>1.0-alpha-4-SNAPSHOT</version>
-                        </plugin>
-                    </plugins>
-                </pluginManagement>
-
                 <plugins>
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
@@ -660,12 +650,6 @@ t
                                             <banRelease>true</banRelease>
                                             <banSnapshots>true</banSnapshots>
                                             <banTimestamps>true</banTimestamps>
-                                            <unCheckedPlugins>
-                                                <!--
-                                                HACK: Have to exclude the enforcer for now, since there is no release yet... blah
-                                                -->
-                                                <plugin>org.apache.maven.plugins:maven-enforcer-plugin</plugin>
-                                            </unCheckedPlugins>
                                         </requirePluginVersions>
                                         <requireReleaseDeps>
                                             <searchTransitive>true</searchTransitive>
