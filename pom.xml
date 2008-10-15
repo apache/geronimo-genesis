@@ -342,6 +342,29 @@
                 </plugins>
             </build>
         </profile>
+
+        <profile>
+            <id>test-distribution</id>
+            <activation>
+                <property>
+                    <name>testDistributionUrl</name>
+                </property>
+            </activation>
+            <distributionManagement>
+                <repository>
+                    <id>test-repository</id>
+                    <url>${testDistributionUrl}/releases</url>
+                </repository>
+                <snapshotRepository>
+                    <id>test-snapshot-repository</id>
+                    <url>${testDistributionUrl}/snapshots</url>
+                </snapshotRepository>
+                <site>
+                    <id>test-site</id>
+                    <url>${testDistributionUrl}/site</url>
+                </site>
+            </distributionManagement>
+        </profile>
     </profiles>
 
 </project>
