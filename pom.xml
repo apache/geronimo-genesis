@@ -238,6 +238,7 @@
                             <useReleaseProfile>false</useReleaseProfile>
                             <goals>deploy</goals>
                             <arguments>-Prelease</arguments>
+                            <preparationGoals>clean install -Dit</preparationGoals>
                         </configuration>
                     </plugin>
 
