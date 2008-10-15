@@ -496,7 +496,7 @@
                             <allowTimestampedSnapshots>false</allowTimestampedSnapshots>
                             <useReleaseProfile>false</useReleaseProfile>
                             <arguments>-Drelease</arguments>
-                            <preparationGoals>clean install</preparationGoals>
+                            <preparationGoals>clean install -Dit</preparationGoals>
                             <goals>deploy</goals>
                         </configuration>
                     </plugin>
