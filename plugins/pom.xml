@@ -85,7 +85,6 @@
     </build>
     
     <modules>
-        <module>tools-maven-plugin</module>
         <module>maven-maven-plugin</module>
     </modules>
     
