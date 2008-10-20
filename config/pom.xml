@@ -27,7 +27,7 @@
     <parent>
         <groupId>org.apache.geronimo.genesis</groupId>
         <artifactId>genesis</artifactId>
-        <version>1.5-SNAPSHOT</version>
+        <version>1.5</version>
     </parent>
 
     <groupId>org.apache.geronimo.genesis.config</groupId>
@@ -40,4 +40,22 @@
         <module>geronimo-skin</module>
     </modules>
     
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>ianal-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>verify-legal-files</goal>
+                        </goals>
+                        <configuration>
+                            <strict>true</strict>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 </project>
