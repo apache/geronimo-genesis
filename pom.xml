@@ -36,7 +36,7 @@
     <packaging>pom</packaging>
     <inceptionYear>2003</inceptionYear>
 
-    <version>1.5-SNAPSHOT</version>
+    <version>1.5</version>
 
     <description>
         Genesis provides support for Maven2 builds; adding shared configurations
@@ -46,9 +46,9 @@
     <url>http://geronimo.apache.org/maven/${siteId}/${version}</url>
 
     <scm>
-        <connection>scm:svn:http://svn.apache.org/repos/asf/geronimo/genesis/branches/genesis-1.x/</connection>
-        <developerConnection>scm:svn:https://svn.apache.org/repos/asf/geronimo/genesis/branches/genesis-1.x/</developerConnection>
-        <url>http://svn.apache.org/viewvc/geronimo/genesis/branches/genesis-1.x/</url>
+        <connection>scm:svn:http://svn.apache.org/repos/asf/geronimo/genesis/tags/genesis-1.5</connection>
+        <developerConnection>scm:svn:https://svn.apache.org/repos/asf/geronimo/genesis/tags/genesis-1.5</developerConnection>
+        <url>http://svn.apache.org/viewvc/geronimo/genesis/tags/genesis-1.5</url>
     </scm>
 
     <properties>
