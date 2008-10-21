@@ -421,7 +421,7 @@
                 <version>2.4</version>
                 <configuration>
                     <minmemory>128m</minmemory>
-                    <maxmemory>512</maxmemory>
+                    <maxmemory>512m</maxmemory>
                     <breakiterator>true</breakiterator>
                     <quiet>true</quiet>
                     <verbose>false</verbose>
