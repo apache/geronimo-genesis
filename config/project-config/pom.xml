@@ -318,7 +318,7 @@
     
     <repositories>
         <repository>
-            <id>apache-snapshots</id>
+            <id>apache.snapshots</id>
             <name>Apache Snapshots Repository</name>
             <url>http://people.apache.org/repo/m2-snapshot-repository</url>
             <layout>default</layout>
@@ -331,7 +331,8 @@
                 <enabled>false</enabled>
             </releases>
         </repository>
-        
+
+        <!--        
         <repository>
             <id>apache-incubator</id>
             <name>Apache Incubator Repository</name>
@@ -359,11 +360,12 @@
                 <enabled>false</enabled>
             </releases>
         </repository>
+        -->
     </repositories>
     
     <pluginRepositories>
         <pluginRepository>
-            <id>apache-snapshots</id>
+            <id>apache.snapshots</id>
             <name>Apache Snapshots Repository</name>
             <url>http://people.apache.org/repo/m2-snapshot-repository</url>
             <layout>default</layout>
@@ -377,6 +379,7 @@
             </releases>
         </pluginRepository>
         
+        <!--
         <pluginRepository>
             <id>codehaus-snapshots</id>
             <name>Codehaus Snapshots Repository</name>
@@ -391,6 +394,7 @@
                 <enabled>false</enabled>
             </releases>
         </pluginRepository>
+        -->
     </pluginRepositories>
     
     <profiles>
