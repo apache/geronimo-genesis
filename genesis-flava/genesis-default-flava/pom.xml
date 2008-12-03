@@ -250,16 +250,26 @@
         </plugins>
     </build>
     
+    
     <reporting>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <version>2.5</version>
+                
+                <reportSets>
+                    <reportSet>
+                        <reports>
+                            <report>javadoc</report>
+                            <report>test-javadoc</report>
+                        </reports>
+                      </reportSet>
+                </reportSets>
+                
                 <configuration>
                     <quiet>true</quiet>
                     <tags>
-                        <!-- Maven tags -->
                         <tag>
                             <name>goal</name>
                             <placement>Xt</placement>
@@ -292,7 +302,6 @@
                             <name>component</name>
                             <placement>Xf</placement>
                         </tag>
-                        <!-- Plexus tags -->
                         <tag>
                             <name>plexus.component</name>
                             <placement>Xf</placement>
@@ -321,6 +330,9 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-project-info-reports-plugin</artifactId>
                 <version>2.1</version>
+                <configuration>
+                    <dependencyLocationsEnabled>false</dependencyLocationsEnabled>
+                </configuration>
             </plugin>
             
             <plugin>
