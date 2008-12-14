@@ -35,9 +35,11 @@
     <name>Genesis Skin</name>
     <packaging>pom</packaging>
     
+    <!--
     <modules>
         <module>genesis-geronimo-skin</module>
     </modules>
+    -->
 
 </project>
 
