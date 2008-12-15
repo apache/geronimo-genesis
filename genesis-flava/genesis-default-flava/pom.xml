@@ -283,7 +283,6 @@
         </plugins>
     </build>
     
-    
     <reporting>
         <plugins>
             <plugin>
@@ -427,6 +426,41 @@
                             <execution>
                                 <goals>
                                     <goal>validate-release-stage-configuration</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        
+        <profile>
+            <id>license-check</id>
+
+            <pluginRepositories>
+                <pluginRepository>
+                    <id>mc-release</id>
+                    <url>http://mc-repo.googlecode.com/svn/maven2/releases</url>
+                    <snapshots>
+                        <enabled>false</enabled>
+                    </snapshots>
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
+                </pluginRepository>
+            </pluginRepositories>
+
+            <build>
+                <defaultGoal>license:check</defaultGoal>
+                <plugins>
+                    <plugin>
+                        <groupId>com.google.code.maven-license-plugin</groupId>
+                        <artifactId>maven-license-plugin</artifactId>
+                        <version>1.4.0</version>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>check</goal>
                                 </goals>
                             </execution>
                         </executions>
