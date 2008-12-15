@@ -191,6 +191,7 @@
                     <configuration>
                         <aggregate>true</aggregate>
                         <header>${project.basedir}/src/etc/license-header.txt</header>
+                        <encoding>UTF-8</encoding>
                         <useDefaultExcludes>true</useDefaultExcludes>
                         <excludes>
                             <exclude>**/README.txt</exclude>
@@ -200,6 +201,9 @@
                             <exclude>**/*.mdxml</exclude>
                         </excludes>
                         <useDefaultMapping>true</useDefaultMapping>
+                        <mapping>
+                            <jjt>JAVADOC_STYLE</jjt>
+                        </mapping>
                     </configuration>
                 </plugin>
             </plugins>
