@@ -177,6 +177,31 @@
                         </dependency>
                     </dependencies>
                 </plugin>
+                
+                <plugin>
+                    <groupId>com.google.code.maven-license-plugin</groupId>
+                    <artifactId>maven-license-plugin</artifactId>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>check</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                    <configuration>
+                        <aggregate>true</aggregate>
+                        <header>${project.basedir}/src/etc/license-header.txt</header>
+                        <useDefaultExcludes>true</useDefaultExcludes>
+                        <excludes>
+                            <exclude>**/README.txt</exclude>
+                            <exclude>**/LICENSE.txt</exclude>
+                            <exclude>**/NOTICE.txt</exclude>
+                            <exclude>**/*.psd</exclude>
+                            <exclude>**/*.mdxml</exclude>
+                        </excludes>
+                        <useDefaultMapping>true</useDefaultMapping>
+                    </configuration>
+                </plugin>
             </plugins>
         </pluginManagement>
         
