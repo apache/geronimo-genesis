@@ -336,7 +336,7 @@
             </releases>
         </repository>
 
-        <!--        
+        <!-- subprojects need to explicitly include this, if needed
         <repository>
             <id>apache-incubator</id>
             <name>Apache Incubator Repository</name>
@@ -349,7 +349,8 @@
                 <enabled>true</enabled>
             </releases>
         </repository>
-        
+        -->
+
         <repository>
             <id>codehaus-snapshots</id>
             <name>Codehaus Snapshots Repository</name>
@@ -364,7 +365,6 @@
                 <enabled>false</enabled>
             </releases>
         </repository>
-        -->
     </repositories>
     
     <pluginRepositories>
