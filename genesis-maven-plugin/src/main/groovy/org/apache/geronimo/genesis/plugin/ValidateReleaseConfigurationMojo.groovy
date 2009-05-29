@@ -51,9 +51,9 @@ class ValidateReleaseConfigurationMojo
         }
         
         // Make sure that we have a configured GPG passphrase
-        def phrase = project.properties['release.gpgPassphrase']
+        def phrase = project.properties['gpg.passphrase']
         if (phrase == null || phrase.trim() == '') {
-            fail('Missing required property: release.gpgPassphrase')
+            fail('Missing required property: gpg.passphrase')
         }
     }
 }

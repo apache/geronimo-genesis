@@ -20,20 +20,21 @@
 
 <!-- $Rev$ $Date$ -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
-    
+
     <parent>
         <groupId>org.apache.geronimo.genesis.flava</groupId>
         <artifactId>genesis-flava</artifactId>
         <version>2.0-SNAPSHOT</version>
     </parent>
-    
+
     <artifactId>genesis-default-flava</artifactId>
     <name>Genesis Flava :: Default</name>
     <packaging>pom</packaging>
-    
+
     <build>
         <!--
         NOTE: This causes problems while building Genesis, projects which need the additional 
@@ -48,7 +49,7 @@
             </extension>
         </extensions>
         -->
-        
+
         <resources>
             <resource>
                 <directory>${project.basedir}/src/main/resources</directory>
@@ -57,7 +58,7 @@
                     <include>**/*</include>
                 </includes>
             </resource>
-            
+
             <resource>
                 <directory>${project.basedir}/src/main/filtered-resources</directory>
                 <filtering>true</filtering>
@@ -66,7 +67,7 @@
                 </includes>
             </resource>
         </resources>
-        
+
         <testResources>
             <testResource>
                 <directory>${project.basedir}/src/test/resources</directory>
@@ -75,7 +76,7 @@
                     <include>**/*</include>
                 </includes>
             </testResource>
-            
+
             <testResource>
                 <directory>${project.basedir}/src/test/filtered-resources</directory>
                 <filtering>true</filtering>
@@ -84,17 +85,9 @@
                 </includes>
             </testResource>
         </testResources>
-        
+
         <pluginManagement>
             <plugins>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-resources-plugin</artifactId>
-                    <configuration>
-                        <encoding>UTF-8</encoding>
-                    </configuration>
-                </plugin>
-                
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-assembly-plugin</artifactId>
@@ -102,7 +95,7 @@
                         <tarLongFileMode>gnu</tarLongFileMode>
                     </configuration>
                 </plugin>
-                
+
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-dependency-plugin</artifactId>
@@ -110,7 +103,7 @@
                         <silent>true</silent>
                     </configuration>
                 </plugin>
-                
+
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-ear-plugin</artifactId>
@@ -131,7 +124,15 @@
                         </archive>
                     </configuration>
                 </plugin>
-                
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-resources-plugin</artifactId>
+                    <configuration>
+                        <encoding>UTF-8</encoding>
+                    </configuration>
+                </plugin>
+
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-surefire-plugin</artifactId>
@@ -150,7 +151,7 @@
                         </includes>
                     </configuration>
                 </plugin>
-                
+
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-war-plugin</artifactId>
@@ -168,7 +169,19 @@
                         </dependency>
                     </dependencies>
                 </plugin>
-                
+
+                <plugin>
+                    <groupId>org.apache.felix</groupId>
+                    <artifactId>maven-bundle-plugin</artifactId>
+                    <configuration>
+                        <instructions>
+                            <Implementation-Title>${project.name}</Implementation-Title>
+                            <Implementation-Version>${project.version}</Implementation-Version>
+                            <Bundle-DocURL>${project.url}</Bundle-DocURL>
+                        </instructions>
+                    </configuration>
+                </plugin>
+
                 <plugin>
                     <groupId>com.google.code.maven-license-plugin</groupId>
                     <artifactId>maven-license-plugin</artifactId>
@@ -199,7 +212,7 @@
                 </plugin>
             </plugins>
         </pluginManagement>
-        
+
         <plugins>
             <plugin>
                 <groupId>org.apache.geronimo.genesis</groupId>
@@ -212,7 +225,7 @@
                     </execution>
                 </executions>
             </plugin>
-            
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -223,7 +236,7 @@
                     <showWarnings>true</showWarnings>
                 </configuration>
             </plugin>
-            
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-enforcer-plugin</artifactId>
@@ -243,7 +256,7 @@
                     </execution>
                 </executions>
             </plugin>
-            
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-remote-resources-plugin</artifactId>
@@ -260,7 +273,7 @@
                     </execution>
                 </executions>
             </plugin>
-            
+
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>ianal-maven-plugin</artifactId>
@@ -286,16 +299,16 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <version>2.5</version>
-                
+
                 <reportSets>
                     <reportSet>
                         <reports>
                             <report>javadoc</report>
                             <report>test-javadoc</report>
                         </reports>
-                      </reportSet>
+                    </reportSet>
                 </reportSets>
-                
+
                 <configuration>
                     <quiet>true</quiet>
                     <tags>
@@ -342,19 +355,19 @@
                     </tags>
                 </configuration>
             </plugin>
-            
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jxr-plugin</artifactId>
                 <version>2.1</version>
             </plugin>
-            
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-pmd-plugin</artifactId>
                 <version>2.4</version>
             </plugin>
-            
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-project-info-reports-plugin</artifactId>
@@ -363,13 +376,13 @@
                     <dependencyLocationsEnabled>false</dependencyLocationsEnabled>
                 </configuration>
             </plugin>
-            
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-report-plugin</artifactId>
                 <version>2.4.3</version>
             </plugin>
-            
+
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>cobertura-maven-plugin</artifactId>
@@ -380,7 +393,7 @@
             </plugin>
         </plugins>
     </reporting>
-    
+
     <profiles>
         <profile>
             <id>apache-release</id>
@@ -407,30 +420,30 @@
         </profile>
 
         <!--<profile>-->
-            <!--<id>release-stage</id>-->
-            <!--<activation>-->
-                <!--<property>-->
-                    <!--<name>release</name>-->
-                    <!--<value>stage</value>-->
-                <!--</property>-->
-            <!--</activation>-->
-            <!--<build>-->
-                <!--<plugins>-->
-                    <!--<plugin>-->
-                        <!--<groupId>org.apache.geronimo.genesis</groupId>-->
-                        <!--<artifactId>genesis-maven-plugin</artifactId>-->
-                        <!--<executions>-->
-                            <!--<execution>-->
-                                <!--<goals>-->
-                                    <!--<goal>validate-release-stage-configuration</goal>-->
-                                <!--</goals>-->
-                            <!--</execution>-->
-                        <!--</executions>-->
-                    <!--</plugin>-->
-                <!--</plugins>-->
-            <!--</build>-->
+        <!--<id>release-stage</id>-->
+        <!--<activation>-->
+        <!--<property>-->
+        <!--<name>release</name>-->
+        <!--<value>stage</value>-->
+        <!--</property>-->
+        <!--</activation>-->
+        <!--<build>-->
+        <!--<plugins>-->
+        <!--<plugin>-->
+        <!--<groupId>org.apache.geronimo.genesis</groupId>-->
+        <!--<artifactId>genesis-maven-plugin</artifactId>-->
+        <!--<executions>-->
+        <!--<execution>-->
+        <!--<goals>-->
+        <!--<goal>validate-release-stage-configuration</goal>-->
+        <!--</goals>-->
+        <!--</execution>-->
+        <!--</executions>-->
+        <!--</plugin>-->
+        <!--</plugins>-->
+        <!--</build>-->
         <!--</profile>-->
-        
+
         <profile>
             <id>license-check</id>
 
