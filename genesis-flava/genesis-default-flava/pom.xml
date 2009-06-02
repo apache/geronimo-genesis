@@ -171,6 +171,8 @@
                             <Implementation-Title>${project.name}</Implementation-Title>
                             <Implementation-Version>${project.version}</Implementation-Version>
                             <Bundle-DocURL>${project.url}</Bundle-DocURL>
+                            <!-- private-package is useful to make sure you listed all the packages you meant to -->
+                            <!--<Private-Package/>-->
                         </instructions>
                     </configuration>
                 </plugin>
