@@ -116,18 +116,18 @@
     </properties>
 
     <repositories>
-        <repository>
-            <id>geronimo</id>
-            <name>Apache Geronimo Repository</name>
-            <url>http://geronimo.zones.apache.org:8081/nexus/content/repositories/geronimo</url>
-            <layout>default</layout>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-        </repository>
+        <!--<repository>-->
+            <!--<id>geronimo</id>-->
+            <!--<name>Apache Geronimo Repository</name>-->
+            <!--<url>http://geronimo.zones.apache.org:8081/nexus/content/repositories/geronimo</url>-->
+            <!--<layout>default</layout>-->
+            <!--<snapshots>-->
+                <!--<enabled>false</enabled>-->
+            <!--</snapshots>-->
+            <!--<releases>-->
+                <!--<enabled>true</enabled>-->
+            <!--</releases>-->
+        <!--</repository>-->
 
         <!--<repository>-->
         <!--<id>apache.snapshots</id>-->
@@ -176,18 +176,18 @@
     </repositories>
 
     <pluginRepositories>
-        <pluginRepository>
-            <id>geronimo</id>
-            <name>Apache Geronimo Repository</name>
-            <url>http://geronimo.zones.apache.org:8081/nexus/content/repositories/geronimo</url>
-            <layout>default</layout>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-        </pluginRepository>
+        <!--<pluginRepository>-->
+            <!--<id>geronimo</id>-->
+            <!--<name>Apache Geronimo Repository</name>-->
+            <!--<url>http://geronimo.zones.apache.org:8081/nexus/content/repositories/geronimo</url>-->
+            <!--<layout>default</layout>-->
+            <!--<snapshots>-->
+                <!--<enabled>false</enabled>-->
+            <!--</snapshots>-->
+            <!--<releases>-->
+                <!--<enabled>true</enabled>-->
+            <!--</releases>-->
+        <!--</pluginRepository>-->
 
         <pluginRepository>
             <id>apache.snapshots</id>
