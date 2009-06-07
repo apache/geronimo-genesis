@@ -65,6 +65,11 @@
         <url>http://svn.apache.org/viewvc/geronimo/geronimo/genesis/trunk</url>
     </scm>
 
+    <issueManagement>
+        <system>jira</system>
+        <url>https://issues.apache.org/jira/browse/GERONIMO</url>
+    </issueManagement>
+
     <!--
     TODO: Nabble forum bits need to be upgraded.
 
@@ -102,13 +107,6 @@
             <archive>http://mail-archives.apache.org/mod_mbox/geronimo-scm</archive>
         </mailingList>
 
-        <!--<mailingList>-->
-        <!--<name>Apache Announce List</name>-->
-        <!--<subscribe>announce-subscribe@apache.org</subscribe>-->
-        <!--<unsubscribe>announce-unsubscribe@apache.org</unsubscribe>-->
-        <!--<post>announce@apache.org</post>-->
-        <!--<archive>http://mail-archives.apache.org/mod_mbox/www-announce</archive>-->
-        <!--</mailingList>-->
     </mailingLists>
 
     <properties>
@@ -116,49 +114,6 @@
     </properties>
 
     <repositories>
-        <!--<repository>-->
-            <!--<id>geronimo</id>-->
-            <!--<name>Apache Geronimo Repository</name>-->
-            <!--<url>http://geronimo.zones.apache.org:8081/nexus/content/repositories/geronimo</url>-->
-            <!--<layout>default</layout>-->
-            <!--<snapshots>-->
-                <!--<enabled>false</enabled>-->
-            <!--</snapshots>-->
-            <!--<releases>-->
-                <!--<enabled>true</enabled>-->
-            <!--</releases>-->
-        <!--</repository>-->
-
-        <!--<repository>-->
-        <!--<id>apache.snapshots</id>-->
-        <!--<name>Apache Snapshots Repository</name>-->
-        <!--<url>http://people.apache.org/repo/m2-snapshot-repository</url>-->
-        <!--<layout>default</layout>-->
-        <!--<snapshots>-->
-        <!--<enabled>true</enabled>-->
-        <!--<updatePolicy>daily</updatePolicy>-->
-        <!--<checksumPolicy>ignore</checksumPolicy>-->
-        <!--</snapshots>-->
-        <!--<releases>-->
-        <!--<enabled>false</enabled>-->
-        <!--</releases>-->
-        <!--</repository>-->
-
-        <!--
-        <repository>
-            <id>apache.incubator</id>
-            <name>Apache Incubator Repository</name>
-            <url>http://people.apache.org/repo/m2-incubating-repository</url>
-            <layout>default</layout>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-        </repository>
-        -->
-
         <repository>
             <id>codehaus.snapshots</id>
             <name>Codehaus Snapshots Repository</name>
@@ -176,18 +131,6 @@
     </repositories>
 
     <pluginRepositories>
-        <!--<pluginRepository>-->
-            <!--<id>geronimo</id>-->
-            <!--<name>Apache Geronimo Repository</name>-->
-            <!--<url>http://geronimo.zones.apache.org:8081/nexus/content/repositories/geronimo</url>-->
-            <!--<layout>default</layout>-->
-            <!--<snapshots>-->
-                <!--<enabled>false</enabled>-->
-            <!--</snapshots>-->
-            <!--<releases>-->
-                <!--<enabled>true</enabled>-->
-            <!--</releases>-->
-        <!--</pluginRepository>-->
 
         <pluginRepository>
             <id>apache.snapshots</id>
@@ -224,7 +167,7 @@
         <module>genesis-maven-plugin</module>
         <module>genesis-packaging</module>
         <module>genesis-flava</module>
-        <module>genesis-skin</module>
+        <!--<module>genesis-skin</module>-->
     </modules>
 
     <build>
@@ -233,16 +176,12 @@
         <pluginManagement>
             <plugins>
 
-                <!--<plugin>-->
-                <!--<groupId>org.apache.maven.plugins</groupId>-->
-                <!--<artifactId>maven-antrun-plugin</artifactId>-->
-                <!--<version>1.3</version>-->
-                <!--</plugin>-->
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-archetype-plugin</artifactId>
                     <version>2.0-alpha-4</version>
                 </plugin>
+
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-assembly-plugin</artifactId>
@@ -251,6 +190,7 @@
                         <tarLongFileMode>gnu</tarLongFileMode>
                     </configuration>
                 </plugin>
+
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-changes-plugin</artifactId>
@@ -269,32 +209,11 @@
                     <version>2.2</version>
                 </plugin>
 
-                <!--<plugin>-->
-                <!--<groupId>org.apache.maven.plugins</groupId>-->
-                <!--<artifactId>maven-clean-plugin</artifactId>-->
-                <!--<version>2.3</version>-->
-                <!--</plugin>-->
-
-                <!--<plugin>-->
-                <!--<groupId>org.apache.maven.plugins</groupId>-->
-                <!--<artifactId>maven-compiler-plugin</artifactId>-->
-                <!--<version>2.0.2</version>-->
-                <!--</plugin>-->
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-dependency-plugin</artifactId>
                     <version>2.1</version>
                 </plugin>
-                <!--<plugin>-->
-                <!--<groupId>org.apache.maven.plugins</groupId>-->
-                <!--<artifactId>maven-deploy-plugin</artifactId>-->
-                <!--<version>2.4</version>-->
-                <!--</plugin>-->
-                <!--<plugin>-->
-                <!--<groupId>org.apache.maven.plugins</groupId>-->
-                <!--<artifactId>maven-docck-plugin</artifactId>-->
-                <!--<version>1.0</version>-->
-                <!--</plugin>-->
 
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -302,27 +221,11 @@
                     <version>2.3</version>
                 </plugin>
 
-                <!--<plugin>-->
-                <!--<groupId>org.apache.maven.plugins</groupId>-->
-                <!--<artifactId>maven-eclipse-plugin</artifactId>-->
-                <!--<version>2.5.1</version>-->
-                <!--</plugin>-->
-
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-ejb-plugin</artifactId>
                     <version>2.1</version>
                 </plugin>
-                <!--<plugin>-->
-                <!--<groupId>org.apache.maven.plugins</groupId>-->
-                <!--<artifactId>maven-enforcer-plugin</artifactId>-->
-                <!--<version>1.0-beta-1</version>-->
-                <!--</plugin>-->
-                <!--<plugin>-->
-                <!--<groupId>org.apache.maven.plugins</groupId>-->
-                <!--<artifactId>maven-gpg-plugin</artifactId>-->
-                <!--<version>1.0-alpha-4</version>-->
-                <!--</plugin>-->
 
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -330,31 +233,11 @@
                     <version>2.1</version>
                 </plugin>
 
-                <!--<plugin>-->
-                <!--<groupId>org.apache.maven.plugins</groupId>-->
-                <!--<artifactId>maven-install-plugin</artifactId>-->
-                <!--<version>2.2</version>-->
-                <!--</plugin>-->
-                <!--<plugin>-->
-                <!--<groupId>org.apache.maven.plugins</groupId>-->
-                <!--<artifactId>maven-jar-plugin</artifactId>-->
-                <!--<version>2.2</version>-->
-                <!--</plugin>-->
-                <!--<plugin>-->
-                <!--<groupId>org.apache.maven.plugins</groupId>-->
-                <!--<artifactId>maven-javadoc-plugin</artifactId>-->
-                <!--<version>2.5</version>-->
-                <!--</plugin>-->
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-jxr-plugin</artifactId>
                     <version>2.1</version>
                 </plugin>
-                <!--<plugin>-->
-                <!--<groupId>org.apache.maven.plugins</groupId>-->
-                <!--<artifactId>maven-plugin-plugin</artifactId>-->
-                <!--<version>2.4.2</version>-->
-                <!--</plugin>-->
 
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -362,50 +245,28 @@
                     <version>2.4</version>
                 </plugin>
 
-                <!--<plugin>-->
-                <!--<groupId>org.apache.maven.plugins</groupId>-->
-                <!--<artifactId>maven-project-info-reports-plugin</artifactId>-->
-                <!--<version>2.1</version>-->
-                <!--</plugin>-->
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-rar-plugin</artifactId>
                     <version>2.2</version>
                 </plugin>
+
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-reactor-plugin</artifactId>
                     <version>1.0</version>
                 </plugin>
-                <!--<plugin>-->
-                <!--<groupId>org.apache.maven.plugins</groupId>-->
-                <!--<artifactId>maven-release-plugin</artifactId>-->
-                <!--<version>2.0-beta-8</version>-->
-                <!--</plugin>-->
+
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-release-plugin</artifactId>
                     <configuration>
                         <autoVersionSubmodules>true</autoVersionSubmodules>
                         <allowTimestampedSnapshots>false</allowTimestampedSnapshots>
-                        <!--<useReleaseProfile>false</useReleaseProfile>-->
-                        <!--<arguments>-Drelease</arguments>-->
-                        <preparationGoals>clean install -Dit</preparationGoals>
+                        <preparationGoals>clean install</preparationGoals>
                         <goals>deploy</goals>
                     </configuration>
                 </plugin>
-                <!--<plugin>-->
-                <!--<groupId>org.apache.maven.plugins</groupId>-->
-                <!--<artifactId>maven-remote-resources-plugin</artifactId>-->
-                <!--<version>1.0</version>-->
-                <!--</plugin>-->
-
-                <!--<plugin>-->
-                <!--<groupId>org.apache.maven.plugins</groupId>-->
-                <!--<artifactId>maven-resources-plugin</artifactId>-->
-                <!--<version>2.3</version>-->
-                <!--</plugin>-->
-
 
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -413,36 +274,12 @@
                     <version>1.2</version>
                 </plugin>
 
-
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-site-plugin</artifactId>
-                    <version>2.0-beta-7</version>
-                </plugin>
-                <!--<plugin>-->
-                <!--<groupId>org.apache.maven.plugins</groupId>-->
-                <!--<artifactId>maven-source-plugin</artifactId>-->
-                <!--<version>2.0.4</version>-->
-                <!--</plugin>-->
-
-                <!--<plugin>-->
-                <!--<groupId>org.apache.maven.plugins</groupId>-->
-                <!--<artifactId>maven-stage-plugin</artifactId>-->
-                <!--<version>1.0-alpha-1</version>-->
-                <!--</plugin>-->
-
-
-                <!--<plugin>-->
-                <!--<groupId>org.apache.maven.plugins</groupId>-->
-                <!--<artifactId>maven-surefire-plugin</artifactId>-->
-                <!--<version>2.4.3</version>-->
-                <!--</plugin>-->
-
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-surefire-report-plugin</artifactId>
                     <version>2.4.3</version>
                 </plugin>
+
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-verifier-plugin</artifactId>
@@ -455,22 +292,7 @@
                     <version>2.1-alpha-2</version>
                 </plugin>
 
-
-                <!--<plugin>-->
-                <!--<groupId>org.apache.maven.plugins</groupId>-->
-                <!--<artifactId>maven-idea-plugin</artifactId>-->
-                <!--<version>2.1</version>-->
-                <!--</plugin>-->
-
-
-                <!--<plugin>-->
-                <!--<groupId>org.apache.maven.plugins</groupId>-->
-                <!--<artifactId>maven-stage-plugin</artifactId>-->
-                <!--<version>1.0-alpha-1</version>-->
-                <!--</plugin>-->
-
-
-                <plugin>
+               <plugin>
                     <groupId>org.apache.felix</groupId>
                     <artifactId>maven-bundle-plugin</artifactId>
                     <version>2.0.0</version>
@@ -560,22 +382,6 @@
         </pluginManagement>
     </build>
 
-    <!--<distributionManagement>-->
-    <!--<repository>-->
-    <!--<id>apache.releases</id>-->
-    <!--<name>Apache Release Repository</name>-->
-    <!--<url>scp://people.apache.org/www/people.apache.org/repo/m2-ibiblio-rsync-repository</url>-->
-    <!--</repository>-->
-
-    <!--<snapshotRepository>-->
-    <!--<id>apache.snapshots</id>-->
-    <!--<name>Apache Development Repository</name>-->
-    <!--<url>scp://people.apache.org/www/people.apache.org/repo/m2-snapshot-repository</url>-->
-    <!-- Turn off snapshot timestamps, as requested by Infra -->
-    <!--<uniqueVersion>false</uniqueVersion>-->
-    <!--</snapshotRepository>-->
-    <!--</distributionManagement>-->
-
     <profiles>
         <profile>
             <id>apache-release</id>
@@ -618,104 +424,6 @@
                 </plugins>
             </build>
         </profile>
-
-        <!--<profile>-->
-        <!--<id>release-stage</id>-->
-        <!--<activation>-->
-        <!--<property>-->
-        <!--<name>release</name>-->
-        <!--<value>stage</value>-->
-        <!--</property>-->
-        <!--</activation>-->
-        <!--<build>-->
-        <!--<plugins>-->
-        <!--<plugin>-->
-        <!--<groupId>org.apache.maven.plugins</groupId>-->
-        <!--<artifactId>maven-release-plugin</artifactId>-->
-        <!--<configuration>-->
-        <!--<arguments>-Drelease=stage</arguments>-->
-        <!--</configuration>-->
-        <!--</plugin>-->
-
-        <!--<plugin>-->
-        <!--<groupId>org.apache.maven.plugins</groupId>-->
-        <!--<artifactId>maven-deploy-plugin</artifactId>-->
-        <!--<configuration>-->
-        <!--<altDeploymentRepository>stage-deploy::default::${release.stageDeployUrl}-->
-        <!--</altDeploymentRepository>-->
-        <!--</configuration>-->
-        <!--</plugin>-->
-
-        <!--<plugin>-->
-        <!--<groupId>org.apache.maven.plugins</groupId>-->
-        <!--<artifactId>maven-site-plugin</artifactId>-->
-        <!--<configuration>-->
-        <!--<stagingSiteURL>${release.siteStageDeployUrl}</stagingSiteURL>-->
-        <!--</configuration>-->
-        <!--</plugin>-->
-        <!--</plugins>-->
-        <!--</build>-->
-        <!--</profile>-->
-
-        <!--<profile>-->
-        <!--<id>distribution</id>-->
-        <!--<activation>-->
-        <!--<property>-->
-        <!--<name>release</name>-->
-        <!--</property>-->
-        <!--</activation>-->
-        <!--<build>-->
-        <!--<plugins>-->
-        <!--<plugin>-->
-        <!--<groupId>org.apache.maven.plugins</groupId>-->
-        <!--<artifactId>maven-source-plugin</artifactId>-->
-        <!--<executions>-->
-        <!--<execution>-->
-        <!--<goals>-->
-        <!--<goal>jar</goal>-->
-        <!--</goals>-->
-        <!--</execution>-->
-        <!--</executions>-->
-        <!--</plugin>-->
-
-        <!--<plugin>-->
-        <!--<groupId>org.apache.maven.plugins</groupId>-->
-        <!--<artifactId>maven-javadoc-plugin</artifactId>-->
-        <!--<executions>-->
-        <!--<execution>-->
-        <!--<goals>-->
-        <!--<goal>javadoc</goal>-->
-        <!--<goal>jar</goal>-->
-        <!--</goals>-->
-        <!--</execution>-->
-        <!--</executions>-->
-        <!--</plugin>-->
-        <!--</plugins>-->
-        <!--</build>-->
-        <!--</profile>-->
-
-        <!--<profile>-->
-        <!--<id>test-distribution</id>-->
-        <!--<activation>-->
-        <!--<property>-->
-        <!--<name>testDistributionUrl</name>-->
-        <!--</property>-->
-        <!--</activation>-->
-        <!--<distributionManagement>-->
-        <!--<repository>-->
-        <!--<id>test-repository</id>-->
-        <!--<url>${testDistributionUrl}/releases</url>-->
-        <!--</repository>-->
-        <!--<snapshotRepository>-->
-        <!--<id>test-snapshot-repository</id>-->
-        <!--<url>${testDistributionUrl}/snapshots</url>-->
-        <!--</snapshotRepository>-->
-        <!--<site>-->
-        <!--<id>test-site</id>-->
-        <!--<url>${testDistributionUrl}/site</url>-->
-        <!--</site>-->
-        <!--</distributionManagement>-->
-        <!--</profile>-->
 
         <profile>
             <id>strict-enforcement</id>
