@@ -42,7 +42,14 @@
         Genesis provides build support for Apache Geronimo's Maven projects.
     </description>
 
-    <url>http://www.apache.org</url>
+    <url>http://geronimo.apache.org</url>
+
+    <distributionManagement>
+        <site>
+            <id>geronimo-website</id>
+            <url>scp://people.apache.org:/www/geronimo.apache.org/maven/${siteId}/${version}</url>
+        </site>
+    </distributionManagement>
 
     <organization>
         <name>The Apache Software Foundation</name>
@@ -111,6 +118,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <siteId>genesis</siteId>
     </properties>
 
     <repositories>
@@ -166,7 +174,7 @@
     <modules>
         <module>genesis-maven-plugin</module>
         <module>genesis-packaging</module>
-        <module>genesis-flava</module>
+        <module>genesis-default-flava</module>
         <!--<module>genesis-skin</module>-->
     </modules>
 
