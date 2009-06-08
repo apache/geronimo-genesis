@@ -42,6 +42,9 @@
         Genesis provides build support for Apache Geronimo's Maven projects.
     </description>
 
+    <!-- NOTE: until the  source-release assembly descriptor is released you need to build "clean install" before
+    using the -Papache-release profile -->
+
     <url>http://geronimo.apache.org</url>
 
     <organization>
@@ -121,7 +124,7 @@
             <url>${site.deploy.url}/maven/${siteId}/${version}</url>
         </site>
     </distributionManagement>
-    
+
     <repositories>
         <repository>
             <id>codehaus.snapshots</id>
@@ -173,6 +176,7 @@
     </pluginRepositories>
 
     <modules>
+        <module>apache-source-release-assembly-descriptor</module>
         <module>genesis-maven-plugin</module>
         <module>genesis-packaging</module>
         <module>genesis-default-flava</module>
@@ -184,7 +188,7 @@
 
         <pluginManagement>
             <plugins>
-                
+
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-archetype-plugin</artifactId>
@@ -301,7 +305,7 @@
                     <version>2.1-alpha-2</version>
                 </plugin>
 
-               <plugin>
+                <plugin>
                     <groupId>org.apache.felix</groupId>
                     <artifactId>maven-bundle-plugin</artifactId>
                     <version>2.0.0</version>
@@ -423,9 +427,12 @@
                         </executions>
                         <dependencies>
                             <dependency>
-                                <groupId>org.apache</groupId>
+                                <!-- apache version not yet released -->
+                                <!--<groupId>org.apache</groupId>-->
+                                <groupId>org.apache.geronimo.genesis</groupId>
                                 <artifactId>apache-source-release-assembly-descriptor</artifactId>
-                                <version>1.0-SNAPSHOT</version>
+                                <!-- apache version not yet known -->
+                                <version>${version}</version>
                             </dependency>
                         </dependencies>
                     </plugin>
