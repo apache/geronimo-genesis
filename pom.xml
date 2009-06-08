@@ -44,13 +44,6 @@
 
     <url>http://geronimo.apache.org</url>
 
-    <distributionManagement>
-        <site>
-            <id>geronimo-website</id>
-            <url>scp://people.apache.org:/www/geronimo.apache.org/maven/${siteId}/${version}</url>
-        </site>
-    </distributionManagement>
-
     <organization>
         <name>The Apache Software Foundation</name>
         <url>http://www.apache.org</url>
@@ -119,8 +112,16 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <siteId>genesis</siteId>
+        <site.deploy.url>scp://people.apache.org:/www/geronimo.apache.org</site.deploy.url>
     </properties>
 
+    <distributionManagement>
+        <site>
+            <id>apache-website</id>
+            <url>${site.deploy.url}/maven/${siteId}/${version}</url>
+        </site>
+    </distributionManagement>
+    
     <repositories>
         <repository>
             <id>codehaus.snapshots</id>
@@ -183,7 +184,7 @@
 
         <pluginManagement>
             <plugins>
-
+                
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-archetype-plugin</artifactId>
