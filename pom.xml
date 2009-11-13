@@ -314,7 +314,7 @@
                 <plugin>
                     <groupId>org.codehaus.groovy.maven</groupId>
                     <artifactId>gmaven-plugin</artifactId>
-                    <version>1.0-rc-3</version>
+                    <version>1.0</version>
                 </plugin>
 
                 <plugin>
@@ -356,7 +356,7 @@
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
                     <artifactId>selenium-maven-plugin</artifactId>
-                    <version>1.0-beta-3</version>
+                    <version>1.0</version>
                 </plugin>
 
                 <plugin>
