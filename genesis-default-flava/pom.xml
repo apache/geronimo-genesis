@@ -27,7 +27,7 @@
     <parent>
         <groupId>org.apache.geronimo.genesis</groupId>
         <artifactId>genesis</artifactId>
-        <version>2.1-SNAPSHOT</version>
+        <version>2.1</version>
     </parent>
     
     <artifactId>genesis-default-flava</artifactId>
@@ -232,7 +232,7 @@
                                 <requireMavenVersion>
                                     <version>[2.2.1,)</version>
                                 </requireMavenVersion>
-                                <validateConfiguration implementation="org.apache.geronimo.genesis.enforcer.ValidateConfiguration"/>
+                                <validateConfiguration implementation="org.apache.geronimo.genesis.enforcer.ValidateConfiguration" />
                             </rules>
                         </configuration>
                     </execution>
@@ -241,7 +241,7 @@
                     <dependency>
                         <groupId>org.apache.geronimo.genesis</groupId>
                         <artifactId>genesis-enforcer-rules</artifactId>
-                        <version>2.1-SNAPSHOT</version>
+                        <version>2.1</version>
                     </dependency>
                 </dependencies>
             </plugin>
