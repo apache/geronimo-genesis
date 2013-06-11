@@ -398,6 +398,7 @@
     </profiles>
 
     <modules>
+        <module>genesis-java7-flava</module>
         <module>genesis-java6-flava</module>
         <module>genesis-java5-flava</module>
         <module>genesis-java1.4-flava</module>
