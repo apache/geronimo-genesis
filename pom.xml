@@ -363,6 +363,9 @@
 
                         <!-- json can't get comments -->
                         <exclude>**/*.json</exclude>
+
+                        <exclude>**/*/XMLSchema.dtd</exclude>
+                        <exclude>**/*/xml.xsd</exclude>
                     </excludes>
                 </configuration>
                 <executions>
