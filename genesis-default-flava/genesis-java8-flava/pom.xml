@@ -84,7 +84,7 @@
                     <quiet>true</quiet>
                     <source>1.8</source>
                     <links>
-                        <link>http://docs.oracle.com/javase/7/docs/api</link>
+                        <link>http://docs.oracle.com/javase/8/docs/api</link>
                     </links>
                     <tags>
                         <tag>
