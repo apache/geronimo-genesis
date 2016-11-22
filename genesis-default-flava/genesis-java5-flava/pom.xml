@@ -27,7 +27,7 @@
     <parent>
         <groupId>org.apache.geronimo.genesis</groupId>
         <artifactId>genesis-default-flava</artifactId>
-        <version>2.3-SNAPSHOT</version>
+        <version>2.3</version>
     </parent>
     
     <artifactId>genesis-java5-flava</artifactId>
