@@ -345,7 +345,7 @@
             <pluginRepositories>
                 <pluginRepository>
                     <id>mc-release</id>
-                    <url>http://mc-repo.googlecode.com/svn/maven2/releases</url>
+                    <url>https://mc-repo.googlecode.com/svn/maven2/releases</url>
                     <snapshots>
                         <enabled>false</enabled>
                     </snapshots>
